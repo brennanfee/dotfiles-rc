@@ -1,0 +1,56 @@
+#!/usr/env/bin zsh
+# The only job of this script is to correctly set the ZDOTDIR environment variable
+
+export ZSHRC_LOGS=1
+
+function log_home() {
+  if [[ ${ZSHRC_LOGS:-0} -eq 1 ]]; then
+    local log_file stamp
+    log_file="${USER_DIRS_PROFILE:-${HOME}/profile}/zshrc.log"
+    stamp="$(/usr/bin/date '+%F %I:%M:%S.%N %p')"
+
+    echo -e "${stamp}: $1" >>"${log_file}"
+  fi
+}
+
+function home_zshenv {
+  log_home "In ~/.zshenv"
+  log_home "PATH: ${PATH}"
+  log_home "Base profile loaded: ${BASE_PROFILE_LOADED:-0}"
+  if [[ -o login ]]; then log_home 'Login shell'; else log_home 'Non-login shell'; fi
+  if [[ -o interactive ]]; then log_home 'Interactive shell'; else log_home 'Non-interactive shell'; fi
+
+  log_home "Startup ZDOTDIR: '${ZDOTDIR}'"
+
+  if [[ ! -d "${ZDOTDIR}" ]]; then
+    # Find and source the zshenv file
+    # This is the only location where this extensive search for dotfiles should need to be used.
+    # After this profile is finished loading, all other scripts\code should be able to simply
+    # use the xdg_base_dir method.
+    local dotfiles="${USER_DIRS_DOTFILES:-}"
+    if [[ ! -d "${dotfiles}" ]]; then
+      if command -v "user_dirs" &>/dev/null; then
+        dotfiles="$(user_dirs DOTFILES)"
+      fi
+    fi
+    if [[ ! -d "${dotfiles}" ]]; then
+      dotfiles="${HOME}/.dotfiles-rc"
+    fi
+    if [[ ! -d "${dotfiles}" ]]; then
+      log_home "Unable to locate the dotfiles directory."
+      echo -e "Unable to locate dotfiles directory."
+      return 1
+    fi
+
+    export ZDOTDIR="${dotfiles}/shells/zsh"
+    log_home "[Home] Set ZDOTDIR: '${ZDOTDIR}'"
+  else
+    log_home "[Home] ZDOTDIR already set: '${ZDOTDIR}'"
+  fi
+
+  log_home "Leaving ~/.zshenv"
+}
+
+home_zshenv "$@"
+unset -f log_home
+unset -f home_zshenv

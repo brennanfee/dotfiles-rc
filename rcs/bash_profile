@@ -1,50 +1,77 @@
 #!/usr/bin/env bash
 # User dependent .bash_profile file
 
-# export BASHPROFILE_LOGS=1
-# # rm -f "${HOME}/profile/bashprofile.log"
+export BASHRC_LOGS=1
 
-# function log_profile() {
-#   if [[ ${BASHPROFILE_LOGS} == "1" ]]; then
-#     local logPath="${HOME}"
-#     if [[ -d "${HOME}/profile" ]]; then
-#       logPath="${HOME}/profile"
-#     fi
+function log_profile() {
+  if [[ ${BASHRC_LOGS:-0} -eq 1 ]]; then
+    local log_file stamp
+    log_file="${USER_DIRS_PROFILE:-${HOME}/profile}/bashrc.log"
+    stamp="$(/usr/bin/date '+%F %I:%M:%S.%N %p')"
 
-#     echo -e "$(/usr/bin/date --rfc-3339=ns):\n  $1" >>"${logPath}/bashprofile.log"
-#   fi
-# }
+    echo -e "${stamp}: $1" >>"${log_file}"
+  fi
+}
 
-# log_profile "-------------------------------------------------------------"
-# log_profile "In bash_profile"
+function source_profile_script {
+  # Only load it if necessary
+  if [[ "${BASE_PROFILE_LOADED:-0}" -ne 1 ]]; then
+    local dotfiles profile_script
 
-# if command -v "mise" &>/dev/null; then
-#   eval "$(mise activate bash --shims)"
-# fi
+    # Load my base-profile to setup the profile paths
+    #
+    # Bash_profile and Bashrc are the only locations where this extensive search for dotfiles should
+    # need to be used. After the profile is loaded, all other scripts\code should be able to simply
+    # use the envrionment variables or the user_dirs utility to find locations.
+    dotfiles="${USER_DIRS_DOTFILES:-}"
+    if [[ ! -d "${dotfiles}" ]]; then
+      if command -v "user_dirs" &>/dev/null; then
+        dotfiles=$(user_dirs DOTFILES)
+      fi
+    fi
+    if [[ ! -d "${dotfiles}" ]]; then
+      dotfiles="${HOME}/.dotfiles-rc"
+    fi
+    if [[ ! -d "${dotfiles}" ]]; then
+      log_profile "Unable to locate dotfiles directory."
+      echo -e "Unable to locate dotfiles directory."
+      return 1
+    fi
 
-# Most other places need to ONLY use the xdg-user-dir or my custom xdg_base_dir
-# functions, but this directory is so critical and may not be loaded until after
-# the base-profile.bash script has been run.  So I am being overly cautious with
-# defaults on top of defaults here.  AFTER the base-profile is loaded the xdg
-# functions should work and ALWAYS return valid paths.
-# dotfiles="${DOTFILES:-$(xdg-user-dir DOTFILES)}"
-# dotfiles="${dotfiles:-${HOME}/.dotfiles}"
+    profile_script="${dotfiles}/shells/shared/base-profile.bash"
+    if [[ -x "${profile_script}" ]]; then
+      log_profile "Sourcing: ${profile_script}"
+      # shellcheck source=/home/brennan/.dotfiles-rc/shells/shared/base-profile.bash
+      builtin source "${profile_script}"
+    fi
+  fi
+}
 
-# log_profile "sourcing: ${dotfiles}/bash/base-profile.bash"
-# # shellcheck source=/home/brennan/.dotfiles/bash/base-profile.bash
-# source "${dotfiles}/bash/base-profile.bash"
+function profile_activate_mise_shims {
+  local mise_exe="${USER_DIRS_LOCALBIN:-${HOME}/.local/bin}/mise"
+  if [[ -x ${mise_exe} ]]; then
+    log_profile "Activating mise shims"
+    eval "$(${mise_exe} activate bash --shims)"
+  fi
+}
 
-# log_profile "sourcing: ${dotfiles}/bash/script-tools.bash"
-# # shellcheck source=/home/brennan/.dotfiles/bash/script-tools.bash
-# source "${dotfiles}/bash/script-tools.bash"
+function bash_profile {
+  log_profile "In bash_profile"
+  log_profile "PATH: ${PATH}"
+  log_profile "Base profile loaded: ${BASE_PROFILE_LOADED:-0}"
+  if shopt -q login_shell; then log_profile 'Login shell'; else log_profile 'Non-login shell'; fi
+  if [[ $- == *i* ]]; then log_profile 'Interactive shell'; else log_profile 'Non-interactive shell'; fi
 
-# source bashrc if it exists
-if [[ -f "${HOME}/.bashrc" ]]; then
-  # log_profile "sourcing bashrc"
+  source_profile_script
 
-  # shellcheck source=/home/brennan/.dotfiles-rc/rcs/bashrc
-  source "${HOME}/.bashrc"
-fi
+  profile_activate_mise_shims
 
-# unset dotfiles
-# unset BASHPROFILE_LOGS
+  log_profile "Profile PATH: ${PATH}"
+  log_profile "Leaving bash_profile"
+}
+
+bash_profile "$@"
+unset -f log_profile
+unset -f source_profile_script
+unset -f profile_activate_mise_shims
+unset -f bash_profile

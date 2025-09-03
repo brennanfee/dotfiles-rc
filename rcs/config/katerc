@@ -37,8 +37,8 @@ Tab Middle Click Close Document=true
 Tabbar Tab Limit=0
 
 [KFileDialog Settings]
-Recent Files[$e]=file:$HOME/profile/mise-cleanup.txt,file:$HOME/profile/pictures/_other/links/current.txt
-Recent URLs[$e]=file:$HOME/profile/,file:$HOME/,file:$HOME/profile/pictures/_other/links/
+Recent Files[$e]=file:$HOME/profile/mise-cleanup.txt,file:$HOME/profile/processing/lists/current.txt
+Recent URLs[$e]=file:$HOME/profile/,file:$HOME/,file:$HOME/profile/processing/lists/
 detailViewIconSize=16
 
 [KTextEditor Document]
@@ -157,7 +157,7 @@ Word Completion Remove Tail=true
 
 [KTextEditor::Search]
 Replace History=31\\,31\\,40,${text_normal}
-Search History=40\\,44\\,52,_mise_hook,historyclean,calling,blink,\\\\033[0m,bold,Part ,virgin,name,teacher,https://www.literotica.com/s/kyle-and-my-wife,https://www.literotica.com/s/bullies-raped-me-and-my-boyfriend,https://www.literotica.com/s/boyfriend-betrayal,https://www.literotica.com/s/girlfriend-taken-by-bigger-cock,https://www.literotica.com/s/my-roommate-takes-my-girlfriend,https://www.literotica.com/s/cheating-with-boyfriends-bully,https://www.literotica.com/s/bet-with-roommate-leads-to-cuckold,https://www.literotica.com/s/cheerleader-spoils,dnspython,gY,user_opts
+Search History=forced-straight,sigma-lam,drugging,social-studies,.local/bin,bottom,cargo/bin,coreutils,mise cur,mise cur_prompt,mise  cur,START,start,40\\,44\\,52,_mise_hook,historyclean,calling,blink,\\\\033[0m,bold,Part ,virgin,name,teacher,https://www.literotica.com/s/kyle-and-my-wife,https://www.literotica.com/s/bullies-raped-me-and-my-boyfriend,https://www.literotica.com/s/boyfriend-betrayal,https://www.literotica.com/s/girlfriend-taken-by-bigger-cock,https://www.literotica.com/s/my-roommate-takes-my-girlfriend,https://www.literotica.com/s/cheating-with-boyfriends-bully,https://www.literotica.com/s/bet-with-roommate-leads-to-cuckold,https://www.literotica.com/s/cheerleader-spoils,dnspython,gY,user_opts
 
 [Konsole]
 AutoSyncronize=true
@@ -168,8 +168,9 @@ RunPrefix=
 SetEditor=false
 
 [MainWindow]
-2 screens: Height=1037
-2 screens: Width=1843
+2 screens: Height=1469
+2 screens: Width=2386
+2 screens: Window-Maximized=true
 2 screens: XPosition=194
 2 screens: YPosition=195
 3840x1080 screen: Height=999

@@ -52,9 +52,8 @@ window-decoration = server
 # Initial startup
 window-width = 180
 window-height = 50
-#command = ${HOME}/.dotfiles-rc/bash/assets/init-tmux.bash
 
-# Shell Integration - I say "none" here only because I manually hook it in myself in my shell scripts, this just turns off the automatic hooking
+# Shell Integration - I put 'none' here because my shell startup scripts already check if integration has been added and add it manually when needed
 shell-integration = none
 shell-integration-features = no-cursor,sudo,title
 

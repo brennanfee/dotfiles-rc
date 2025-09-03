@@ -1,1 +1,10 @@
-{}
+{
+  "go.goroot": "/home/brennan/.local/share/mise/installs/go/1.24.4",
+  "debug.javascript.defaultRuntimeExecutable": {
+    "pwa-node": "/home/brennan/.local/share/mise/shims/node"
+  },
+  "python.defaultInterpreterPath": "/home/brennan/.local/share/mise/installs/python/3.13.5/bin/python",
+  "go.alternateTools": {
+    "go": "/home/brennan/.local/share/mise/shims/go"
+  }
+}

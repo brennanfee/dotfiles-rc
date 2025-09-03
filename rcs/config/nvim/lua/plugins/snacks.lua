@@ -34,13 +34,13 @@ function M.config()
   end
 
   -- get a text art banner
-  handle = io.popen("colorscript neovim random")
+  handle = io.popen("colorscripts neovim random")
   local banner
   if handle ~= nil then
     banner = handle:read("*a")
     handle:close()
   else
-    banner = "Unable to load colorscript, check it is on the path."
+    banner = "Unable to load colorscripts, check it is on the path."
   end
 
   local dashboard_settings = {

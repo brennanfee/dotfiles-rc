@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
 # setup.bash - Script to set up a new machine with my dotfiles.
 
-# Bash strict mode
-([[ -n ${ZSH_EVAL_CONTEXT:-} && ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] \
-  || [[ -n ${BASH_VERSION:-} ]] && (return 0 2> /dev/null)) && SOURCED=true || SOURCED=false
-if ! ${SOURCED}; then
+### START Bash strict mode
+sourced=0
+if [[ -n "${ZSH_VERSION:-}" ]]; then
+  [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
+elif [[ -n "${BASH_VERSION:-}" ]]; then
+  (return 0 2> /dev/null) && sourced=1 || sourced=0
+else # All other shells: examine $0 for known shell binary filenames.
+  # Detects `sh` and `dash`; add additional shell filenames as needed.
+  case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
+fi
+
+if [[ "${sourced}" -ne 1 ]]; then
   set -o errexit  # same as set -e
   set -o nounset  # same as set -u
   set -o errtrace # same as set -E
@@ -12,26 +20,25 @@ if ! ${SOURCED}; then
   set -o posix
   #set -o xtrace # same as set -x, turn on for debugging
 
-  shopt -s inherit_errexit
   shopt -s extdebug
   IFS=$(printf '\n\t')
 fi
-# END Bash strict mode
+unset sourced
+### END Bash strict mode
+
+###################################################################################################
 
 # Current directory
 dotfiles="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# shellcheck source=/home/brennan/.dotfiles/bash/base-profile.bash
-source "${dotfiles}/bash/base-profile.bash"
-# shellcheck source=/home/brennan/.dotfiles/bash/script-tools.bash
-source "${dotfiles}/bash/script-tools.bash"
+# shellcheck source=/home/brennan/.dotfiles-rc/shells/shared/base-profile.bash
+source "${dotfiles}/shells/shared/base-profile.bash"
+# shellcheck source=/home/brennan/.dotfiles-rc/shells/shared/base-functions.bash
+source "${dotfiles}/shells/shared/base-functions.bash"
 
-# At this point, the machine may not be fully set up and as a result we can't rely on
-# the bash environment being setup either.  So we can't use xdg-user-dir or expect the
-# environment variables to be there.  These are where I should be putting my dotfiles
-# paths anyway, so hard code them here.
-dotfiles=${dotfiles:-${HOME}/.dotfiles-rc}
-dotfiles_private=${dotfiles_private:-${HOME}/.dotfiles-private}
+# At this point, we can rely on the environment variables that were set as part of base-profile.bash.
+dotfiles=${USER_DIRS_DOTFILES}
+dotfiles_private=${USER_DIRS_DOTFILESPRIVATE}
 
 echo ""
 echo -e "${text_green}Starting setup...${text_reset}"

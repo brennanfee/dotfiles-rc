@@ -1,0 +1,63 @@
+# vim: ft=zsh sw=2 ts=2 et
+#
+# utility plugins
+romkatv/zsh-defer
+# romkatv/zsh-bench kind:path
+
+# Completion plugins
+zsh-users/zsh-completions
+mattmc3/zephyr path:plugins/completion
+mattmc3/zephyr path:plugins/compstyle
+
+# Essential plugins
+zsh-users/zsh-autosuggestions kind:defer
+zdharma-continuum/fast-syntax-highlighting kind:defer
+zsh-users/zsh-history-substring-search kind:defer
+mattmc3/zephyr path:plugins/zfunctions
+mattmc3/zephyr path:plugins/color
+mattmc3/zephyr path:plugins/directory
+mattmc3/zephyr path:plugins/editor
+mattmc3/zephyr path:plugins/environment
+mattmc3/zephyr path:plugins/history
+mattmc3/zephyr path:plugins/utility
+
+# Nice-to-have's
+zshzoo/magic-enter kind:defer
+
+# OMZ plugins
+# ohmyzsh/ohmyzsh path:lib/clipboard.zsh
+# ohmyzsh/ohmyzsh path:plugins/copybuffer
+# ohmyzsh/ohmyzsh path:plugins/copyfile
+# ohmyzsh/ohmyzsh path:plugins/copypath
+# ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z
+# ohmyzsh/ohmyzsh path:plugins/magic-enter
+
+# Zephyr
+# mattmc3/zephyr path:plugins/environment
+# mattmc3/zephyr path:plugins/terminal
+# mattmc3/zephyr path:plugins/editor
+# mattmc3/zephyr path:plugins/history
+# mattmc3/zephyr path:plugins/directory
+# mattmc3/zephyr path:plugins/color
+# mattmc3/zephyr path:plugins/utility
+# mattmc3/zephyr path:plugins/homebrew
+# mattmc3/zephyr path:plugins/zfunctions
+# mattmc3/zephyr path:plugins/macos conditional:is-macos
+# mattmc3/zephyr path:plugins/confd
+
+# prompt plugins
+# romkatv/powerlevel10k
+
+# general plugins
+# mattmc3/zman
+# agkozak/zsh-z
+
+# completion plugins
+# zsh-users/zsh-completions
+# mattmc3/zephyr path:plugins/completion
+
+# deferred plugins
+# olets/zsh-abbr kind:defer
+# zsh-users/zsh-autosuggestions kind:defer
+# zdharma-continuum/fast-syntax-highlighting kind:defer
+# zsh-users/zsh-history-substring-search kind:defer

@@ -1,10 +1,17 @@
 #!/usr/bin/env bash
 
 ### START Bash strict mode
-# shellcheck disable=SC2154
-([[ -n ${ZSH_EVAL_CONTEXT} && ${ZSH_EVAL_CONTEXT} =~ :file$ ]] ||
-  [[ -n ${BASH_VERSION} ]] && (return 0 2>/dev/null)) && SOURCED=true || SOURCED=false
-if ! ${SOURCED}; then
+sourced=0
+if [[ -n "${ZSH_VERSION:-}" ]]; then
+  [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
+elif [[ -n "${BASH_VERSION:-}" ]]; then
+  (return 0 2> /dev/null) && sourced=1 || sourced=0
+else # All other shells: examine $0 for known shell binary filenames.
+  # Detects `sh` and `dash`; add additional shell filenames as needed.
+  case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
+fi
+
+if [[ "${sourced}" -ne 1 ]]; then
   set -o errexit  # same as set -e
   set -o nounset  # same as set -u
   set -o errtrace # same as set -E
@@ -15,37 +22,43 @@ if ! ${SOURCED}; then
   shopt -s extdebug
   IFS=$(printf '\n\t')
 fi
+unset sourced
 ### END Bash strict mode
 
+###################################################################################################
 ### START Script template bootstrap
 
-g_script_name=$(basename "${BASH_SOURCE[0]}")
-g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
+function initialize() {
+  g_script_name=$(basename "${BASH_SOURCE[0]}")
+  g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
-g_short_options=""
-g_long_options=""
-g_positional_arguments=""
+  g_short_options=""
+  g_long_options=""
+  g_positional_arguments=""
+}
 
 function cleanup_vars() {
   unset g_script_name
   unset g_script_dir
-  unset g_script_author
-  unset g_script_license
-  unset g_script_version
-  unset g_script_date
 
   unset g_short_options
   unset g_long_options
   unset g_positional_arguments
 
+  unset g_script_author
+  unset g_script_license
+  unset g_script_version
+  unset g_script_date
+
   cleanup_script_vars
 }
 
-function load_script_tools() {
-  # Source script-tools.bash
-  if [[ -f "${g_script_dir}/../bash/script-tools.bash" ]]; then
-    # shellcheck source=/home/brennan/.dotfiles/bash/script-tools.bash
-    source "${g_script_dir}/../bash/script-tools.bash"
+function load_base_functions() {
+  local functions_script="${USER_DIRS_DOTFILES:-${HOME}/.dotfiles-rc}/shells/shared/base-functions.bash"
+
+  if [[ -f "${functions_script}" ]]; then
+    # shellcheck source=/home/brennan/.dotfiles-rc/shells/shared/base-functions.bash
+    builtin source "${functions_script}"
   fi
 }
 
@@ -72,7 +85,8 @@ function set_long_options() {
 function process_arguments() {
   local args
   set +o errexit # temporarily turn off error on exit
-  args=$(getopt --name "${g_script_name}" --options "${g_short_options}hv" --longoptions "${g_long_options},help,version" -- "$@")
+  args=$(getopt --name "${g_script_name}" --options "${g_short_options}hv" \
+    --longoptions "${g_long_options},help,version" -- "$@")
   # Handle if getopt returned an error
   # shellcheck disable=SC2181
   if [[ $? -gt 0 ]]; then
@@ -86,7 +100,7 @@ function process_arguments() {
   ## Handle the required options, help & version, bypass everything else
   local flags=("$@")
   local i=0
-  while [[ "$i" -lt "${#flags[@]}" ]]; do
+  while [[ "${i}" -lt "${#flags[@]}" ]]; do
     local flag=${flags[i]}
     if [[ "${flag}" == "-h" || "${flag}" == "--help" ]]; then
       show_help
@@ -136,7 +150,8 @@ function validate_number_of_positional_arguments() {
 }
 
 function main_handler() {
-  load_script_tools
+  initialize
+  load_base_functions
   setup_script_vars
   setup_options
   process_arguments "$@"
@@ -144,16 +159,18 @@ function main_handler() {
   cleanup_vars
 }
 
-g_script_author="Brennan Fee"
-g_script_license="MIT License"
-g_script_version="0.1"
-g_script_date="2024-11-26"
-
 ### END Script template bootstrap
-#################################
+###################################################################################################
 
 ## USAGE: If you want any global variables, set them up here
 function setup_script_vars() {
+  # Must be set here
+  g_script_author="Brennan Fee"
+  g_script_license="MIT License"
+  g_script_version="0.1"
+  g_script_date="2024-11-26"
+
+  # Add others here
   g_force="false"
   g_recursive="false"
   g_pipe="false"

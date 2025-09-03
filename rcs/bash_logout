@@ -1,21 +1,16 @@
 #!/usr/bin/env bash
 # ~/.bash_logout: executed by bash(1) when login shell exits.
 
-# when leaving the console clear the screen to increase privacy
+function bash_logout {
+  log "In bash_logout"
+  if shopt -q login_shell; then log 'Login shell'; else log 'Non-login shell'; fi
+  if [[ $- == *i* ]]; then log "Interractive shell"; else log "Non-interactive shell"; fi
 
-if [ "$SHLVL" = 1 ]; then
-  [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
-fi
+  # when leaving the console clear the screen to increase privacy
 
-# dotfiles="${DOTFILES:-$(xdg_base_dir DOTFILES)}"
-# dotfiles="${dotfiles:-${HOME}/.dotfiles}"
-# profile_path="${PROFILEPATH:-$(xdg_base_dir PROFILE)}"
-# profile_path="${profile_path:-${HOME}/profile}"
+  if [ "$SHLVL" = 1 ]; then
+    [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
+  fi
+}
 
-# Unmount the shares
-# if mountpoint -q "${profile_path}/mounts/files"; then
-#   [[ -x "${dotfiles}/bin/moose-unmount-shares" ]] && "${dotfiles}/bin/moose-unmount-shares"
-# fi
-
-# unset dotfiles
-# unset profile_path
+bash_logout "$@"

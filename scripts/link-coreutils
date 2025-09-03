@@ -1,0 +1,501 @@
+#!/usr/bin/env bash
+
+### START Bash strict mode
+sourced=0
+if [[ -n "${ZSH_VERSION:-}" ]]; then
+  [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
+elif [[ -n "${BASH_VERSION:-}" ]]; then
+  (return 0 2>/dev/null) && sourced=1 || sourced=0
+else # All other shells: examine $0 for known shell binary filenames.
+  # Detects `sh` and `dash`; add additional shell filenames as needed.
+  case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
+fi
+
+if [[ "${sourced}" -ne 1 ]]; then
+  set -o errexit  # same as set -e
+  set -o nounset  # same as set -u
+  set -o errtrace # same as set -E
+  set -o pipefail
+  set -o posix
+  #set -o xtrace # same as set -x, turn on for debugging
+
+  shopt -s extdebug
+  IFS=$(printf '\n\t')
+fi
+unset sourced
+### END Bash strict mode
+
+###################################################################################################
+### START Script template bootstrap
+
+function initialize() {
+  g_script_name=$(basename "${BASH_SOURCE[0]}")
+  g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
+
+  g_short_options=""
+  g_long_options=""
+  g_positional_arguments=""
+}
+
+function cleanup_vars() {
+  unset g_script_name
+  unset g_script_dir
+
+  unset g_short_options
+  unset g_long_options
+  unset g_positional_arguments
+
+  unset g_script_author
+  unset g_script_license
+  unset g_script_version
+  unset g_script_date
+
+  cleanup_script_vars
+}
+
+function load_base_functions() {
+  local functions_script="${USER_DIRS_DOTFILES:-${HOME}/.dotfiles-rc}/shells/shared/base-functions.bash"
+
+  if [[ -f "${functions_script}" ]]; then
+    # shellcheck source=/home/brennan/.dotfiles-rc/shells/shared/base-functions.bash
+    builtin source "${functions_script}"
+  fi
+}
+
+function show_version() {
+  print_out "Application: ${g_script_name}"
+  print_out "Author: ${g_script_author} --- License: ${g_script_license}"
+  print_out "Version: ${g_script_version} --- Date: ${g_script_date}"
+  print_blank_line
+}
+
+function show_help() {
+  show_version
+  print_help
+}
+
+function set_short_options() {
+  g_short_options="$1"
+}
+
+function set_long_options() {
+  g_long_options="$1"
+}
+
+function process_arguments() {
+  local args
+  set +o errexit # temporarily turn off error on exit
+  args=$(getopt --name "${g_script_name}" --options "${g_short_options}hv" \
+    --longoptions "${g_long_options},help,version" -- "$@")
+  # Handle if getopt returned an error
+  # shellcheck disable=SC2181
+  if [[ $? -gt 0 ]]; then
+    show_help
+    exit 1
+  fi
+  set -o errexit # turn error on exit back on
+
+  eval set -- "${args}"
+
+  ## Handle the required options, help & version, bypass everything else
+  local flags=("$@")
+  local i=0
+  while [[ "${i}" -lt "${#flags[@]}" ]]; do
+    local flag=${flags[i]}
+    if [[ "${flag}" == "-h" || "${flag}" == "--help" ]]; then
+      show_help
+      exit 0
+    elif [[ "${flag}" == "-v" || "${flag}" == "--version" ]]; then
+      show_version
+      exit 0
+    elif [[ "${flag}" == "--" ]]; then
+      break
+    fi
+    i=$((i + 1))
+  done
+
+  # Split up the flags and positionals
+  local flags=() positional_arguments=()
+  local reached_positionals=0
+  while [[ $# -gt 0 ]]; do
+    if [[ "$1" == "--" ]]; then
+      reached_positionals=1
+      shift
+    else
+      if [[ "${reached_positionals}" -eq 1 ]]; then
+        positional_arguments+=("$1")
+        shift
+      else
+        flags+=("$1")
+        shift
+      fi
+    fi
+  done
+
+  process_flags "${flags[@]}"
+  g_positional_arguments=("${positional_arguments[@]}")
+}
+
+## USAGE: First parameter should be the number of expected (required) positional arguments.
+## Optionally, you can pass in a second argument to customize the error message.
+function validate_number_of_positional_arguments() {
+  local expected_arguments=$1
+  local error_msg="${2:-Invalid number of arguments, expected at least ${expected_arguments}.}"
+
+  if [[ "${#g_positional_arguments[@]}" -lt ${expected_arguments} ]]; then
+    print_error "${error_msg}"
+    show_help
+    exit 1
+  fi
+}
+
+function main_handler() {
+  initialize
+  load_base_functions
+  setup_script_vars
+  setup_options
+  process_arguments "$@"
+  main "${g_positional_arguments[@]}"
+  cleanup_vars
+}
+
+### END Script template bootstrap
+###################################################################################################
+
+## USAGE: If you want any global variables, set them up here
+function setup_script_vars() {
+  # Must be set here
+  g_script_author="Brennan Fee"
+  g_script_license="MIT License"
+  g_script_version="0.1"
+  g_script_date="2025-06-23"
+
+  # Add others here
+  g_unlink=0
+  g_link_set="all"
+}
+
+## USAGE: If you add any global variables, clean them up in this method
+function cleanup_script_vars() {
+  unset g_unlink
+  unset g_util_set
+}
+
+## USAGE: If you need to add any command-line flags or options, do it here.
+## You should call one or both of the helper methods set_short_options or
+## set_long_options.  They accept a string with syntax that is the same for
+## the getopt program.  See it's help for more information.
+function setup_options() {
+  set_short_options "us:"
+  set_long_options "unlink,set:"
+}
+
+## Usage: If you added command-line flags or options using setup_options,
+## process them here.  The flags and their values will be passed as an array
+## directly into this method so you can process them however you wish,
+## including using 'shift' as you loop.
+function process_flags() {
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+    '-u' | '--unlink')
+      g_unlink=1
+      shift
+      ;;
+    '-s' | '--set')
+      g_link_set=$(echo "$2" | tr "[:upper:]" "[:lower:]")
+      shift 2
+      ;;
+    '--')
+      shift
+      break
+      ;;
+    *)
+      throw_error_msg "Unknown option: $1"
+      ;;
+    esac
+  done
+}
+
+## USAGE: Construct your help screen text here.
+function print_help() {
+  print_out "  ${g_script_name} [options]"
+  print_blank_line
+  print_out "This script sets up synlinks to the UUtils Rust implementations of the GNU Core utils."
+  print_out "It supports the util sets of Coreutils, Diffutils, and Findutils.  It can also reverse"
+  print_out "the process by unlinking them. This tool does not install the tools, it only creates"
+  print_out "links to them (usually to act as overrides for the GNU tools.)"
+  print_blank_line
+  print_out "Options:"
+  print_blank_line
+  print_out "  -h or --help"
+  print_out "      Show this help screen."
+  print_blank_line
+  print_out "  -v or --version"
+  print_out "     Show the version number."
+  print_blank_line
+  print_out "  -u or --unlink"
+  print_out "     Unlink any links that may exist.  This should revert your environment back to using"
+  print_out "     the system GNU utilities."
+  print_blank_line
+  print_out "  -s or --set"
+  print_out "     Which set to create links for.  The supported options are 'all' (the default),"
+  print_out "     'coreutils', 'diffutils', and finally 'findutils'."
+  print_blank_line
+}
+
+function link_coreutils() {
+  local bin="coreutils"
+  if command_exists "${bin}"; then
+    local tool_path link_path
+    tool_path="$(which "${bin}")"
+    link_path="${USER_DIRS_LOCALBIN:-$(user_dirs LOCALBIN)}/optional/${bin}"
+
+    # echo "tool path: ${tool_path}"
+    # echo "link path: ${link_path}"
+
+    # Full paths to mkdir, rm, and ln to ensure we are using the GNU ones and not the new coreutils ones
+    /usr/bin/mkdir -p "${link_path}"
+    /usr/bin/rm -f "${link_path}"/*
+
+    ## Create links for each tool
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/arch"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/b2sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/b3sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/base32"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/base64"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/basename"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/basenc"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/cat"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/chcon"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/chgrp"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/chmod"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/chown"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/chroot"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/cksum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/comm"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/cp"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/csplit"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/cut"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/date"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/dd"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/df"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/dircolors"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/dirname"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/du"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/echo"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/env"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/expand"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/expr"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/factor"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/false"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/fmt"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/fold"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/groups"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/hashsum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/head"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/hostid"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/hostname"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/id"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/install"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/join"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/kill"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/link"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/ln"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/logname"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/ls"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/md5sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/mkdir"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/mkfifo"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/mknod"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/mktemp"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/more"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/mv"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/nice"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/nl"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/nohup"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/nproc"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/numfmt"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/od"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/paste"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/pathchk"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/pinky"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/pr"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/printenv"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/printf"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/ptx"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/pwd"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/readlink"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/realpath"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/rm"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/rmdir"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/runcon"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/seq"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/sha1sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/sha3sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/sha3-224sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/sha3-256sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/sha3-384sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/sha3-512sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/sha224sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/sha256sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/sha384sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/sha512sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/shake128sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/shake256sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/shred"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/shuf"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/sleep"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/sort"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/split"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/stat"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/stdbuf"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/stty"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/sum"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/sync"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/tac"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/tail"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/tee"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/test"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/timeout"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/touch"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/tr"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/true"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/truncate"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/tsort"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/tty"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/uname"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/unexpand"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/uniq"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/unlink"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/uptime"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/users"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/vdir"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/wc"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/who"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/whoami"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/yes"
+  fi
+}
+
+function unlink_coreutils {
+  local bin link_path
+  bin="coreutils"
+  link_path="${USER_DIRS_LOCALBIN:-$(user_dirs LOCALBIN)}/optional/${bin}"
+
+  /usr/bin/mkdir -p "${link_path}"
+  /usr/bin/rm -f "${link_path}"/*
+}
+
+function link_diffutils() {
+  local bin="diffutils"
+  if command_exists "${bin}"; then
+    local tool_path link_path
+    tool_path="$(which "${bin}")"
+    link_path="${USER_DIRS_LOCALBIN:-$(user_dirs LOCALBIN)}/optional/${bin}"
+
+    # echo "tool path: ${tool_path}"
+    # echo "link path: ${link_path}"
+
+    /usr/bin/mkdir -p "${link_path}"
+    /usr/bin/rm -f "${link_path}"/*
+
+    ## Create links for each tool
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/cmp"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/diff"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/diff3"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/sdiff"
+  fi
+}
+
+function unlink_diffutils {
+  local bin link_path
+  bin="diffutils"
+  link_path="${USER_DIRS_LOCALBIN:-$(user_dirs LOCALBIN)}/optional/${bin}"
+
+  /usr/bin/mkdir -p "${link_path}"
+  /usr/bin/rm -f "${link_path}"/*
+}
+
+function link_findutils {
+  local bin="findutils"
+  if command_exists "${bin}"; then
+    local tool_path link_path
+    tool_path="$(which "${bin}")"
+    link_path="${USER_DIRS_LOCALBIN:-$(user_dirs LOCALBIN)}/optional/${bin}"
+
+    # echo "tool path: ${tool_path}"
+    # echo "link path: ${link_path}"
+
+    /usr/bin/mkdir -p "${link_path}"
+    /usr/bin/rm -f "${link_path}"/*
+
+    ## Create links for each tool
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/find"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/locate"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/updatedb"
+    /usr/bin/ln -sf "${tool_path}" "${link_path}/xargs"
+  fi
+}
+
+function unlink_findutils {
+  local bin link_path
+  bin="findutils"
+  link_path="${USER_DIRS_LOCALBIN:-$(user_dirs LOCALBIN)}/optional/${bin}"
+
+  /usr/bin/mkdir -p "${link_path}"
+  /usr/bin/rm -f "${link_path}"/*
+}
+
+function create_links {
+  case "${g_link_set}" in
+  'all')
+    link_coreutils
+    link_diffutils
+    link_findutils
+    ;;
+  'coreutils')
+    link_coreutils
+    ;;
+  'diffutils')
+    link_diffutils
+    ;;
+  'findutils')
+    link_findutils
+    ;;
+  *)
+    throw_error_msg "Unknown set option: ${g_link_set}"
+    ;;
+  esac
+}
+
+function perform_unlink {
+  case "${g_link_set}" in
+  'all')
+    unlink_coreutils
+    unlink_diffutils
+    unlink_findutils
+    ;;
+  'coreutils')
+    unlink_coreutils
+    ;;
+  'diffutils')
+    unlink_diffutils
+    ;;
+  'findutils')
+    unlink_findutils
+    ;;
+  *)
+    throw_error_msg "Unknown set option: ${g_link_set}"
+    ;;
+  esac
+}
+
+## Your main implementation goes here.  All of the positional arguments have been passed as an array
+## to this function.
+function main() {
+  if [[ ${g_unlink} -eq 0 ]]; then
+    create_links
+  else
+    perform_unlink
+  fi
+}

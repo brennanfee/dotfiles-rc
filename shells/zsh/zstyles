@@ -1,0 +1,35 @@
+#!/bin/zsh
+###
+# .zstylerc - zstyle settings for features/plugins that need them.
+###
+
+#
+# Antidote
+#
+
+# zstyle ':antidote:bundle' file ${ZDOTDIR:-~}/.zplugins
+# zstyle ':antidote:static' file ${ZDOTDIR:-~}/.zplugins.zsh
+# zstyle ':antidote:bundle' use-friendly-names 'yes'
+# zstyle ':antidote:plugin:*' defer-options '-p'
+
+#
+# Editor
+#
+
+# Expand ... to ../..
+# zstyle ':prezto:module:editor' dot-expansion 'yes'
+
+# Set this to whatever you want to use to edit a command
+#zstyle :zle:edit-command-line editor "$EDITOR"
+
+zstyle ':completion:*' menu select
+
+zstyle ':antidote:bundle' use-friendly-names on
+
+# Zephyr plugins
+zstyle ':zephyr:plugin:*' 'use-cache' 'yes'
+zstyle ':zephyr:plugin:completion' use-xdg-basedirs on
+
+# Magic enter
+zstyle ':zshzoo:magic-enter' command 'ls -laFh .'
+zstyle ':zshzoo:magic-enter' git-command 'git status -sb .'

@@ -1,10 +1,17 @@
 #!/usr/bin/env bash
 
 ### START Bash strict mode
-# shellcheck disable=SC2154
-([[ -n ${ZSH_EVAL_CONTEXT} && ${ZSH_EVAL_CONTEXT} =~ :file$ ]] ||
-  [[ -n ${BASH_VERSION} ]] && (return 0 2>/dev/null)) && SOURCED=true || SOURCED=false
-if ! ${SOURCED}; then
+sourced=0
+if [[ -n "${ZSH_VERSION:-}" ]]; then
+  [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
+elif [[ -n "${BASH_VERSION:-}" ]]; then
+  (return 0 2>/dev/null) && sourced=1 || sourced=0
+else # All other shells: examine $0 for known shell binary filenames.
+  # Detects `sh` and `dash`; add additional shell filenames as needed.
+  case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
+fi
+
+if [[ "${sourced}" -ne 1 ]]; then
   set -o errexit  # same as set -e
   set -o nounset  # same as set -u
   set -o errtrace # same as set -E
@@ -15,41 +22,43 @@ if ! ${SOURCED}; then
   shopt -s extdebug
   IFS=$(printf '\n\t')
 fi
+unset sourced
 ### END Bash strict mode
 
+###################################################################################################
 ### START Script template bootstrap
 
-g_script_name=$(basename "${BASH_SOURCE[0]}")
-g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
-g_script_author="Brennan Fee"
-g_script_license="MIT License"
-g_script_version="0.8"
-g_script_date="2024-10-07"
+function initialize() {
+  g_script_name=$(basename "${BASH_SOURCE[0]}")
+  g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
-g_short_options=""
-g_long_options=""
-g_positional_arguments=""
+  g_short_options=""
+  g_long_options=""
+  g_positional_arguments=""
+}
 
 function cleanup_vars() {
   unset g_script_name
   unset g_script_dir
-  unset g_script_author
-  unset g_script_license
-  unset g_script_version
-  unset g_script_date
 
   unset g_short_options
   unset g_long_options
   unset g_positional_arguments
 
+  unset g_script_author
+  unset g_script_license
+  unset g_script_version
+  unset g_script_date
+
   cleanup_script_vars
 }
 
-function load_script_tools() {
-  # Source script-tools.bash
-  if [[ -f "${g_script_dir}/../bash/script-tools.bash" ]]; then
-    # shellcheck source=/home/brennan/.dotfiles/bash/script-tools.bash
-    source "${g_script_dir}/../bash/script-tools.bash"
+function load_base_functions() {
+  local functions_script="${USER_DIRS_DOTFILES:-${HOME}/.dotfiles-rc}/shells/shared/base-functions.bash"
+
+  if [[ -f "${functions_script}" ]]; then
+    # shellcheck source=/home/brennan/.dotfiles-rc/shells/shared/base-functions.bash
+    builtin source "${functions_script}"
   fi
 }
 
@@ -76,7 +85,8 @@ function set_long_options() {
 function process_arguments() {
   local args
   set +o errexit # temporarily turn off error on exit
-  args=$(getopt --name "${g_script_name}" --options "${g_short_options}hv" --longoptions "${g_long_options},help,version" -- "$@")
+  args=$(getopt --name "${g_script_name}" --options "${g_short_options}hv" \
+    --longoptions "${g_long_options},help,version" -- "$@")
   # Handle if getopt returned an error
   # shellcheck disable=SC2181
   if [[ $? -gt 0 ]]; then
@@ -90,7 +100,7 @@ function process_arguments() {
   ## Handle the required options, help & version, bypass everything else
   local flags=("$@")
   local i=0
-  while [[ "$i" -lt "${#flags[@]}" ]]; do
+  while [[ "${i}" -lt "${#flags[@]}" ]]; do
     local flag=${flags[i]}
     if [[ "${flag}" == "-h" || "${flag}" == "--help" ]]; then
       show_help
@@ -140,7 +150,9 @@ function validate_number_of_positional_arguments() {
 }
 
 function main_handler() {
-  load_script_tools
+  initialize
+  load_base_functions
+  setup_script_vars
   setup_options
   process_arguments "$@"
   main "${g_positional_arguments[@]}"
@@ -148,23 +160,33 @@ function main_handler() {
 }
 
 ### END Script template bootstrap
-#################################
+###################################################################################################
 
-FORCE="false"
-SERVER="moose.bfee.casa"
-LOCATION=""
-SHARE_TO_MOUNT=""
+## USAGE: If you want any global variables, set them up here
+function setup_script_vars() {
+  # Must be set here
+  g_script_author="Brennan Fee"
+  g_script_license="MIT License"
+  g_script_version="0.9"
+  g_script_date="2025-06-23"
 
-# The last two are considered "hidden" options as they are not listed in the help
-SUPPORTED_SHARES=("files" "backups" "volumes" "metadata" "files-ro" "other" "root")
+  # Add others here
+  g_force="false"
+  g_server="moose.bfee.casa"
+  g_location=""
+  g_share_to_mount=""
+
+  # The last two are considered "hidden" options as they are not listed in the help
+  g_supported_shares=("files" "backups" "volumes" "metadata" "files-ro" "other" "root")
+}
 
 ## USAGE: If you add any global variables, clean them up in this method
 function cleanup_script_vars() {
-  unset FORCE
-  unset SERVER
-  unset LOCATION
-  unset SHARE_TO_MOUNT
-  unset SUPPORTED_SHARES
+  unset g_force
+  unset g_server
+  unset g_location
+  unset g_share_to_mount
+  unset g_supported_shares
 }
 
 ## USAGE: If you need to add any command-line flags or options, do it here.
@@ -184,15 +206,15 @@ function process_flags() {
   while [[ $# -gt 0 ]]; do
     case "$1" in
     '-f' | '--force')
-      FORCE="true"
+      g_force="true"
       shift
       ;;
     '-s' | '--server')
-      SERVER=$(echo "${2}" | tr "[:upper:]" "[:lower:]")
+      g_server=$(echo "${2}" | tr "[:upper:]" "[:lower:]")
       shift 2
       ;;
     '-l' | '--location')
-      LOCATION=$2
+      g_location=$2
       shift 2
       ;;
     '--')
@@ -237,7 +259,7 @@ function print_help() {
 }
 
 function verify_share_to_mount() {
-  get_exit_code contains_element "${SHARE_TO_MOUNT}" "${SUPPORTED_SHARES[@]}"
+  get_exit_code contains_element "${g_share_to_mount}" "${g_supported_shares[@]}"
   if [[ ! ${EXIT_CODE} == "0" ]]; then
     throw_error_msg "Invalid share option, please use a valid share.  Check the help for a list of valid options."
   fi
@@ -249,7 +271,7 @@ function verify_prereqs() {
     return 1
   fi
 
-  if [[ "${SHARE_TO_MOUNT}" != "files-ro" ]]; then
+  if [[ "${g_share_to_mount}" != "files-ro" ]]; then
     if ! command -v "kwalletcli" >/dev/null; then
       print_warning "WARNING! kwalletcli not installed or on path.  Install it first!"
       return 1
@@ -264,13 +286,13 @@ function mount_the_share() {
   # $2 = remote_folder
 
   local location="${1}"
-  if [[ "${LOCATION}" != "" ]]; then
-    location="${LOCATION}"
+  if [[ "${g_location}" != "" ]]; then
+    location="${g_location}"
   fi
   local remote_folder="${2}"
   local pword
 
-  pword=$(kwalletcli -f moosefs -e "${SHARE_TO_MOUNT}" 2>/dev/null)
+  pword=$(kwalletcli -f moosefs -e "${g_share_to_mount}" 2>/dev/null)
   if [[ -z "${pword}" ]]; then
     throw_error_msg "ERROR! The moosefs wallet entry has not been set up correctly. No password provided."
   fi
@@ -279,13 +301,13 @@ function mount_the_share() {
 
   if mountpoint -q "${location}"; then
     # Already mounted
-    if [[ "${FORCE}" == "true" ]]; then
+    if [[ "${g_force}" == "true" ]]; then
       umount -q -f "${location}"
-      mfsmount "${location}" -H "${SERVER}" -S "${remote_folder}" -o rw \
+      mfsmount "${location}" -H "${g_server}" -S "${remote_folder}" -o rw \
         -o mfspassword="${pword}" -o mfsdelayedinit
     fi
   else
-    mfsmount "${location}" -H "${SERVER}" -S "${remote_folder}" -o rw \
+    mfsmount "${location}" -H "${g_server}" -S "${remote_folder}" -o rw \
       -o mfspassword="${pword}" -o mfsdelayedinit
   fi
 }
@@ -295,8 +317,8 @@ function mount_ro_share_no_password() {
   # $2 = remote_folder
 
   local location="${1}"
-  if [[ "${LOCATION}" != "" ]]; then
-    location="${LOCATION}"
+  if [[ "${g_location}" != "" ]]; then
+    location="${g_location}"
   fi
   local remote_folder="${2}"
 
@@ -304,23 +326,23 @@ function mount_ro_share_no_password() {
 
   if mountpoint -q "${location}"; then
     # Already mounted
-    if [[ "${FORCE}" == "true" ]]; then
+    if [[ "${g_force}" == "true" ]]; then
       umount -q -f "${location}"
-      mfsmount "${location}" -H "${SERVER}" -S "${remote_folder}" -o ro -o mfsdelayedinit
+      mfsmount "${location}" -H "${g_server}" -S "${remote_folder}" -o ro -o mfsdelayedinit
     fi
   else
-    mfsmount "${location}" -H "${SERVER}" -S "${remote_folder}" -o ro -o mfsdelayedinit
+    mfsmount "${location}" -H "${g_server}" -S "${remote_folder}" -o ro -o mfsdelayedinit
   fi
 }
 
 function mount_root() {
   local location="${1}"
-  if [[ "${LOCATION}" != "" ]]; then
-    location="${LOCATION}"
+  if [[ "${g_location}" != "" ]]; then
+    location="${g_location}"
   fi
   local pword
 
-  pword=$(kwalletcli -f moosefs -e "${SHARE_TO_MOUNT}" 2>/dev/null)
+  pword=$(kwalletcli -f moosefs -e "${g_share_to_mount}" 2>/dev/null)
   if [[ -z "${pword}" ]]; then
     throw_error_msg "ERROR! The moosefs wallet entry has not been set up correctly. No password provided."
   fi
@@ -329,19 +351,19 @@ function mount_root() {
 
   if mountpoint -q "${location}"; then
     # Already mounted
-    if [[ "${FORCE}" == "true" ]]; then
+    if [[ "${g_force}" == "true" ]]; then
       umount -q -f "${location}"
-      mfsmount "${location}" -H "${SERVER}" -o rw -o mfspassword="${pword}" -o mfsdelayedinit
+      mfsmount "${location}" -H "${g_server}" -o rw -o mfspassword="${pword}" -o mfsdelayedinit
     fi
   else
-    mfsmount "${location}" -H "${SERVER}" -o rw -o mfspassword="${pword}" -o mfsdelayedinit
+    mfsmount "${location}" -H "${g_server}" -o rw -o mfspassword="${pword}" -o mfsdelayedinit
   fi
 }
 
 ## Your main implementation goes here.  All of the positional arguments have
 ## been passed as an array to this function.
 function main() {
-  SHARE_TO_MOUNT=$(echo "$1" | tr "[:upper:]" "[:lower:]")
+  g_share_to_mount=$(echo "$1" | tr "[:upper:]" "[:lower:]")
 
   if ! verify_prereqs; then
     return 0
@@ -349,32 +371,34 @@ function main() {
 
   verify_share_to_mount
 
-  mkdir -p "${HOME}/mounts"
+  local mount_root="${USER_DIRS_MOUNTS:-$(user_dirs MOUNTS)}"
 
-  case "${SHARE_TO_MOUNT}" in
+  mkdir -p "${mount_root}"
+
+  case "${g_share_to_mount}" in
   files)
-    mount_the_share "${HOME}/mounts/files" "/files"
+    mount_the_share "${mount_root}/files" "/files"
     ;;
   volumes)
-    mount_the_share "${HOME}/mounts/volumes" "/volumes"
+    mount_the_share "${mount_root}/volumes" "/volumes"
     ;;
   backups)
-    mount_the_share "${HOME}/mounts/backups" "/backups"
+    mount_the_share "${mount_root}/backups" "/backups"
     ;;
   other)
-    mount_the_share "${HOME}/mounts/other" "/other"
+    mount_the_share "${mount_root}/other" "/other"
     ;;
   files-ro)
-    mount_ro_share_no_password "${HOME}/mounts/files-ro" "/files"
+    mount_ro_share_no_password "${mount_root}/files-ro" "/files"
     ;;
   metadata)
-    mount_the_share "${HOME}/mounts/moose-meta" "."
+    mount_the_share "${mount_root}/moose-meta" "."
     ;;
   root)
-    mount_root "${HOME}/mounts/moose-root"
+    mount_root "${mount_root}/moose-root"
     ;;
   *)
-    throw_error_msg "Invalid share option detected '${SHARE_TO_MOUNT}', please use a valid share option."
+    throw_error_msg "Invalid share option detected '${g_share_to_mount}', please use a valid share option."
     ;;
   esac
 }

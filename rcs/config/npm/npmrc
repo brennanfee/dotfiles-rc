@@ -4,6 +4,5 @@ init-author-email=brennan.git@mailbots.org
 init-author-url=https://github.com/brennanfee
 init-license=MIT
 init-version=0.1.0
-scripts-prepend-node-path=true
 
 init-module=${XDG_CONFIG_HOME}/npm/config/npm-init.js

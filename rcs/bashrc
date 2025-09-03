@@ -1,41 +1,96 @@
 #!/usr/bin/env bash
-# shellcheck shell=bash
 
-# Bash strict mode
-([[ -n ${ZSH_EVAL_CONTEXT:-} && ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] ||
-  [[ -n ${BASH_VERSION:-} ]] && (return 0 2>/dev/null)) && SOURCED=true || SOURCED=false
-if ! ${SOURCED}; then
-  set -o errexit  # same as set -e
-  set -o nounset  # same as set -u
-  set -o errtrace # same as set -E
-  set -o pipefail
-  set -o posix
-  #set -o xtrace # same as set -x, turn on for debugging
-
-  shopt -s inherit_errexit
-  shopt -s extdebug
-  IFS=$(printf '\n\t')
+### START Sourced Check
+sourced=0
+if [[ -n "${ZSH_VERSION:-}" ]]; then
+  [[ $ZSH_EVAL_CONTEXT =~ :file$ ]] && sourced=1 || sourced=0
+elif [[ -n "$BASH_VERSION" ]]; then
+  (return 0 2>/dev/null) && sourced=1 || sourced=0
+else # All other shells: examine $0 for known shell binary filenames.
+  # Detects `sh` and `dash`; add additional shell filenames as needed.
+  case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
 fi
-# END Bash strict mode
 
-export BASHRC_LOGS=1
+if [[ ${sourced} -ne 1 ]]; then
+  echo "This script should only be sourced, never called directly." >&2
+  exit 1
+fi
+unset sourced
+### END Sourced Check
 
-function log_early() {
-  if [[ ${BASHRC_LOGS} == "1" ]]; then
-    local logPath="${HOME}"
-    if [[ -d "${HOME}/profile" ]]; then
-      logPath="${HOME}/profile"
-    fi
+### START Bash strict mode
+# set -o errexit  # same as set -e
+# set -o nounset  # same as set -u
+# set -o errtrace # same as set -E
+# set -o pipefail
+# set -o posix
+# #set -o xtrace # same as set -x, turn on for debugging
 
-    echo -e "$(/usr/bin/date --rfc-3339=ns):\n  $1" >>"${logPath}/bashrc.log"
+# shopt -s extdebug
+# IFS=$(printf '\n\t')
+### END Bash strict mode
+
+function log_early {
+  if [[ ${BASHRC_LOGS:-0} -eq 1 ]]; then
+    local log_file stamp
+    log_file="${USER_DIRS_PROFILE:-${HOME}/profile}/bashrc.log"
+    stamp="$(/usr/bin/date '+%F %I:%M:%S.%N %p')"
+
+    echo -e "${stamp}: $1" >>"${log_file}"
   fi
 }
 
-function check_launch_tmux() {
+function load_base_functions {
+  log_early "Loading base functions script"
+  local dotfiles functions_script
+
+  # Load my base-functions to have access to all my shell helper methods and functions
+  #
+  # While the base-profile should have already been loaded by bash_profile, we are still doing
+  # a more exaustive bit of error handling for trying to find the dotfiles location. This should
+  # be the only place where this is required. After the base-profile and base-functions are loaded
+  # other scripts\code locations should be able to just directly use the environment variables or
+  # my user_dirs utility to find locations.
+  dotfiles="${USER_DIRS_DOTFILES:-}"
+  if [[ ! -d "${dotfiles}" ]]; then
+    if command -v "user_dirs" &>/dev/null; then
+      dotfiles=$(user_dirs DOTFILES)
+    fi
+  fi
+  if [[ ! -d "${dotfiles}" ]]; then
+    dotfiles="${HOME}/.dotfiles-rc"
+  fi
+  if [[ ! -d "${dotfiles}" ]]; then
+    log_early "Unable to locate dotfiles directory."
+    echo -e "Unable to locate dotfiles directory."
+    return 1
+  fi
+
+  functions_script="${dotfiles}/shells/shared/base-functions.bash"
+
+  if [[ -f "${functions_script}" ]]; then
+    log_early "Sourcing: ${functions_script}"
+    # shellcheck source=/home/brennan/.dotfiles-rc/shells/shared/base-functions.bash
+    builtin source "${functions_script}"
+  fi
+}
+
+function reset_path {
+  log_early "Resetting path to shell defaults..."
+  if [[ -n "${BASH_STARTUP_PATH:-}" ]]; then
+    PATH="${BASH_STARTUP_PATH}"
+  else
+    export BASH_STARTUP_PATH="${PATH}"
+  fi
+  log_early "Path after reset: ${PATH}"
+}
+
+function check_launch_tmux {
   log_early "Checking if we need to launch tmux. TERM: '${TERM}'"
   if command -v tmux &>/dev/null && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] &&
     [[ ! "$TERM" =~ dumb ]] && [ -z "$TMUX" ]; then
 
+    log_early "Path before tmux: ${PATH}"
     log_early "Launching tmux"
     exec tmux
     # exec tmux new-session -A -s main
@@ -44,174 +99,194 @@ function check_launch_tmux() {
   fi
 }
 
-function load_script_tools {
-  local dotfiles
+function load_functions {
+  log_early "Starting functions loop."
+  local file root
 
-  # Most other places need to ONLY use the xdg-user-dir or my custom xdg_base_dir
-  # functions, but this directory is so critical and may not be loaded until after
-  # the base-profile.bash script has been run.  So I am being overly cautious with
-  # defaults on top of defaults here.  AFTER the base-profile is loaded the xdg
-  # functions should work and ALWAYS return valid paths.
-  dotfiles="${DOTFILES:-$(xdg-user-dir DOTFILES)}"
-  dotfiles="${dotfiles:-${HOME}/.dotfiles-rc}"
+  # Should now be set up by base-profile
+  local dotfiles="${USER_DIRS_DOTFILES}"
+  local dotfiles_private="${USER_DIRS_DOTFILESPRIVATE}"
 
-  log_early "Sourcing: ${dotfiles}/bash/base-profile.bash"
-  # shellcheck source=/home/brennan/.dotfiles-rc/bash/base-profile.bash
-  builtin source "${dotfiles}/bash/base-profile.bash"
-
-  log_early "Sourcing: ${dotfiles}/bash/script-tools.bash"
-  # shellcheck source=/home/brennan/.dotfiles-rc/bash/script-tools.bash
-  builtin source "${dotfiles}/bash/script-tools.bash"
-
-  log "After profile script sourcing."
+  for root in "${dotfiles}/shells/bash/bashrc.functions" "${dotfiles_private}/shells/bash/bashrc.functions"; do
+    if [[ -d "${root}" ]]; then
+      for file in "${root}"/*.bash; do
+        source_if "${file}"
+      done
+    fi
+  done
 }
 
-function loop_primary_bash_scripts {
-  log "Starting main script loop."
-  local dotfiles dotfiles_private os_primary os_secondary
-  local folder base root file
+function load_main_scripts {
+  log_early "Starting main script loop."
+  local file root directory
+
   # Should now be set up by base-profile
-  dotfiles=$(xdg_base_dir DOTFILES)
-  dotfiles_private=$(xdg_base_dir DOTFILESPRIVATE)
+  local dotfiles="${USER_DIRS_DOTFILES}"
+  local dotfiles_private="${USER_DIRS_DOTFILESPRIVATE}"
 
   # Again, defaults here just to be overly cautious, also should be set by base-profile
   os_primary="${OS_PRIMARY:-linux}"      # Assume linux
   os_secondary="${OS_SECONDARY:-debian}" # Assume debian
 
-  # We want to walk "outside" in... which is to say run all options files first, then all
-  # exports, then all functions, etc.
-  for folder in "first" "options" "exports" "aliases" "third-party" "functions" "other"; do
-    for base in "shared" "${os_primary}" "distros/${os_secondary}"; do
-      for root in "${dotfiles}/bash" "${dotfiles_private}/bash"; do
-        if [[ -d "${root}/${base}/${folder}" ]]; then
-          for file in "${root}/${base}/${folder}"/*.bash; do
-            source_if "${file}"
-          done
-        fi
-      done
+  for directory in "bashrc.d" "bashrc.os.d/${os_primary}" "bashrc.os.d/distros/${os_primary}/${os_secondary}"; do
+    for root in "${dotfiles}" "${dotfiles_private}"; do
+      if [[ -d "${root}/shells/bash/${directory}" ]]; then
+        for file in "${root}/shells/bash/${directory}"/*.bash; do
+          source_if "${file}"
+        done
+      fi
     done
   done
 }
 
-function loop_windows_wsl_bash_scripts {
-  log "Starting Windows WSL script loop."
-  local dotfiles dotfiles_private
-  local folder root file
-  dotfiles=$(xdg_base_dir DOTFILES)
-  dotfiles_private=$(xdg_base_dir DOTFILESPRIVATE)
+function loop_windows_wsl_scripts {
+  log_early "Starting Windows WSL script loop."
 
   # On Windows shells running in WSL run some overrides
   if is_wsl; then
-    for folder in "first" "options" "exports" "aliases" "third-party" "functions" "other"; do
-      for root in "${dotfiles}/bash" "${dotfiles_private}/bash"; do
-        if [[ -d "${root}/windows-wsl/${folder}" ]]; then
-          for file in "${root}"/windows-wsl/"${folder}"/*.bash; do
-            source_if "${file}"
-          done
-        fi
-      done
+    local root file
+    local dotfiles="${USER_DIRS_DOTFILES}"
+    local dotfiles_private="${USER_DIRS_DOTFILESPRIVATE}"
+
+    for root in "${dotfiles}"/shells/bash/bashrc.os.d/windows-wsl \
+      "${dotfiles_private}"/shells/bash/bashrc.os.d/windows-wsl; do
+
+      if [[ -d "${root}" ]]; then
+        for file in "${root}"/*.bash; do
+          source_if "${file}"
+        done
+      fi
     done
+  else
+    log_early "Skipping Windows WSL scripts, not running on WSL."
   fi
 }
 
 function load_bash_completions {
-  log "Starting bash completions loop."
-  local dotfiles file
-  dotfiles=$(xdg_base_dir DOTFILES)
+  log_early "Starting bash completions loop."
+  local file
+  local dotfiles="${USER_DIRS_DOTFILES}"
 
   # Load bash completions
-  for file in "${dotfiles}"/bash/completions/*.bash; do
+  for file in "${dotfiles}"/shells/bash/completions/*.bash; do
     source_if "${file}"
   done
 }
 
 function source_local_bashrc {
   # Local config, this should be last and never checked into source control (or if it is it should be host specific)
-  log "Sourcing local bashrc, if it exists."
+  log_early "Sourcing local bashrc, if it exists."
   source_if "${HOME}/.bashrc.local"
 }
 
 function mount_moose {
-  local dotfiles
-  dotfiles=$(xdg_base_dir DOTFILES)
+  local dotfiles="${USER_DIRS_DOTFILES}"
 
   # Skip entirely if moose client isn't even installed
   if command_exists mfsmount; then
-    log "Checking connectivity to moosefs server."
+    log_early "Checking connectivity to moosefs server."
     local conn_result
     conn_result=$(bash -c 'exec 3<> /dev/tcp/moose.bfee.casa/9421;echo $?' 2>/dev/null)
     if [[ "${conn_result}" == "0" ]]; then
-      log "Moosefs server is reachable, checking if we need to mount the shares."
+      log_early "Moosefs server is reachable, checking if we need to mount the shares."
       if ! mountpoint -q "${HOME}/mounts/files"; then
-        log "Mounting shares"
+        log_early "Mounting shares"
         "${dotfiles}/bin/moose-mount-shares"
       fi
     else
-      log "moosefs server seems to be unreachable, skipping mount check."
+      log_early "moosefs server seems to be unreachable, skipping mount check."
     fi
   else
-    log "Moosefs bootstrapping skipped, moosefs client not installed."
+    log_early "Moosefs bootstrapping skipped, moosefs client not installed."
   fi
 }
 
 function run_colorscripts {
   if command_exists colorscripts; then
-    log "Running colorscripts"
+    log_early "Running colorscripts"
     colorscripts banners random
   fi
 }
 
-function log_startup_results {
-  # log "Final PROMPT_COMMAND: ${PROMPT_COMMAND[*]}"
+function log_preexec_arrays {
   if [[ -n "${bash_preexec_imported:-}" ]]; then
-    log "Final precmd_functions: ${precmd_functions[*]:-}"
-    log "Final preexec_functions: ${preexec_functions[*]:-}"
+    log_early "${1} precmd_functions: ${precmd_functions[*]:-}"
+    log_early "${1} preexec_functions: ${preexec_functions[*]:-}"
   else
-    log "preexec framework not loaded."
+    log_early "preexec framework not loaded."
   fi
+}
 
-  log "Final path: ${PATH}"
+function log_prompt_command {
+  local prompt_declare
+  prompt_declare=$(declare -p PROMPT_COMMAND 2>/dev/null)
+  log_early "${1} PROMPT_COMMAND: ${prompt_declare}"
+}
 
+function log_duration_results {
   if command_exists bc; then
     local end runtime
     end=$(date +%s.%N)
     runtime=$(echo "${end} - ${1}" | bc -l)
 
-    log "Bashrc duration: ${runtime} seconds"
+    log_early "Bashrc duration: ${runtime} seconds"
     print_out "Bashrc duration: ${runtime} seconds"
   fi
 }
 
-function main {
+function bashrc {
   local start
   start=$(date +%s.%N)
-  log_early "------------------------------ START ------------------------------"
+  log_early "------------------------------ START BASHRC ------------------------------"
   log_early "In bashrc"
+  log_early "Startup PATH: ${PATH}"
+  log_early "Base profile loaded: ${BASE_PROFILE_LOADED:-0}"
+  log_preexec_arrays "Startup"
+  log_prompt_command "Startup"
 
-  shopt -q login_shell && log_early 'Login shell' || log_early 'Non-login shell'
+  if shopt -q login_shell; then log_early 'Login shell'; else log_early 'Non-login shell'; fi
+  if [[ $- == *i* ]]; then log_early 'Interactive shell'; else log_early 'Non-interactive shell'; fi
 
   # If not running interactively, don't do anything
   if [[ $- != *i* ]]; then
-    log_early "In an non-interactive shell, exiting."
+    log_early "BASHRC: In a non-interactive shell, exiting."
     return
-  else
-    log_early "In an interactive shell, continuing."
   fi
 
+  reset_path
   check_launch_tmux
 
-  load_script_tools
+  load_base_functions
 
-  loop_primary_bash_scripts
-  loop_windows_wsl_bash_scripts
+  load_functions
+  load_main_scripts
+  loop_windows_wsl_scripts
+
   load_bash_completions
   source_local_bashrc
-
   mount_moose
   run_colorscripts
 
-  log_startup_results "${start}"
-  log "------------------------------ FINISH ------------------------------"
+  log_preexec_arrays "Final"
+  log_prompt_command "Final"
+  log_early "Final path: ${PATH}"
+  log_duration_results "${start}"
+  log_early "------------------------------ FINISH BASHRC ------------------------------"
 }
 
-main "$@"
+bashrc "$@"
+unset -f log_early
+unset -f load_base_functions
+unset -f reset_path
+unset -f check_launch_tmux
+unset -f load_functions
+unset -f load_main_scripts
+unset -f loop_windows_wsl_scripts
+unset -f load_bash_completions
+unset -f source_local_bashrc
+unset -f mount_moose
+unset -f run_colorscripts
+unset -f log_preexec_arrays
+unset -f log_prompt_command
+unset -f log_duration_results
+unset -f bashrc

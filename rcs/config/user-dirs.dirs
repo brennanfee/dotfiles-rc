@@ -5,33 +5,11 @@
 # homedir-relative path, or XDG_xxx_DIR="/yyy", where /yyy is an
 # absolute path. No other format is supported.
 #
-# Built-in xdg locations
-#
-# XDG_CONFIG_HOME = usually $HOME/.config (system /etc)
-# XDG_CACHE_HOME = usually $HOME/.cache (system /var/cache)
-# XDG_DATA_HOME = usually $HOME/.local/share (system /usr/share)
-# XDG_STATE_HOME = usually $HOME/.local/state (system /var/lib)
-# XDG_RUNTIME_DIR = usually /run/users/$UID
-#
-# Standard xdg locations
 XDG_DESKTOP_DIR="$HOME/Desktop"
-XDG_DOWNLOAD_DIR="${PROFILEPATH:-$HOME/profile}/downloads"
-XDG_TEMPLATES_DIR="${PROFILEPATH:-$HOME/profile}/templates"
-XDG_PUBLICSHARE_DIR="${PROFILEPATH:-$HOME/profile}/public"
-XDG_DOCUMENTS_DIR="${PROFILEPATH:-$HOME/profile}/documents"
-XDG_MUSIC_DIR="${PROFILEPATH:-$HOME/profile}/music"
-XDG_PICTURES_DIR="${PROFILEPATH:-$HOME/profile}/pictures"
-XDG_VIDEOS_DIR="${PROFILEPATH:-$HOME/profile}/videos"
-
-# Custom directories
-XDG_BIN_DIR="${XDG_BIN_DIR:-${HOME}/.local/bin}"
-XDG_DOTFILES_DIR="${DOTFILES:-$HOME/.dotfiles-rc}"
-XDG_DOTFILESPRIVATE_DIR="${DOTFILES_PRIVATE:-$HOME/.dotfiles-private}"
-XDG_DOTFILESBIN_DIR="${DOTFILES:-$HOME/.dotfiles-rc}/bin"
-XDG_PROFILE_DIR="${PROFILEPATH:-$HOME/profile}"
-XDG_CLOUD_DIR="${PROFILEPATH:-$HOME/profile}/cloud/files"
-XDG_CLOUDBIN_DIR="${PROFILEPATH:-$HOME/profile}/cloud/files/bin"
-XDG_SOURCE_DIR="${PROFILEPATH:-$HOME/profile}/source"
-XDG_INSTALLS_DIR="${PROFILEPATH:-$HOME/profile}/installs"
-XDG_MOUNTS_DIR="${HOME}/mounts"
-XDG_VMS_DIR="${PROFILEPATH:-$HOME/profile}/vms"
+XDG_DOWNLOAD_DIR="$HOME/profile/downloads"
+XDG_TEMPLATES_DIR="$HOME/profile/templates"
+XDG_PUBLICSHARE_DIR="$HOME/Public"
+XDG_DOCUMENTS_DIR="$HOME/profile/documents"
+XDG_MUSIC_DIR="$HOME/profile/music"
+XDG_PICTURES_DIR="$HOME/profile/pictures"
+XDG_VIDEOS_DIR="$HOME/profile/videos"

@@ -99,8 +99,6 @@ vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.showbreak = "++ "
 
-vim.opt.iskeyword:remove("_")
-
 vim.opt.shortmess:append("c") -- Prevent "pattern not found" messages
 
 vim.opt.colorcolumn = "100,120"
@@ -138,6 +136,7 @@ vim.opt.wildignore = [[
 ]]
 
 vim.opt.whichwrap:append("<,>,[,]") -- Wrap movement between lines in edit mode with arrows
+-- vim.opt.iskeyword:remove("_")
 vim.opt.iskeyword:append("-") -- Add dash to the match keywords
 
 vim.g.netrw_banner = 0
