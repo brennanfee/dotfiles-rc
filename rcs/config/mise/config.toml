@@ -8,6 +8,7 @@ python.default_packages_file = "~/.config/mise/default-python-packages"
 python.uv_venv_auto = true
 experimental = true
 disable_backends = ["asdf"]
+idiomatic_version_file_enable_tools = ["python"]
 
 [alias.node.versions]
 lts = "22"
@@ -44,7 +45,7 @@ go = "latest"
 java = "lts"
 # julia = "latest"
 lazygit = "latest"
-neovim = "stable"
+neovim = "latest"
 node = "lts"
 openbao = "latest"
 opentofu = "latest"
