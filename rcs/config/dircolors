@@ -211,3 +211,7 @@ EXEC 01;32 # green
 *stylelintrc 00;38;5;8
 *commitlintrc.mjs 00;38;5;8
 *pre-commit-config.yaml 00;38;5;8
+*luarc.json 00;38;5;8
+*stylua.toml 00;38;5;8
+*typos.toml 00;38;5;8
+*cbfmt.toml 00;38;5;8

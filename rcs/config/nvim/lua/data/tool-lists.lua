@@ -107,7 +107,12 @@ M.treesitter_languages = {
 M.lsp_servers = {
   { lsp_name = "bashls", mason_name = "bash-language-server" },
   { lsp_name = "efm", mason_name = "efm" },
+  { lsp_name = "lemminx", mason_name = "lemminx" },
   { lsp_name = "lua_ls", mason_name = "lua-language-server" },
+  { lsp_name = "nil_ls", mason_name = "nil" },
+  { lsp_name = "powershell_es", mason_name = "powershell-editor-services" },
+  { lsp_name = "ruff", mason_name = "ruff" },
+  { lsp_name = "tinymist", mason_name = "tinymist" },
 }
 
 -- M.lsp_servers = {
@@ -208,8 +213,11 @@ M.debug_adapters = {
 M.linters = {
   { mason_name = "dotenv-linter" },
   { mason_name = "editorconfig-checker" },
+  { mason_name = "gitlint" },
   { mason_name = "luacheck" },
+  { mason_name = "markdownlint-cli2" },
   { mason_name = "shellcheck" },
+  { mason_name = "ty" },
   { mason_name = "yamllint" },
 }
 
@@ -269,8 +277,15 @@ M.linters = {
 -- }
 
 M.formatters = {
+  { mason_name = "cbfmt" },
+  { mason_name = "nixfmt" },
+  { mason_name = "nixpkgs-fmt" },
+  { mason_name = "prettier" },
   { mason_name = "stylua" },
   { mason_name = "shfmt" },
+  { mason_name = "typstyle" },
+  { mason_name = "xmlformatter" },
+  { mason_name = "yamlfmt" },
 }
 
 -- M.formatters = {
