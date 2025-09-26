@@ -387,6 +387,7 @@ function yt_helper() {
 
   if [[ "${domain}" == "xhamster.com" ]]; then
     yt_dlp_params+=("--compat-options" "allow-unsafe-ext")
+    yt_dlp_params+=("--ies" "generic,default")
   fi
 
   #### END Site specific customizations
