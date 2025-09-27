@@ -148,7 +148,7 @@ function export_xdg_desktop_locations {
   [[ -n "${XDG_DESKTOP_DIR}" ]] && mkdir -p "${XDG_DESKTOP_DIR}"
   [[ -n "${XDG_DOWNLOAD_DIR}" ]] && mkdir -p "${XDG_DOWNLOAD_DIR}"
   [[ -n "${XDG_TEMPLATES_DIR}" ]] && mkdir -p "${XDG_TEMPLATES_DIR}"
-  [[ -n "${XDG_PUBLICSHARE_DIR}" ]] && mkdir -p "${XDG_PUBLICHSHARE_DIR}"
+  [[ -n "${XDG_PUBLICSHARE_DIR}" ]] && mkdir -p "${XDG_PUBLICSHARE_DIR}"
   [[ -n "${XDG_DOCUMENTS_DIR}" ]] && mkdir -p "${XDG_DOCUMENTS_DIR}"
   [[ -n "${XDG_MUSIC_DIR}" ]] && mkdir -p "${XDG_MUSIC_DIR}"
   [[ -n "${XDG_PICTURES_DIR}" ]] && mkdir -p "${XDG_PICTURES_DIR}"
