@@ -59,7 +59,7 @@ function export_profile_location {
 
   export USER_DIRS_PROFILE="${USER_DIRS_PROFILE:-${HOME}/profile}"
   # Create it if needed
-  [[ -d "${USER_DIRS_PROFILE}" ]] || mkdir -p "${USER_DIRS_PROFILE}"
+  [[ -n "${USER_DIRS_PROFILE}" ]] && mkdir -p "${USER_DIRS_PROFILE}"
 }
 
 function export_dotfiles_locations {
@@ -74,8 +74,8 @@ function export_dotfiles_locations {
   export USER_DIRS_DOTFILES="${USER_DIRS_DOTFILES:-${HOME}/.dotfiles-rc}"
   export USER_DIRS_DOTFILESPRIVATE="${USER_DIRS_DOTFILESPRIVATE:-${HOME}/.dotfiles-private}"
   # Create it if needed
-  [[ -d "${USER_DIRS_DOTFILES}" ]] || mkdir -p "${USER_DIRS_DOTFILES}"
-  [[ -d "${USER_DIRS_DOTFILESPRIVATE}" ]] || mkdir -p "${USER_DIRS_DOTFILESPRIVATE}"
+  [[ -n "${USER_DIRS_DOTFILES}" ]] && mkdir -p "${USER_DIRS_DOTFILES}"
+  [[ -n "${USER_DIRS_DOTFILESPRIVATE}" ]] && mkdir -p "${USER_DIRS_DOTFILESPRIVATE}"
 }
 
 function export_xdg_base_locations {
@@ -93,11 +93,11 @@ function export_xdg_base_locations {
   export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/${user_id}}"
 
   # Create them if needed
-  [[ -d "${XDG_CONFIG_HOME}" ]] || mkdir -p "${XDG_CONFIG_HOME}"
-  [[ -d "${XDG_CACHE_HOME}" ]] || mkdir -p "${XDG_CACHE_HOME}"
-  [[ -d "${XDG_DATA_HOME}" ]] || mkdir -p "${XDG_DATA_HOME}"
-  [[ -d "${XDG_STATE_HOME}" ]] || mkdir -p "${XDG_STATE_HOME}"
-  [[ -d "${XDG_RUNTIME_DIR}" ]] || mkdir -p "${XDG_RUNTIME_DIR}"
+  [[ -n "${XDG_CONFIG_HOME}" ]] && mkdir -p "${XDG_CONFIG_HOME}"
+  [[ -n "${XDG_CACHE_HOME}" ]] && mkdir -p "${XDG_CACHE_HOME}"
+  [[ -n "${XDG_DATA_HOME}" ]] && mkdir -p "${XDG_DATA_HOME}"
+  [[ -n "${XDG_STATE_HOME}" ]] && mkdir -p "${XDG_STATE_HOME}"
+  [[ -n "${XDG_RUNTIME_DIR}" ]] && mkdir -p "${XDG_RUNTIME_DIR}"
 
   # These two are "special".
   # TODO: Fill in with other directories as needed (flatpak, etc.)
@@ -145,14 +145,14 @@ function export_xdg_desktop_locations {
   : "${XDG_PICTURES_DIR:=${USER_DIRS_PROFILE}/pictures}"
   : "${XDG_VIDEOS_DIR:=${USER_DIRS_PROFILE}/videos}"
 
-  [[ -d "${XDG_DESKTOP_DIR}" ]] || mkdir -p "${XDG_DESKTOP_DIR}"
-  [[ -d "${XDG_DOWNLOAD_DIR}" ]] || mkdir -p "${XDG_DOWNLOAD_DIR}"
-  [[ -d "${XDG_TEMPLATES_DIR}" ]] || mkdir -p "${XDG_TEMPLATES_DIR}"
-  [[ -d "${XDG_PUBLICSHARE_DIR}" ]] || mkdir -p "${XDG_PUBLICHSHARE_DIR}"
-  [[ -d "${XDG_DOCUMENTS_DIR}" ]] || mkdir -p "${XDG_DOCUMENTS_DIR}"
-  [[ -d "${XDG_MUSIC_DIR}" ]] || mkdir -p "${XDG_MUSIC_DIR}"
-  [[ -d "${XDG_PICTURES_DIR}" ]] || mkdir -p "${XDG_PICTURES_DIR}"
-  [[ -d "${XDG_VIDEOS_DIR}" ]] || mkdir -p "${XDG_VIDEOS_DIR}"
+  [[ -n "${XDG_DESKTOP_DIR}" ]] && mkdir -p "${XDG_DESKTOP_DIR}"
+  [[ -n "${XDG_DOWNLOAD_DIR}" ]] && mkdir -p "${XDG_DOWNLOAD_DIR}"
+  [[ -n "${XDG_TEMPLATES_DIR}" ]] && mkdir -p "${XDG_TEMPLATES_DIR}"
+  [[ -n "${XDG_PUBLICSHARE_DIR}" ]] && mkdir -p "${XDG_PUBLICSHARE_DIR}"
+  [[ -n "${XDG_DOCUMENTS_DIR}" ]] && mkdir -p "${XDG_DOCUMENTS_DIR}"
+  [[ -n "${XDG_MUSIC_DIR}" ]] && mkdir -p "${XDG_MUSIC_DIR}"
+  [[ -n "${XDG_PICTURES_DIR}" ]] && mkdir -p "${XDG_PICTURES_DIR}"
+  [[ -n "${XDG_VIDEOS_DIR}" ]] && mkdir -p "${XDG_VIDEOS_DIR}"
 }
 
 function export_my_extension_locations {
@@ -171,10 +171,10 @@ function export_my_extension_locations {
   export USER_DIRS_INSTALLS="${USER_DIRS_PROFILE}/installs"
   export USER_DIRS_VMS="${USER_DIRS_PROFILE}/vms"
 
-  [[ -d "${USER_DIRS_CLOUD}" ]] || mkdir -p "${USER_DIRS_CLOUD}"
-  [[ -d "${USER_DIRS_SOURCE}" ]] || mkdir -p "${USER_DIRS_SOURCE}"
-  [[ -d "${USER_DIRS_INSTALLS}" ]] || mkdir -p "${USER_DIRS_INSTALLS}"
-  [[ -d "${USER_DIRS_VMS}" ]] || mkdir -p "${USER_DIRS_VMS}"
+  [[ -n "${USER_DIRS_CLOUD}" ]] && mkdir -p "${USER_DIRS_CLOUD}"
+  [[ -n "${USER_DIRS_SOURCE}" ]] && mkdir -p "${USER_DIRS_SOURCE}"
+  [[ -n "${USER_DIRS_INSTALLS}" ]] && mkdir -p "${USER_DIRS_INSTALLS}"
+  [[ -n "${USER_DIRS_VMS}" ]] && mkdir -p "${USER_DIRS_VMS}"
 
   # Bin directories
   export USER_DIRS_LOCALBIN="${HOME}/.local/bin"
@@ -187,14 +187,14 @@ function export_my_extension_locations {
   export USER_DIRS_MOUNTS="${HOME}/mounts"
   export USER_DIRS_PROCESSING="${USER_DIRS_PROFILE}/processing"
 
-  [[ -d "${USER_DIRS_MOUNTS}" ]] || mkdir -p "${USER_DIRS_MOUNTS}"
-  [[ -d "${USER_DIRS_PROCESSING}" ]] || mkdir -p "${USER_DIRS_PROCESSING}"
+  [[ -n "${USER_DIRS_MOUNTS}" ]] && mkdir -p "${USER_DIRS_MOUNTS}"
+  [[ -n "${USER_DIRS_PROCESSING}" ]] && mkdir -p "${USER_DIRS_PROCESSING}"
 
   # For work
   export USER_DIRS_WORK="${USER_DIRS_PROFILE}/work"
   export USER_DIRS_CLOUDWORK="${USER_DIRS_CLOUD}/work"
 
-  [[ -d "${USER_DIRS_WORK}" ]] || mkdir -p "${USER_DIRS_WORK}"
+  [[ -n "${USER_DIRS_WORK}" ]] && mkdir -p "${USER_DIRS_WORK}"
 }
 
 function export_mise_settings {
@@ -273,7 +273,7 @@ function export_winhome {
   # with two different environment variables $HOME and $WIN_HOME pointing to each, respectively.
   export WIN_HOME="${USERPROFILE:-${HOME}}"
   # Create it if needed
-  [[ -d "${WIN_HOME}" ]] || mkdir -p "${WIN_HOME}"
+  [[ -n "${WIN_HOME}" ]] && mkdir -p "${WIN_HOME}"
 }
 
 function base_profile {
