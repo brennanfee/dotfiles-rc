@@ -12,8 +12,8 @@ local M = {
     "theHamsta/nvim-dap-virtual-text",
 
     -- Add other debuggers here
-    "leoluz/nvim-dap-go",
-    "mfussenegger/nvim-dap-python",
+    -- "leoluz/nvim-dap-go",
+    -- "mfussenegger/nvim-dap-python",
   },
   event = "VeryLazy",
 }
@@ -81,10 +81,10 @@ function M.config()
 
   require("nvim-dap-virtual-text").setup()
   -- Install golang specific config
-  require("dap-go").setup()
+  -- require("dap-go").setup()
 
-  require("dap-python").setup(vim.fn.stdpath("data") .. "mason/bin")
-  require("dap-python").test_runner = "pytest"
+  -- require("dap-python").setup(vim.fn.stdpath("data") .. "mason/bin")
+  -- require("dap-python").test_runner = "pytest"
 end
 
 return M
