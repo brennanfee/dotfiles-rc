@@ -167,8 +167,8 @@ function setup_script_vars() {
   # Must be set here
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
-  g_script_version="0.2"
-  g_script_date="2025-06-10"
+  g_script_version="0.3"
+  g_script_date="2025-10-04"
 
   # Add others here
   g_include_dev_tools="false"

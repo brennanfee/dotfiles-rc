@@ -167,8 +167,8 @@ function setup_script_vars() {
   # Must be set here
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
-  g_script_version="0.2"
-  g_script_date="2025-06-10"
+  g_script_version="0.3"
+  g_script_date="2025-10-04"
 
   # Add others here
   g_include_dev_tools="false"
@@ -231,7 +231,7 @@ function print_help() {
 
 function check_prerequisites() {
   if [[ ! -x "${g_mise_bin}" ]]; then
-    curl https://mise.run | "MISE_INSTALL_PATH=${g_mise_bin}" bash
+    curl https://mise.run | MISE_INSTALL_PATH="${g_mise_bin}" MISE_QUIET=1 bash
 
     # Trust the config file
     "${g_mise_bin}" -y trust "${USER_DIRS_DOTFILES:-$(user_dirs DOTFILES)}/rcs/config/mise/config.toml"
