@@ -7,8 +7,13 @@ pipx.uvx = true
 python.default_packages_file = "~/.config/mise/default-python-packages"
 python.uv_venv_auto = true
 experimental = true
-disable_backends = ["asdf"]
+# disable_backends = ["asdf"]
 idiomatic_version_file_enable_tools = ["python"]
+
+[alias]
+cmake = "vfox:cmake"
+kotlin = "vfox:kotlin"
+php = "vfox:php"
 
 [alias.node.versions]
 lts = "22"
@@ -33,10 +38,11 @@ bat = "latest"
 bitwarden = "latest"
 bottom = "latest"
 bun = "latest"
+cmake = "latest"
 coreutils = "latest"
 delta = "latest"
 deno = "latest"
-# dotnet = "latest"
+dotnet = "latest"
 eza = "latest"
 fd = "latest"
 fzf = "latest"
@@ -45,12 +51,14 @@ go = "latest"
 java = "lts"
 # julia = "latest"
 just = "latest"
+kotlin = "latest"
 lazygit = "latest"
 neovim = "latest"
 node = "lts"
 openbao = "latest"
 opentofu = "latest"
 packer = "latest"
+# php = "latest"
 python = "latest"
 ripgrep = "latest"
 ruby = "latest"
@@ -81,6 +89,3 @@ zig = "latest"
 "npm:typescript" = "latest"
 "npm:wsl-open" = "latest"
 "ubi:tectonic-typesetting/tectonic" = { version = "tectonic@0.15.0", exe = "tectonic" }
-"vfox:cmake" = "latest"
-"vfox:kotlin" = "latest"
-# "vfox:php" = "latest"
