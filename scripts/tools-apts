@@ -5,7 +5,7 @@ sourced=0
 if [[ -n "${ZSH_VERSION:-}" ]]; then
   [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
 elif [[ -n "${BASH_VERSION:-}" ]]; then
-  (return 0 2> /dev/null) && sourced=1 || sourced=0
+  (return 0 2>/dev/null) && sourced=1 || sourced=0
 else # All other shells: examine $0 for known shell binary filenames.
   # Detects `sh` and `dash`; add additional shell filenames as needed.
   case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
@@ -233,9 +233,13 @@ function print_help() {
 function install_common_tools() {
   # Some of my preferred command-line tools
   DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install dtrx inxi \
-    tmux git atool rcm wget curl gnutls-bin ffmpeg mediainfo rename locate \
+    tmux git atool rcm wget curl gnupg gnutls-bin ffmpeg mediainfo rename locate \
     build-essential dkms clang zsync luarocks gawk handbrake-cli iperf3 playerctl \
     urlview libnotify-bin yq acpi ansifilter python3-pynvim
+
+  # Initialize gpg
+  mkdir -p "${HOME}/.local/share/gnupg"
+  gpg --refresh-keys
 
   # Text To Speech Support
   DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install \
