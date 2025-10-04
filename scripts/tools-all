@@ -243,10 +243,15 @@ function print_help() {
 ## Your main implementation goes here.  All of the positional arguments have
 ## been passed as an array to this function.
 function main() {
-  local dotfilesBin
+  local scriptBase
   local miseExe
-  dotfilesBin="${USER_DIRS_DOTFILESBIN:-$(user_dirs DOTFILESBIN)}"
+  scriptBase="${g_script_dir}"
   miseExe="${USER_DIRS_LOCALBIN:-$(user_dirs LOCALBIN)}/mise"
+
+  print_info "${g_script_name} Options"
+  print_info "    include dev: ${g_include_dev_tools}"
+  print_info "    desktop environment: ${g_desktop_environment}"
+  print_blank_line
 
   local options=""
   if [[ "${g_include_dev_tools}" == "true" ]]; then
@@ -255,36 +260,36 @@ function main() {
 
   # Call the other tool install scripts, order does matter here.
   print_status "Running 'tools-repos'"
-  "${dotfilesBin}/tools-repos" "${options}"
+  "${scriptBase}/tools-repos" "${options}"
   print_status "Running 'apts'"
-  "${dotfilesBin}/tools-apts" "${options}"
+  "${scriptBase}/tools-apts" "${options}"
 
   ## We only want to call the desktop apts file if we are actually on a desktop
   if [[ "${g_desktop_environment}" == "kde" || "${g_desktop_environment}" == "gnome" ||
     "${g_desktop_environment}" == "mate" || "${g_desktop_environment}" == "tiling" ]]; then
 
     print_status "Running 'desktop-apts'"
-    "${dotfilesBin}/tools-desktop-apts" "${options}" "--desktop-environment=${g_desktop_environment}"
+    "${scriptBase}/tools-desktop-apts" "${options}" "--desktop-environment=${g_desktop_environment}"
   fi
 
   print_status "Running 'tools-mise'"
-  "${dotfilesBin}/tools-mise" "${options}"
+  "${scriptBase}/tools-mise" "${options}"
 
   print_status "Activating Mise"
   eval "$("${miseExe}" activate bash)"
   eval "$("${miseExe}" hook-env -s bash)"
 
   print_status "Running 'tools-tmux'"
-  "${dotfilesBin}/tools-tmux" "${options}"
+  "${scriptBase}/tools-tmux" "${options}"
   print_status "Running 'tools-vim'"
-  "${dotfilesBin}/tools-vim" "${options}"
+  "${scriptBase}/tools-vim" "${options}"
 
   print_status "Running 'tools-appman'"
-  "${dotfilesBin}/tools-appman" "${options}"
+  "${scriptBase}/tools-appman" "${options}"
   print_status "Running 'tools-flatpak'"
-  "${dotfilesBin}/tools-flatpak" "${options}" "--desktop-environment=${g_desktop_environment}"
+  "${scriptBase}/tools-flatpak" "${options}" "--desktop-environment=${g_desktop_environment}"
   print_status "Running 'tools-uv'"
-  "${dotfilesBin}/tools-uv" "${options}"
+  "${scriptBase}/tools-uv" "${options}"
 }
 
 ## This must be the last line

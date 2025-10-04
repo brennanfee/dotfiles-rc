@@ -815,6 +815,10 @@ function print_blank_line() {
   echo -e ""
 }
 
+function print_empty() {
+  echo -e ""
+}
+
 function pause_output() {
   log "Pausing output"
   print_line
