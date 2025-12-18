@@ -167,8 +167,8 @@ function setup_script_vars() {
   # Must be set here
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
-  g_script_version="0.3"
-  g_script_date="2025-10-04"
+  g_script_version="0.4"
+  g_script_date="2025-10-06"
 
   # Add others here
   g_include_dev_tools="false"
@@ -260,7 +260,7 @@ function main() {
 
   # Call the other tool install scripts, order does matter here.
   print_status "Running 'tools-repos'"
-  "${scriptBase}/tools-repos" "${options}"
+  "${scriptBase}/tools-repos" "${options}" "--desktop-environment=${g_desktop_environment}"
   print_status "Running 'apts'"
   "${scriptBase}/tools-apts" "${options}"
 
@@ -285,7 +285,7 @@ function main() {
   "${scriptBase}/tools-vim" "${options}"
 
   print_status "Running 'tools-appman'"
-  "${scriptBase}/tools-appman" "${options}"
+  "${scriptBase}/tools-appman" "${options}" "--desktop-environment=${g_desktop_environment}"
   print_status "Running 'tools-flatpak'"
   "${scriptBase}/tools-flatpak" "${options}" "--desktop-environment=${g_desktop_environment}"
   print_status "Running 'tools-uv'"

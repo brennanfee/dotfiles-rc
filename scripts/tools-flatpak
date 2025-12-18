@@ -8,7 +8,7 @@ sourced=0
 if [[ -n "${ZSH_VERSION:-}" ]]; then
   [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
 elif [[ -n "${BASH_VERSION:-}" ]]; then
-  (return 0 2> /dev/null) && sourced=1 || sourced=0
+  (return 0 2>/dev/null) && sourced=1 || sourced=0
 else # All other shells: examine $0 for known shell binary filenames.
   # Detects `sh` and `dash`; add additional shell filenames as needed.
   case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
@@ -170,8 +170,8 @@ function setup_script_vars() {
   # Must be set here
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
-  g_script_version="0.7"
-  g_script_date="2025-06-10"
+  g_script_version="0.8"
+  g_script_date="2025-10-06"
 
   # Add others here
   g_include_dev_tools="false"
@@ -324,6 +324,12 @@ function install_common_tools() {
   install_if_needed tv.plex.PlexHTPC
 }
 
+function install_desktop_tools() {
+  if [ "${g_desktop_environment}" == "none" ]; then
+  fi
+
+}
+
 function install_dev_tools() {
   if [[ ! "${g_include_dev_tools}" == "true" ]]; then
     return
@@ -338,6 +344,7 @@ function main() {
   install_prerequisites
 
   install_common_tools
+  install_desktop_tools
   install_dev_tools
 
   # Upgrade all installed
