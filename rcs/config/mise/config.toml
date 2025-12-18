@@ -10,19 +10,19 @@ experimental = true
 # disable_backends = ["asdf"]
 idiomatic_version_file_enable_tools = ["python"]
 
-[alias]
+[tool_alias]
 cmake = "vfox:cmake"
 kotlin = "vfox:kotlin"
 php = "vfox:php"
 
-[alias.node.versions]
+[tool_alias.node.versions]
 lts = "22"
 lts-jod = "22"
 lts-iron = "20"
 lts-hydrogen = "18"
 rolling = "24"
 
-[alias.java.versions]
+[tool_alias.java.versions]
 lts = "corretto-21"
 rolling = "corretto-24"
 
