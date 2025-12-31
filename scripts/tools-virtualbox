@@ -167,26 +167,18 @@ function setup_script_vars() {
   # Must be set here
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
-  g_script_version="0.2"
-  g_script_date="2025-06-10"
+  g_script_version="0.1"
+  g_script_date="2025-11-08"
 
   # Add others here
   g_distro="$(lsb_release -is 2>/dev/null | tr "[:upper:]" "[:lower:]")"
   g_distro_codename="$(lsb_release -cs 2>/dev/null)"
-
-  g_force="false"
-  g_include_dev_tools="false"
-  g_desktop_environment="none"
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
 function cleanup_script_vars() {
   unset g_distro
   unset g_distro_codename
-
-  unset g_force
-  unset g_include_dev_tools
-  unset g_desktop_environment
 }
 
 ## USAGE: If you need to add any command-line flags or options, do it here.
@@ -194,8 +186,7 @@ function cleanup_script_vars() {
 ## set_long_options.  They accept a string with syntax that is the same for
 ## the getopt program.  See it's help for more information.
 function setup_options() {
-  set_short_options "dfe:"
-  set_long_options "include-dev,force,desktop-environment:"
+  true
 }
 
 ## Usage: If you added command-line flags or options using setup_options,
@@ -203,37 +194,14 @@ function setup_options() {
 ## directly into this method so you can process them however you wish,
 ## including using 'shift' as you loop.
 function process_flags() {
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-    '-d' | '--include-dev')
-      g_include_dev_tools="true"
-      shift
-      ;;
-    '-f' | '--force')
-      g_force="true"
-      shift
-      ;;
-    '-e' | '--desktop-environment')
-      g_desktop_environment=$(echo "$2" | tr "[:upper:]" "[:lower:]")
-      shift 2
-      ;;
-    '--')
-      shift
-      break
-      ;;
-    *)
-      throw_error_msg "Unknown option: $1"
-      ;;
-    esac
-  done
+  true
 }
 
 ## USAGE: Construct your help screen text here.
 function print_help() {
   print_out "  ${g_script_name} [options]"
   print_blank_line
-  print_out "This script sets up a few key Debian third-party repositories the"
-  print_out "'proper' way (using a signing key)."
+  print_out "This program sets up Oracle Virtuabox on this machine."
   print_blank_line
   print_out "Options:"
   print_blank_line
@@ -243,53 +211,6 @@ function print_help() {
   print_out "  -v or --version"
   print_out "     Show the version number."
   print_blank_line
-  print_out "  -d or --include-dev"
-  print_out "     Also install the tools for a development environment."
-  print_blank_line
-  print_out "  -e or --desktop-environment"
-  print_out "     The desktop environment being installed to. This might produce differences in the packages"
-  print_out "     beign installed.  Valid values are 'none', 'kde', 'gnome', 'mate', and 'tiling'."
-  print_blank_line
-  print_out "  -f or --force"
-  print_out "     Removes all current repos, keys, and re-installs all the repos."
-  print_blank_line
-}
-
-function is_a_desktop() {
-  if [[ "${g_desktop_environment}" == 'none' && "${g_desktop_environment}" == 'server' ]]; then
-    return 1
-  else
-    return 0
-  fi
-}
-
-function prepare() {
-  sudo mkdir -p /etc/apt/keyrings
-
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q update
-
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install ca-certificates curl gnupg
-
-  # Initialize gpg
-  mkdir -p "${HOME}/.local/share/gnupg"
-  gpg --refresh-keys
-}
-
-function clean_if_forced() {
-  sudo rm -f /etc/apt/sources.list.d/*.list
-  sudo rm -f /etc/apt/keyrings/*.gpg
-  sudo rm -f /etc/apt/keyrings/*.asc
-}
-
-function install_debian_backports_repo() {
-  local listFile="/etc/apt/sources.list.d/debian-backports.list"
-  local repoStatement="https://deb.debian.org/debian ${g_distro_codename}-backports "
-  repoStatement+="main contrib non-free non-free-firmware"
-
-  if [[ ! -f "${listFile}" ]]; then
-    print_out "  Installing debian backports repo"
-    echo "deb ${repoStatement}" | sudo tee "${listFile}" >/dev/null
-  fi
 }
 
 function install_if_needed() {
@@ -314,134 +235,29 @@ function install_if_needed() {
   fi
 }
 
-function install_mullvad_repo() {
-  local listFile="/etc/apt/sources.list.d/mullvad.list"
-  local keyFile="/etc/apt/keyrings/mullvad-keyring.asc"
-  local keyUrl="https://repository.mullvad.net/deb/mullvad-keyring.asc"
-  local repoStatement="https://repository.mullvad.net/deb/stable ${g_distro_codename} main"
+function install_virtualbox_repo() {
+  local listFile="/etc/apt/sources.list.d/virtualbox.list"
+  local keyFile="/etc/apt/keyrings/oracle-virtualbox-2016.gpg"
+  local keyUrl="https://www.virtualbox.org/download/oracle_vbox_2016.asc"
+  local repoStatement="https://download.virtualbox.org/virtualbox/${g_distro} ${g_distro_codename} contrib"
 
-  install_if_needed "Mullvad" "${listFile}" "${keyFile}" "${keyUrl}" "${repoStatement}" false
-}
+  # sudo apt-key remove 5CDFA2F683C52980AECF
+  # sudo apt-key remove D9C954422A4B98AB5139
 
-function install_netbird_repo() {
-  local listFile="/etc/apt/sources.list.d/netbird.list"
-  local keyFile="/etc/apt/keyrings/netbird-archive-keyring.gpg"
-  local keyUrl="https://pkgs.netbird.io/debian/public.key"
-  local repoStatement="https://pkgs.netbird.io/${g_distro} stable main"
+  echo "virtualbox virtualbox/module-compilation-allowed boolean true" | sudo debconf-set-selections
+  echo "virtualbox virtualbox/delete-old-modules boolean true" | sudo debconf-set-selections
 
-  install_if_needed "Netbird" "${listFile}" "${keyFile}" "${keyUrl}" "${repoStatement}" true
-}
-
-function install_beyondCompare_repo() {
-  local listFile="/etc/apt/sources.list.d/scootersoftware.list"
-  local keyFile="/etc/apt/keyrings/scootersoftware.asc"
-  local keyUrl="https://www.scootersoftware.com/DEB-GPG-KEY-scootersoftware.asc"
-  local repoStatement="https://www.scootersoftware.com/${g_distro} bcompare5 non-free"
-
-  sudo touch /etc/default/bcompare
-
-  install_if_needed "Beyond Compare" "${listFile}" "${keyFile}" "${keyUrl}" "${repoStatement}" false
-}
-
-function install_insync_repo() {
-  local listFile="/etc/apt/sources.list.d/insync.list"
-  local keyFile="/etc/apt/keyrings/insync.gpg"
-  local keyUrl="https://apt.insync.io/insynchq.gpg"
-  local repoStatement="http://apt.insync.io/${g_distro} ${g_distro_codename} non-free contrib"
-
-  install_if_needed "Insync" "${listFile}" "${keyFile}" "${keyUrl}" "${repoStatement}" true
-}
-
-function install_vsCode_repo() {
-  local listFile="/etc/apt/sources.list.d/vscode.list"
-  local keyFile="/etc/apt/keyrings/microsoft.asc"
-  local keyUrl="https://packages.microsoft.com/keys/microsoft.asc"
-  local repoStatement="https://packages.microsoft.com/repos/code stable main"
-
-  echo "code code/add-microsoft-repo boolean false" | sudo debconf-set-selections
-
-  install_if_needed "VS Code" "${listFile}" "${keyFile}" "${keyUrl}" "${repoStatement}" false
-}
-
-function install_common_repos() {
-  # For all machines
-  install_debian_backports_repo
-  install_mullvad_repo
-  install_netbird_repo
-  install_insync_repo
-
-  # Only for desktops...
-  if is_a_desktop; then
-    install_beyondCompare_repo
-    install_vsCode_repo
-  fi
-}
-
-function install_dev_repos() {
-  if [[ ! "${g_include_dev_tools}" == "true" ]]; then
-    return
-  fi
-
-  if is_a_desktop; then
-    true
-  fi
-}
-
-function install_common_tools() {
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install mullvad-vpn netbird
-
-  if is_a_desktop; then
-    # Common to all desktops
-    DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install netbird-ui bcompare code
-  fi
-
-  # For specific desktops
-  case "${g_desktop_environment}" in
-  "none" | "server")
-    DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install insync-headless
-    ;;
-  "kde")
-    DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install insync-dolphin
-    ;;
-  "gnome")
-    DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install insync-nautilus
-    ;;
-  "mate")
-    DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install insync-caja
-    ;;
-  "tiling")
-    ## Don't know which gui file manager I would use, do nothing for now
-    true
-    ;;
-  *)
-    print_warning "Unknown desktop environment requested."
-    ;;
-  esac
-}
-
-function install_dev_tools() {
-  if [[ ! "${g_include_dev_tools}" == "true" ]]; then
-    return
-  fi
-
-  if is_a_desktop; then
-    true
-  fi
+  install_if_needed "Virtualbox" "${listFile}" "${keyFile}" "${keyUrl}" "${repoStatement}" true
 }
 
 ## Your main implementation goes here.  All of the positional arguments have
 ## been passed as an array to this function.
 function main() {
-  prepare
-  clean_if_forced
-
-  install_common_repos
-  install_dev_repos
+  install_virtualbox_repo
 
   DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q update
 
-  install_common_tools
-  install_dev_tools
+  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install virtualbox-7.2
 }
 
 ## This must be the last line
