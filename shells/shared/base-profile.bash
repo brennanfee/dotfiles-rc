@@ -47,7 +47,7 @@ function export_profile_location {
   # %USERNAME% value in Windows. The WIN_USER variable is used in situations where the Unix (WSL)
   # username and the Windows usernames might differ (which will likely be common).
   #
-  # Along witn WIN_USER the environment variable USER_DIRS_PROFILE should also be configured.
+  # Along with WIN_USER the environment variable USER_DIRS_PROFILE should also be configured.
   # Typically, this location is C:\profile for single disk machines or D:\profile for multi-disk
   # machines.
   #

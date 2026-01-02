@@ -7,7 +7,7 @@ artist="false"
 song="false"
 filePath=""
 
-## This function determines which http get tool the system has installed and returns an error if there isnt one
+## This function determines which http get tool the system has installed and returns an error if there isn't one
 getConfiguredClient() {
   if command -v curl &>/dev/null; then
     configuredClient="curl"
@@ -18,7 +18,7 @@ getConfiguredClient() {
   elif command -v fetch &>/dev/null; then
     configuredClient="fetch"
   else
-    echo "Error: This tool reqires either curl, wget, httpie or fetch to be installed." >&2
+    echo "Error: This tool requires either curl, wget, httpie or fetch to be installed." >&2
     return 1
   fi
 }
@@ -56,9 +56,9 @@ httpGet() {
 update() {
   # Author: Alexander Epstein https://github.com/alexanderepstein
   # Update utility version 1.2.0
-  # To test the tool enter in the defualt values that are in the examples for each variable
-  repositoryName="Bash-Snippets"                                                                                                                           #Name of repostiory to be updated ex. Sandman-Lite
-  githubUserName="alexanderepstein"                                                                                                                        #username that hosts the repostiory ex. alexanderepstein
+  # To test the tool enter in the default values that are in the examples for each variable
+  repositoryName="Bash-Snippets"                                                                                                                           #Name of repository to be updated ex. Sandman-Lite
+  githubUserName="alexanderepstein"                                                                                                                        #username that hosts the repository ex. alexanderepstein
   nameOfInstallFile="install.sh"                                                                                                                           # change this if the installer file has a different name be sure to include file extension if there is one
   latestVersion=$(httpGet https://api.github.com/repos/$githubUserName/$repositoryName/tags | grep -Eo '"name":.*?[^\\]",' | head -1 | grep -Eo "[0-9.]+") #always grabs the tag without the v option
 
@@ -91,11 +91,11 @@ update() {
           exit 1
         }
         git checkout "v$latestVersion" 2>/dev/null || git checkout "$latestVersion" 2>/dev/null || echo "Couldn't git checkout to stable release, updating to latest commit."
-        chmod a+x install.sh #this might be necessary in your case but wasnt in mine.
+        chmod a+x install.sh #this might be necessary in your case but wasn't in mine.
         ./$nameOfInstallFile "update" || exit 1
         cd ..
         rm -r -f $repositoryName || {
-          echo "Permissions Error: update succesfull but cannot delete temp files located at ~/$repositoryName delete this directory with sudo"
+          echo "Permissions Error: update successful but cannot delete temp files located at ~/$repositoryName delete this directory with sudo"
           exit 1
         }
       else
@@ -183,12 +183,12 @@ while getopts "f:a:s:uvh" opt; do
     ;;
   a)
     artist="true"
-    if [[ "$(echo "$@" | grep -Eo "\-s")" == "-s" ]]; then song="true"; fi # wont go through both options if arg spaced and not quoted this solves that issue (dont need this but once had bug on system where it was necessary)
+    if [[ "$(echo "$@" | grep -Eo "\-s")" == "-s" ]]; then song="true"; fi # won't go through both options if arg spaced and not quoted this solves that issue (dont need this but once had bug on system where it was necessary)
     if [[ "$(echo "$@" | grep -Eo "\-f")" == "-f" ]]; then filePath=$(echo "$@" | grep -Eo "\-f [ a-z A-Z / 0-9 . \ ]*[ -]?" | sed s/-f//g | sed s/-//g | sed s/^" "//g); fi
     ;;
   s)
     song="true"
-    if [[ "$(echo "$@" | grep -Eo "\-a")" == "-a" ]]; then artist="true"; fi # wont go through both options if arg spaced and not quoted this solves that issue (dont need this but once had bug on system where it was necessary)
+    if [[ "$(echo "$@" | grep -Eo "\-a")" == "-a" ]]; then artist="true"; fi # won't go through both options if arg spaced and not quoted this solves that issue (dont need this but once had bug on system where it was necessary)
     if [[ "$(echo "$@" | grep -Eo "\-f")" == "-f" ]]; then filePath=$(echo "$@" | grep -Eo "\-f [ a-z A-Z / 0-9 . \ ]*[ -]?" | sed s/-f//g | sed s/-//g | sed s/^" "//g); fi
     ;;
   :)
@@ -236,7 +236,7 @@ elif $artist && $song; then
 else
   {
     clear
-    echo "You shouldnt be here but maaaaaaybeee you slipped passed me, learn to use the tool!"
+    echo "You shouldn't be here but maaaaaaybeee you slipped passed me, learn to use the tool!"
     sleep 5
     clear
   }

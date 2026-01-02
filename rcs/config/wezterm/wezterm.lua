@@ -29,7 +29,7 @@ config.font_rules = {
     intensity = "Bold",
     italic = false,
     font = wezterm.font_with_fallback({
-      { family = "JetBrains Mono",   weight = "ExtraBold", italic = false },
+      { family = "JetBrains Mono", weight = "ExtraBold", italic = false },
       { family = "Symbols Nerd Font" },
       { family = "Noto Color Emoji" },
     }),
@@ -38,7 +38,7 @@ config.font_rules = {
     intensity = "Bold",
     italic = true,
     font = wezterm.font_with_fallback({
-      { family = "JetBrains Mono",   weight = "ExtraBold", italic = true },
+      { family = "JetBrains Mono", weight = "ExtraBold", italic = true },
       { family = "Symbols Nerd Font" },
       { family = "Noto Color Emoji" },
     }),
@@ -47,7 +47,7 @@ config.font_rules = {
     intensity = "Half",
     italic = false,
     font = wezterm.font_with_fallback({
-      { family = "JetBrains Mono",   weight = "Thin", italic = false },
+      { family = "JetBrains Mono", weight = "Thin", italic = false },
       { family = "Symbols Nerd Font" },
       { family = "Noto Color Emoji" },
     }),
@@ -56,7 +56,7 @@ config.font_rules = {
     intensity = "Half",
     italic = true,
     font = wezterm.font_with_fallback({
-      { family = "JetBrains Mono",   weight = "Thin", italic = true },
+      { family = "JetBrains Mono", weight = "Thin", italic = true },
       { family = "Symbols Nerd Font" },
       { family = "Noto Color Emoji" },
     }),
@@ -80,7 +80,7 @@ config.visual_bell = {
 }
 
 -- Initial state
-config.initial_rows = 36  -- Leaves a few lines of screen space above/below the window
+config.initial_rows = 36 -- Leaves a few lines of screen space above/below the window
 config.initial_cols = 140 -- Wide enough for 100 Neovim columns plus 30 for tree view
 -- config.default_prog = { wezterm.home_dir .. "/.dotfiles-rc/bash/assets/init-tmux.bash" }
 

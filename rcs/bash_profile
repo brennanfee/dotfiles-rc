@@ -22,7 +22,7 @@ function source_profile_script {
     #
     # Bash_profile and Bashrc are the only locations where this extensive search for dotfiles should
     # need to be used. After the profile is loaded, all other scripts\code should be able to simply
-    # use the envrionment variables or the user_dirs utility to find locations.
+    # use the environment variables or the user_dirs utility to find locations.
     dotfiles="${USER_DIRS_DOTFILES:-}"
     if [[ ! -d "${dotfiles}" ]]; then
       if command -v "user_dirs" &>/dev/null; then

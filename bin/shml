@@ -116,7 +116,7 @@ color-bar() {
   fi
 }
 
-#Alises
+# Aliases
 cb() {
   color-bar "$@"
 }

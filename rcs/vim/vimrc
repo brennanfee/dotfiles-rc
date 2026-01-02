@@ -38,7 +38,7 @@ set noexrc
 set modeline
 set pastetoggle=<F2>
 
-set relativenumber  " set realtive numbers to show
+set relativenumber  " set relative numbers to show
 set number " also display the line number of the current line
 set numberwidth=5
 
@@ -198,7 +198,7 @@ nmap <leader>ev :e $MYVIMRC<CR>
 nmap <leader>eb :e ~/.vim/vimrc.bundles<CR>
 nmap <leader>sv :source $MYVIMRC<CR>
 
-" Turn off highligting
+" Turn off highlighting
 nnoremap <leader>n :noh<CR>
 nnoremap <space>n :noh<CR>
 

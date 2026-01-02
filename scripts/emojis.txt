@@ -743,7 +743,7 @@
 🈂️ :sa:
 🚻 :restroom:
 🚹 :mens:
-🚺 :womens:
+🚺 :womens: # codespell:ignore womens
 🚼 :baby_symbol:
 🚭 :no_smoking:
 🅿️ :parking:

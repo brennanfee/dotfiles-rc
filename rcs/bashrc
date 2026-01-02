@@ -47,7 +47,7 @@ function load_base_functions {
   # Load my base-functions to have access to all my shell helper methods and functions
   #
   # While the base-profile should have already been loaded by bash_profile, we are still doing
-  # a more exaustive bit of error handling for trying to find the dotfiles location. This should
+  # a more exhaustive bit of error handling for trying to find the dotfiles location. This should
   # be the only place where this is required. After the base-profile and base-functions are loaded
   # other scripts\code locations should be able to just directly use the environment variables or
   # my user_dirs utility to find locations.

@@ -85,7 +85,7 @@ function M.config()
     },
     -- Find Section
     { "<leader>f", group = "Find/File/Search" },
-    { "<leader>fn", "<cmd>enew<cr>", desc = "New File" }, -- spellchecker:disable-line
+    { "<leader>fn", "<cmd>enew<cr>", desc = "New File" }, -- spellchecker:disable-line -- codespell:ignore enew
   })
 end
 

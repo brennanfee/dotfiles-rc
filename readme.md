@@ -12,7 +12,7 @@ is usable on Linux, Mac, and now Windows using the
 
 If you haven't already read about RCM I highly encourage you to read and understand it before
 attempting to understand how these files are structured here. An overview article on RCM can be
-found [here](https://robots.thoughtbot.com/rcm-for-rc-files-in-dotfiles-repos).
+found here: [RCM For RC Files In Dotfiles](https://robots.thoughtbot.com/rcm-for-rc-files-in-dotfiles-repos).
 
 ## Setting up a machine
 

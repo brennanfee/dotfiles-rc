@@ -33,7 +33,7 @@ shopt -s histappend
 # Store multi-line commands in a single history entry
 shopt -s cmdhist
 
-# Show a history substituion line rather than directly executing it
+# Show a history substitution line rather than directly executing it
 shopt -s histverify
 
 # History environment variables

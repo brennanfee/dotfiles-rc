@@ -4,7 +4,7 @@
 function bash_logout {
   log "In bash_logout"
   if shopt -q login_shell; then log 'Login shell'; else log 'Non-login shell'; fi
-  if [[ $- == *i* ]]; then log "Interractive shell"; else log "Non-interactive shell"; fi
+  if [[ $- == *i* ]]; then log "Interactive shell"; else log "Non-interactive shell"; fi
 
   # when leaving the console clear the screen to increase privacy
 

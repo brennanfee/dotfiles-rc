@@ -1,6 +1,6 @@
 local M = {
   enabled = false,
-  "folke/noice.nvim",
+  "folke/noice.nvim", -- codespell:ignore noice
   dependencies = {
     "MunifTanjim/nui.nvim",
     "rcarriga/nvim-notify",
@@ -13,7 +13,7 @@ function M.config()
     render = "wrapped-compact",
   })
 
-  require("noice").setup({
+  require("noice").setup({ -- codespell:ignore noice
     lsp = {
       -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
       override = {
@@ -34,7 +34,7 @@ function M.config()
 
   local ok, telescope = pcall(require, "telescope")
   if ok then
-    telescope.load_extension("noice")
+    telescope.load_extension("noice") -- codespell:ignore noice
   end
 end
 

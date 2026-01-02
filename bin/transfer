@@ -6,7 +6,7 @@ configuredClient=""
 currentVersion="1.22.0"
 down="false"
 
-## This function determines which http get tool the system has installed and returns an error if there isnt one
+## This function determines which http get tool the system has installed and returns an error if there isn't one
 getConfiguredDownloadClient() {
   if command -v curl &>/dev/null; then
     configuredDownloadClient="curl"
@@ -15,7 +15,7 @@ getConfiguredDownloadClient() {
   elif command -v fetch &>/dev/null; then
     configuredDownloadClient="fetch"
   else
-    echo "Error: Downloading with this tool reqires either curl, wget, or fetch to be installed." >&2
+    echo "Error: Downloading with this tool requires either curl, wget, or fetch to be installed." >&2
     return 1
   fi
 }
@@ -30,7 +30,7 @@ httpGet() {
   esac
 }
 
-## This function determines which http get tool the system has installed and returns an error if there isnt one
+## This function determines which http get tool the system has installed and returns an error if there isn't one
 getConfiguredClient() {
   if command -v curl &>/dev/null; then
     configuredClient="curl"
@@ -41,19 +41,19 @@ getConfiguredClient() {
   elif command -v fetch &>/dev/null; then
     configuredClient="fetch"
   else
-    echo "Error: This tool reqires either curl, wget, httpie or fetch to be installed." >&2
+    echo "Error: This tool requires either curl, wget, httpie or fetch to be installed." >&2
     return 1
   fi
 }
 
-## This function determines which http get tool the system has installed and returns an error if there isnt one
+## This function determines which http get tool the system has installed and returns an error if there isn't one
 getconfiguredUploadClient() {
   if command -v curl &>/dev/null; then
     configuredUploadClient="curl"
   elif command -v wget &>/dev/null; then
     configuredUploadClient="wget"
   else
-    echo "Error: Uploading with this tool reqires either curl or wget to be installed." >&2
+    echo "Error: Uploading with this tool requires either curl or wget to be installed." >&2
     return 1
   fi
 }
@@ -78,9 +78,9 @@ httpDownload() {
 update() {
   # Author: Alexander Epstein https://github.com/alexanderepstein
   # Update utility version 2.2.0
-  # To test the tool enter in the defualt values that are in the examples for each variable
-  repositoryName="Bash-Snippets"                                                                                                                           #Name of repostiory to be updated ex. Sandman-Lite
-  githubUserName="alexanderepstein"                                                                                                                        #username that hosts the repostiory ex. alexanderepstein
+  # To test the tool enter in the default values that are in the examples for each variable
+  repositoryName="Bash-Snippets"                                                                                                                           #Name of repository to be updated ex. Sandman-Lite
+  githubUserName="alexanderepstein"                                                                                                                        #username that hosts the repository ex. alexanderepstein
   nameOfInstallFile="install.sh"                                                                                                                           # change this if the installer file has a different name be sure to include file extension if there is one
   latestVersion=$(httpGet https://api.github.com/repos/$githubUserName/$repositoryName/tags | grep -Eo '"name":.*?[^\\]",' | head -1 | grep -Eo "[0-9.]+") #always grabs the tag without the v option
 
@@ -120,11 +120,11 @@ update() {
           exit 1
         }
         git checkout "v$latestVersion" 2>/dev/null || git checkout "$latestVersion" 2>/dev/null || echo "Couldn't git checkout to stable release, updating to latest commit."
-        chmod a+x install.sh #this might be necessary in your case but wasnt in mine.
+        chmod a+x install.sh #this might be necessary in your case but wasn't in mine.
         ./$nameOfInstallFile "update" || exit 1
         cd ..
         rm -r -f $repositoryName || {
-          echo "Permissions Error: update succesfull but cannot delete temp files located at ~/$repositoryName delete this directory with sudo"
+          echo "Permissions Error: update successful but cannot delete temp files located at ~/$repositoryName delete this directory with sudo"
           exit 1
         }
       else
@@ -150,7 +150,7 @@ singleDownload() {
   }; fi
   tempOutputPath=$1
   if [ -f "$tempOutputPath/$3" ]; then
-    echo -n "File aleady exists at $tempOutputPath/$3, do you want to delete it? [Y/n] "
+    echo -n "File already exists at $tempOutputPath/$3, do you want to delete it? [Y/n] "
     read -r answer
     if [[ "$answer" == [Yy] ]]; then
       rm -f $tempOutputPath/$3

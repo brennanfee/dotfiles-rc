@@ -973,7 +973,7 @@
       </dict>
       <dict>
         <key>name</key>
-        <string>Decorator punctuations (decorators inherit from blue functions, instead of styleguide peach)</string>
+        <string>Decorator punctuation's (decorators inherit from blue functions, instead of styleguide peach)</string>
         <key>scope</key>
         <string>punctuation.decorator.ts</string>
         <key>settings</key>

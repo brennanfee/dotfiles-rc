@@ -9,7 +9,7 @@ function M.config()
 
   require("todo-comments").setup({
     -- list of named colors where we try to extract the guifg from the
-    -- list of hilight groups or use the hex color if hl not found as a fallback
+    -- list of highlight groups or use the hex color if hl not found as a fallback
     colors = {
       error = { "DiagnosticError", "ErrorMsg", colors.theme().red },
       warning = { "DiagnosticWarn", "WarningMsg", colors.theme().yellow },

@@ -6,7 +6,7 @@ configuredClient=""
 configuredPython=""
 detail=false
 
-## This function determines which http get tool the system has installed and returns an error if there isnt one
+## This function determines which http get tool the system has installed and returns an error if there isn't one
 getConfiguredClient() {
   if command -v curl &>/dev/null; then
     configuredClient="curl"
@@ -17,7 +17,7 @@ getConfiguredClient() {
   elif command -v fetch &>/dev/null; then
     configuredClient="fetch"
   else
-    echo "Error: This tool reqires either curl, wget, httpie or fetch to be installed." >&2
+    echo "Error: This tool requires either curl, wget, httpie or fetch to be installed." >&2
     return 1
   fi
 }
@@ -117,9 +117,9 @@ printMovieInfo() {
 update() {
   # Author: Alexander Epstein https://github.com/alexanderepstein
   # Update utility version 2.2.0
-  # To test the tool enter in the defualt values that are in the examples for each variable
-  repositoryName="Bash-Snippets"                                                                                                                           #Name of repostiory to be updated ex. Sandman-Lite
-  githubUserName="alexanderepstein"                                                                                                                        #username that hosts the repostiory ex. alexanderepstein
+  # To test the tool enter in the default values that are in the examples for each variable
+  repositoryName="Bash-Snippets"                                                                                                                           #Name of repository to be updated ex. Sandman-Lite
+  githubUserName="alexanderepstein"                                                                                                                        #username that hosts the repository ex. alexanderepstein
   nameOfInstallFile="install.sh"                                                                                                                           # change this if the installer file has a different name be sure to include file extension if there is one
   latestVersion=$(httpGet https://api.github.com/repos/$githubUserName/$repositoryName/tags | grep -Eo '"name":.*?[^\\]",' | head -1 | grep -Eo "[0-9.]+") #always grabs the tag without the v option
 
@@ -159,11 +159,11 @@ update() {
           exit 1
         }
         git checkout "v$latestVersion" 2>/dev/null || git checkout "$latestVersion" 2>/dev/null || echo "Couldn't git checkout to stable release, updating to latest commit."
-        chmod a+x install.sh #this might be necessary in your case but wasnt in mine.
+        chmod a+x install.sh #this might be necessary in your case but wasn't in mine.
         ./$nameOfInstallFile "update" || exit 1
         cd ..
         rm -r -f $repositoryName || {
-          echo "Permissions Error: update succesfull but cannot delete temp files located at ~/$repositoryName delete this directory with sudo"
+          echo "Permissions Error: update successful but cannot delete temp files located at ~/$repositoryName delete this directory with sudo"
           exit 1
         }
       else
@@ -196,7 +196,7 @@ getConfiguredClient || exit 1
 while getopts 'ud:hv' flag; do
   case "${flag}" in
   u)
-    checkInternet || exit 1 # check if we have a valid internet connection if this isnt true the rest of the script will not work so stop here
+    checkInternet || exit 1 # check if we have a valid internet connection if this isn't true the rest of the script will not work so stop here
     update
     exit 0
     ;;
@@ -220,12 +220,12 @@ done
 if [[ $# == 0 ]]; then
   usage
 elif [[ $1 == "update" ]]; then
-  checkInternet || exit 1 # check if we have a valid internet connection if this isnt true the rest of the script will not work so stop here
+  checkInternet || exit 1 # check if we have a valid internet connection if this isn't true the rest of the script will not work so stop here
   update
 elif [[ $1 == "help" ]]; then
   usage
 else
-  checkInternet || exit 1     # check if we have a valid internet connection if this isnt true the rest of the script will not work so stop here
+  checkInternet || exit 1     # check if we have a valid internet connection if this isn't true the rest of the script will not work so stop here
   getMovieInfo "$@" || exit 1 ## exit if we return 1 (chances are movie was not found)
   printMovieInfo              ## print out the data
 fi

@@ -33,7 +33,7 @@ set history=100
 set nofollowlinks
 
 " With this option turned on you can run partially entered commands with
-" unambiguous beginning using :! (e.g. :!Te instead of :!Terminal or :!Te<tab>).
+" unambiguous beginning using :! (e.g. :!Te instead of :!Terminal or :!Te<tab>).  # codespell:ignore
 
 set fastrun
 
@@ -75,7 +75,7 @@ set fusehome=/tmp/vifm_FUSE
 
 set timefmt=%m/%d\ %H:%M
 
-" Show list of matches on tab complition in command-line mode
+" Show list of matches on tab completion in command-line mode
 
 set wildmenu
 
@@ -348,11 +348,11 @@ set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
 
 " Customize view columns a bit (enable ellipsis for truncated file names)
 "
-" windo set viewcolumns=-{name}..,6{}.
+" window set viewcolumns=-{name}..,6{}.
 
 " Filter-out build and temporary files
 "
-" windo filter! /^.*\.(lo|o|d|class|py[co])$|.*~$/
+" window filter! /^.*\.(lo|o|d|class|py[co])$|.*~$/
 
 " ------------------------------------------------------------------------------
 

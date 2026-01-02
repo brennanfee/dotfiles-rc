@@ -51,7 +51,7 @@ class AliasedGroup(click.Group):
 
     @override
     def get_command(self, ctx: click.Context, cmd_name: str):
-        # Step one: bulitin commands as normal
+        # Step one: built-in commands as normal
         rv = super().get_command(ctx, cmd_name.lower())
         if rv is not None:
             return rv

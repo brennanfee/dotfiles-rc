@@ -6,7 +6,7 @@ sourced=0
 if [[ -n "${ZSH_VERSION:-}" ]]; then
   [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
 elif [[ -n "${BASH_VERSION:-}" ]]; then
-  (return 0 2> /dev/null) && sourced=1 || sourced=0
+  (return 0 2>/dev/null) && sourced=1 || sourced=0
 else # All other shells: examine $0 for known shell binary filenames.
   # Detects `sh` and `dash`; add additional shell filenames as needed.
   case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
@@ -35,9 +35,9 @@ unset configuredClient
 currencyCodes=(AUD BGN BRL CAD CHF CNY CZK DKK
   EUR GBP HKD HRK HUF IDR ILS INR
   JPY KRW MXN MYR NOK NZD PHP PLN
-  RON RUB SEK SGD THB TRY USD ZAR)
+  RON RUB SEK SGD THB TRY USD ZAR) # codespell:ignore
 
-## This function determines which http get tool the system has installed and returns an error if there isnt one
+## This function determines which http get tool the system has installed and returns an error if there isn't one
 getConfiguredClient() {
   if command -v curl &>/dev/null; then
     configuredClient="curl"
@@ -48,7 +48,7 @@ getConfiguredClient() {
   elif command -v fetch &>/dev/null; then
     configuredClient="fetch"
   else
-    echo "Error: This tool reqires either curl, wget, httpie or fetch to be installed." >&2
+    echo "Error: This tool requires either curl, wget, httpie or fetch to be installed." >&2
     return 1
   fi
 }
@@ -72,7 +72,7 @@ checkValidCurrency() {
 }
 
 ## Grabs the base currency from the user and validates it with all the possible currency
-## types available on the API and guides user through input (doesnt take in arguments)
+## types available on the API and guides user through input (doesn't take in arguments)
 getBase() {
   echo -n "What is the base currency: "
   read -r base
@@ -97,7 +97,7 @@ checkBase() {
 }
 
 ## Grabs the exchange to currency from the user and validates it with all the possible currency
-## types available on the API and guides user through input (doesnt take in arguments)
+## types available on the API and guides user through input (doesn't take in arguments)
 getExchangeTo() {
   echo -n "What currency to exchange to: "
   read -r exchangeTo
@@ -122,7 +122,7 @@ checkExchangeTo() {
 }
 
 ## Get the amount that will be exchanged and validate that the user has entered a number (decimals are allowed)
-## doesnt take in argument, it guides user through input
+## doesn't take in argument, it guides user through input
 getAmount() {
   echo -n "What is the amount being exchanged: "
   read -r amount
@@ -178,9 +178,9 @@ EOF
 update() {
   # Author: Alexander Epstein https://github.com/alexanderepstein
   # Update utility version 2.2.0
-  # To test the tool enter in the defualt values that are in the examples for each variable
-  repositoryName="Bash-Snippets"                                                                                                                           #Name of repostiory to be updated ex. Sandman-Lite
-  githubUserName="alexanderepstein"                                                                                                                        #username that hosts the repostiory ex. alexanderepstein
+  # To test the tool enter in the default values that are in the examples for each variable
+  repositoryName="Bash-Snippets"                                                                                                                           #Name of repository to be updated ex. Sandman-Lite
+  githubUserName="alexanderepstein"                                                                                                                        #username that hosts the repository ex. alexanderepstein
   nameOfInstallFile="install.sh"                                                                                                                           # change this if the installer file has a different name be sure to include file extension if there is one
   latestVersion=$(httpGet https://api.github.com/repos/$githubUserName/$repositoryName/tags | grep -Eo '"name":.*?[^\\]",' | head -1 | grep -Eo "[0-9.]+") #always grabs the tag without the v option
 
@@ -220,11 +220,11 @@ update() {
           exit 1
         }
         git checkout "v$latestVersion" 2>/dev/null || git checkout "$latestVersion" 2>/dev/null || echo "Couldn't git checkout to stable release, updating to latest commit."
-        chmod a+x install.sh #this might be necessary in your case but wasnt in mine.
+        chmod a+x install.sh #this might be necessary in your case but wasn't in mine.
         ./$nameOfInstallFile "update" || exit 1
         cd ..
         rm -r -f $repositoryName || {
-          echo "Permissions Error: update succesfull but cannot delete temp files located at ~/$repositoryName delete this directory with sudo"
+          echo "Permissions Error: update successful but cannot delete temp files located at ~/$repositoryName delete this directory with sudo"
           exit 1
         }
       else
@@ -254,7 +254,7 @@ Supported Currencies:
 | JPY | KRW | MXN | MYR |
 | NOK | NZD | PHP | PLN |
 | RON | RUB | SEK | SGD |
-| THB | TRY | USD | ZAR |
+| THB | TRY | USD | ZAR | # codespell:ignore
  _______________________
 Examples:
   currency EUR USD 12.35
@@ -279,7 +279,7 @@ while getopts "uvh" opt; do
     exit 0
     ;;
   u)
-    checkInternet || exit 1 # check if we have a valid internet connection if this isnt true the rest of the script will not work so stop here
+    checkInternet || exit 1 # check if we have a valid internet connection if this isn't true the rest of the script will not work so stop here
     update
     exit 0
     ;;
@@ -291,11 +291,11 @@ while getopts "uvh" opt; do
 done
 
 if [[ $# == 0 ]]; then
-  checkInternet || exit 1 # check if we have a valid internet connection if this isnt true the rest of the script will not work so stop here
+  checkInternet || exit 1 # check if we have a valid internet connection if this isn't true the rest of the script will not work so stop here
   getBase                 # get base currency
   getExchangeTo           # get exchange to currency
   getAmount               # get the amount to be converted
-  convertCurrency         # grab the exhange rate and perform the conversion
+  convertCurrency         # grab the exchange rate and perform the conversion
   exit 0
 elif [[ $# == "1" ]]; then
   if [[ $1 == "update" ]]; then
@@ -312,7 +312,7 @@ elif [[ $# == "2" ]]; then
   usage
   exit 1
 elif [[ $# == "3" ]]; then
-  checkInternet || exit 1 # check if we have a valid internet connection if this isnt true the rest of the script will not work so stop here
+  checkInternet || exit 1 # check if we have a valid internet connection if this isn't true the rest of the script will not work so stop here
   checkBase $1
   checkExchangeTo $2
   checkAmount $3

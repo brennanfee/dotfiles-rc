@@ -120,7 +120,7 @@ function M.config()
   }
 
   require("snacks").setup({
-    animate = { enabeld = true },
+    animate = { enabled = true },
     bigfile = { enabled = true },
     bufdelete = { enabled = true },
     dashboard = dashboard_settings,
