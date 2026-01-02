@@ -71,6 +71,7 @@
   rebase = false
   ff = only
 [init]
+  templateDir = ~/.config/git/template
   defaultBranch = main
 [mergetool]
   keepBackup = false
