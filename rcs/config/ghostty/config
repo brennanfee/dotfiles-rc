@@ -45,6 +45,7 @@
 # Font
 font-family = JetBrainsMono Nerd Font Mono
 font-size = 18
+adjust-cell-height = 5%
 
 # Window appearance
 window-decoration = server
@@ -52,9 +53,13 @@ window-decoration = server
 # Initial startup
 window-width = 180
 window-height = 50
+window-padding-balance = true
+
+# Mouse settings
+mouse-hide-while-typing = true
 
 # Shell Integration - I put 'none' here because my shell startup scripts already check if integration has been added and add it manually when needed
-shell-integration = none
+shell-integration = bash
 shell-integration-features = no-cursor,sudo,title
 
 # Theme
