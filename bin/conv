@@ -5,7 +5,7 @@ sourced=0
 if [[ -n "${ZSH_VERSION:-}" ]]; then
   [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
 elif [[ -n "${BASH_VERSION:-}" ]]; then
-  (return 0 2> /dev/null) && sourced=1 || sourced=0
+  (return 0 2>/dev/null) && sourced=1 || sourced=0
 else # All other shells: examine $0 for known shell binary filenames.
   # Detects `sh` and `dash`; add additional shell filenames as needed.
   case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
@@ -174,7 +174,7 @@ function setup_script_vars() {
   g_force="false"
   g_recursive="false"
   g_pipe="false"
-  g_sub_commands=("conv-mkv" "strip-meta" "extract-subs" "list-noaudio"
+  g_sub_commands=("conv-mkv" "conv-gif" "strip-meta" "extract-subs" "list-noaudio"
     "rename-fixperiods")
 }
 
@@ -331,6 +331,51 @@ function convertMkvToMp4() {
   else
     if [[ -f "${fileOrPath}" ]]; then
       _convertMkvFileToMp4 "${fileOrPath}"
+    else
+      throw_error_msg "Value given is not a file or a directory: '${fileOrPath}'"
+    fi
+  fi
+}
+
+function _convertGifFileToMp4() {
+  print_blue "Converting file: $1"
+
+  local new_file="${1%.*}.mp4"
+
+  get_exit_code ffmpeg -i "$1" -movflags +faststart -pix_fmt yuv420p -r 24 \
+    -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" "${new_file}"
+
+  if [[ ${EXIT_CODE} -eq 0 ]]; then
+    print_green "File converted: ${new_file}"
+  else
+    print_red "Failed to convert file: $1"
+  fi
+}
+
+function convertGifToMp4() {
+  local fileOrPath file files
+  fileOrPath=$(pwd)
+  if [[ -n "${1:-}" ]]; then
+    fileOrPath="$1"
+  fi
+
+  if [[ -d "${fileOrPath}" ]]; then
+    if [[ "${g_recursive}" == "true" ]]; then
+      files=("${fileOrPath}"/*.gif "${fileOrPath}"/**/*.gif)
+    else
+      files=("${fileOrPath}"/*.gif)
+    fi
+
+    for file in "${files[@]}"; do
+      if [[ ! "${file}" == *"*"* ]]; then
+        _convertGifFileToMp4 "${file}"
+      fi
+    done
+
+    print_blue "Finished converting gif's to mp4's."
+  else
+    if [[ -f "${fileOrPath}" ]]; then
+      _convertGifFileToMp4 "${fileOrPath}"
     else
       throw_error_msg "Value given is not a file or a directory: '${fileOrPath}'"
     fi
@@ -562,6 +607,9 @@ function main() {
     ;;
   "rename-fixperiods")
     renameFixPeriods "$@"
+    ;;
+  "conv-gif")
+    convertGifToMp4 "$@"
     ;;
   *)
     throw_error_msg "Unknown ${g_script_name} command: '${sub_command}'"
