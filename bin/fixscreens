@@ -1,6 +1,9 @@
 #!/usr/bin/env sh
 
-xrandr --output HDMI-A-0 --off --output DisplayPort-1 --off
+xrandr --output HDMI-A-0 --off
 
-xrandr --output HDMI-A-0 --primary --mode 3840x2160 \
-  --output DisplayPort-1 --mode 3840x2160 --right-of HDMI-A-0
+xrandr --output HDMI-A-0 --primary --mode 3840x2160 --left-of DisplayPort-1
+
+xrandr --output DisplayPort-1 --off
+
+xrandr --output DisplayPort-1 --mode 3840x2160 --right-of HDMI-A-0
