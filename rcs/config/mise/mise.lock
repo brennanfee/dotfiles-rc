@@ -1,0 +1,235 @@
+[[tools.aws-cli]]
+version = "2.33.12"
+backend = "aqua:aws/aws-cli"
+
+[[tools.bat]]
+version = "0.26.1"
+backend = "aqua:sharkdp/bat"
+
+[[tools.bitwarden]]
+version = "2025.12.1"
+backend = "aqua:bitwarden/clients"
+
+[[tools.bottom]]
+version = "0.12.3"
+backend = "aqua:ClementTsang/bottom"
+
+[[tools.bun]]
+version = "1.3.8"
+backend = "core:bun"
+
+[[tools.cargo-binstall]]
+version = "1.17.4"
+backend = "aqua:cargo-bins/cargo-binstall"
+
+[[tools."cargo:dysk"]]
+version = "3.6.0"
+backend = "cargo:dysk"
+
+[[tools."cargo:rmpc"]]
+version = "0.11.0"
+backend = "cargo:rmpc"
+
+[[tools."cargo:sheldon"]]
+version = "0.8.5"
+backend = "cargo:sheldon"
+
+[[tools.cmake]]
+version = "4.2.3"
+backend = "asdf:cmake"
+
+[[tools.coreutils]]
+version = "0.5.0"
+backend = "aqua:uutils/coreutils"
+
+[[tools.cosign]]
+version = "3.0.4"
+backend = "aqua:sigstore/cosign"
+
+[[tools.delta]]
+version = "0.18.2"
+backend = "aqua:dandavison/delta"
+
+[[tools.deno]]
+version = "2.6.7"
+backend = "core:deno"
+
+[[tools.dotnet]]
+version = "10.0.102"
+backend = "vfox:mise-plugins/vfox-dotnet"
+
+[[tools.eza]]
+version = "0.23.4"
+backend = "aqua:eza-community/eza"
+
+[[tools.fd]]
+version = "10.3.0"
+backend = "aqua:sharkdp/fd"
+
+[[tools.fzf]]
+version = "0.67.0"
+backend = "aqua:junegunn/fzf"
+
+[[tools."github:tectonic-typesetting/tectonic"]]
+version = "tectonic@0.15.0"
+backend = "github:tectonic-typesetting/tectonic"
+
+[[tools.glab]]
+version = "1.82.0"
+backend = "gitlab:gitlab-org/cli"
+
+[[tools.go]]
+version = "1.25.6"
+backend = "core:go"
+
+[[tools."go:github.com/boyter/scc"]]
+version = "2.12.0+incompatible"
+backend = "go:github.com/boyter/scc"
+
+[[tools.java]]
+version = "corretto-25.0.2.10.1"
+backend = "core:java"
+
+[[tools.just]]
+version = "1.46.0"
+backend = "aqua:casey/just"
+
+[[tools.kotlin]]
+version = "2.3.0"
+backend = "asdf:kotlin"
+
+[[tools.lazygit]]
+version = "0.58.1"
+backend = "aqua:jesseduffield/lazygit"
+
+[[tools.neovim]]
+version = "0.11.6"
+backend = "vfox:mise-plugins/vfox-neovim"
+
+[[tools.node]]
+version = "24.13.0"
+backend = "core:node"
+
+[[tools."npm:@commitlint/cli"]]
+version = "20.4.0"
+backend = "npm:@commitlint/cli"
+
+[[tools."npm:@commitlint/config-conventional"]]
+version = "20.4.0"
+backend = "npm:@commitlint/config-conventional"
+
+[[tools."npm:@mermaid-js/mermaid-cli"]]
+version = "11.12.0"
+backend = "npm:@mermaid-js/mermaid-cli"
+
+[[tools."npm:aws-cdk"]]
+version = "2.1104.0"
+backend = "npm:aws-cdk"
+
+[[tools."npm:commitlint-format-json"]]
+version = "1.1.0"
+backend = "npm:commitlint-format-json"
+
+[[tools."npm:eslint"]]
+version = "9.39.2"
+backend = "npm:eslint"
+
+[[tools."npm:eslint-config-prettier"]]
+version = "10.1.8"
+backend = "npm:eslint-config-prettier"
+
+[[tools."npm:eslint-plugin-prettier"]]
+version = "5.5.5"
+backend = "npm:eslint-plugin-prettier"
+
+[[tools."npm:license-report"]]
+version = "6.8.1"
+backend = "npm:license-report"
+
+[[tools."npm:prettier"]]
+version = "3.8.1"
+backend = "npm:prettier"
+
+[[tools."npm:stylelint"]]
+version = "17.1.0"
+backend = "npm:stylelint"
+
+[[tools."npm:stylelint-prettier"]]
+version = "5.0.3"
+backend = "npm:stylelint-prettier"
+
+[[tools."npm:typescript"]]
+version = "5.9.3"
+backend = "npm:typescript"
+
+[[tools."npm:wsl-open"]]
+version = "2.2.1"
+backend = "npm:wsl-open"
+
+[[tools.openbao]]
+version = "2.4.4"
+backend = "github:openbao/openbao"
+
+[[tools.opentofu]]
+version = "1.11.4"
+backend = "aqua:opentofu/opentofu"
+
+[[tools.packer]]
+version = "1.14.3"
+backend = "aqua:hashicorp/packer"
+
+[[tools.php]]
+version = "8.5.2"
+backend = "vfox:php"
+
+[[tools.python]]
+version = "3.14.2"
+backend = "core:python"
+
+[[tools.ripgrep]]
+version = "15.1.0"
+backend = "aqua:BurntSushi/ripgrep"
+
+[[tools.ruby]]
+version = "4.0.1"
+backend = "core:ruby"
+
+[[tools.rust]]
+version = "1.93.0"
+backend = "core:rust"
+
+[[tools.sops]]
+version = "3.11.0"
+backend = "aqua:getsops/sops"
+
+[[tools.starship]]
+version = "1.24.2"
+backend = "aqua:starship/starship"
+
+[[tools.terraform]]
+version = "1.14.4"
+backend = "aqua:hashicorp/terraform"
+
+[[tools.tmux]]
+version = "3.6a"
+backend = "github:tmux/tmux-builds"
+
+[[tools.tree-sitter]]
+version = "0.26.5"
+backend = "aqua:tree-sitter/tree-sitter"
+
+[[tools.typst]]
+version = "0.14.2"
+backend = "aqua:typst/typst"
+
+[[tools.usage]]
+version = "2.16.1"
+backend = "aqua:jdx/usage"
+
+[[tools.uv]]
+version = "0.9.28"
+backend = "aqua:astral-sh/uv"
+
+[[tools.zig]]
+version = "0.15.2"
+backend = "core:zig"

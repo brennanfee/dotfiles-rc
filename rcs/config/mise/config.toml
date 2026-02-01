@@ -1,4 +1,5 @@
 [settings]
+lockfile = true
 cargo.binstall = true
 node.compile = false
 node.gpg_verify = true
@@ -7,24 +8,23 @@ pipx.uvx = true
 python.default_packages_file = "~/.config/mise/default-python-packages"
 python.uv_venv_auto = true
 experimental = true
-# disable_backends = ["asdf"]
+disable_backends = ["asdf"]
 idiomatic_version_file_enable_tools = ["python"]
 
 [tool_alias]
-cmake = "vfox:cmake"
-kotlin = "vfox:kotlin"
 php = "vfox:php"
 
 [tool_alias.node.versions]
-lts = "22"
+lts = "24"
+lts-krypton = "24"
 lts-jod = "22"
 lts-iron = "20"
 lts-hydrogen = "18"
-rolling = "24"
+rolling = "25"
 
 [tool_alias.java.versions]
-lts = "corretto-21"
-rolling = "corretto-24"
+lts = "corretto-25"
+rolling = "corretto-25"
 
 [tools]
 # Pre-reqs
@@ -49,7 +49,6 @@ fzf = "latest"
 glab = "latest"
 go = "latest"
 java = "lts"
-# julia = "latest"
 just = "latest"
 kotlin = "latest"
 lazygit = "latest"
@@ -88,4 +87,4 @@ zig = "latest"
 "npm:stylelint-prettier" = "latest"
 "npm:typescript" = "latest"
 "npm:wsl-open" = "latest"
-"ubi:tectonic-typesetting/tectonic" = { version = "tectonic@0.15.0", exe = "tectonic" }
+"github:tectonic-typesetting/tectonic" = { version = "tectonic@0.15.0", exe = "tectonic" }
