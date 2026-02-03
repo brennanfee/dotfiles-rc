@@ -1,6 +1,7 @@
 [[tools.aws-cli]]
-version = "2.33.12"
+version = "2.33.13"
 backend = "aqua:aws/aws-cli"
+"platforms.linux-x64" = { checksum = "blake3:ac14bfedbfe89c2b5fe545a909198dff7c27cd2609ded8f2c4cde0b36dd7294b", url = "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.33.13.zip"}
 
 [[tools.bat]]
 version = "0.26.1"
@@ -39,8 +40,9 @@ version = "4.2.3"
 backend = "asdf:cmake"
 
 [[tools.coreutils]]
-version = "0.5.0"
+version = "0.6.0"
 backend = "aqua:uutils/coreutils"
+"platforms.linux-x64" = { checksum = "sha256:6ddc463115e501a3edd368af601be9b32613f1af3b910e63679b7b273882b304", url = "https://github.com/uutils/coreutils/releases/download/0.6.0/coreutils-0.6.0-x86_64-unknown-linux-musl.tar.gz"}
 
 [[tools.cosign]]
 version = "3.0.4"
@@ -51,8 +53,9 @@ version = "0.18.2"
 backend = "aqua:dandavison/delta"
 
 [[tools.deno]]
-version = "2.6.7"
+version = "2.6.8"
 backend = "core:deno"
+"platforms.linux-x64" = { checksum = "blake3:06edb913692efbd6855904835f98083b87482a16aa66c56f912842bf934b208e"}
 
 [[tools.dotnet]]
 version = "10.0.102"
@@ -77,6 +80,7 @@ backend = "github:tectonic-typesetting/tectonic"
 [[tools.glab]]
 version = "1.82.0"
 backend = "gitlab:gitlab-org/cli"
+"platforms.linux-x64" = { checksum = "sha256:6589bd77e3042b728f0918090eb95ae63f8e9993ddd5db64bdb2a04e2c38ade6", url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.82.0/downloads/glab_1.82.0_linux_amd64.tar.gz", url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E82%2E0/glab_1%2E82%2E0_linux_amd64%2Etar%2Egz"}
 
 [[tools.go]]
 version = "1.25.6"
@@ -111,11 +115,11 @@ version = "24.13.0"
 backend = "core:node"
 
 [[tools."npm:@commitlint/cli"]]
-version = "20.4.0"
+version = "20.4.1"
 backend = "npm:@commitlint/cli"
 
 [[tools."npm:@commitlint/config-conventional"]]
-version = "20.4.0"
+version = "20.4.1"
 backend = "npm:@commitlint/config-conventional"
 
 [[tools."npm:@mermaid-js/mermaid-cli"]]
@@ -233,3 +237,4 @@ backend = "aqua:astral-sh/uv"
 [[tools.zig]]
 version = "0.15.2"
 backend = "core:zig"
+"platforms.linux-x64" = { checksum = "blake3:c137e52a362c093079c75ce5aed422cf6e080d8cb167790436d791e2ceea4091"}
