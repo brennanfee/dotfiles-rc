@@ -283,7 +283,7 @@ function updateUv() {
     uv tool upgrade --all
 
     # Prune the cache
-    uv cache prune
+    uv cache prune --force
   fi
 }
 
