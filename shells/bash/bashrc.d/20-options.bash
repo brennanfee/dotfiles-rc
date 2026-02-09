@@ -34,6 +34,8 @@ set -o noclobber
 shopt -s extglob
 # Resolve filenames that start with . for globbing
 shopt -s dotglob
+# Fail if globbing doesn't find any files
+shopt -s failglob
 # Use case-insensitive filename globbing
 shopt -s nocaseglob
 # Turn on globstar ** and nullglob
