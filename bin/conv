@@ -404,7 +404,9 @@ function _stripMetadata() {
     _stripMetadataFromFile "$1"
   else
     print_blue "Checking file: $1"
-    if mediainfo "$1" | grep -q -i "movie name\|title"; then
+    local has_metadata
+    has_metadata=$(ffprobe -v error -show_entries 'format_tags=title' -of csv=s=x:p=0 "$1")
+    if [[ -n "$has_metadata" ]]; then
       _stripMetadataFromFile "$1"
     else
       print_yellow "Skipping '$1', no metadata."
@@ -499,7 +501,10 @@ function extractSubtitles() {
 function _checkFileForAudio() {
   local printForPositive="${2:-"false"}"
 
-  if mediainfo "$1" | grep -q -i "^audio"; then
+  local audio_count
+  audio_count="$(ffprobe -v error -select_streams a -show_entries stream=index -of compact "$i" | wc -w)"
+
+  if [[ $audio_count -ne 0 ]]; then
     if [[ "${printForPositive}" == "true" ]]; then
       print_green "File '$1' has audio."
     fi
