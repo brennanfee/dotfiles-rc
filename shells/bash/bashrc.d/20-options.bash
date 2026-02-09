@@ -36,8 +36,9 @@ shopt -s extglob
 shopt -s dotglob
 # Use case-insensitive filename globbing
 shopt -s nocaseglob
-# Turn on globstar **
+# Turn on globstar ** and nullglob
 shopt -s globstar
+shopt -s nullglob
 
 # When changing directory small typos can be ignored by bash
 # for example, cd /vr/lgo/apaache would find /var/log/apache
