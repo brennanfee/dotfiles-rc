@@ -405,7 +405,7 @@ function _stripMetadata() {
   else
     print_blue "Checking file: $1"
     local has_metadata
-    has_metadata=$(ffprobe -v error -show_entries 'format_tags=title' -of csv=s=x:p=0 "$1")
+    has_metadata=$(ffprobe -v fatal -show_entries 'format_tags=title' -of csv=s=x:p=0 "$1")
     if [[ -n "$has_metadata" ]]; then
       _stripMetadataFromFile "$1"
     else
@@ -563,7 +563,7 @@ function _checkFileForAudio() {
   local printForPositive="${2:-"false"}"
 
   local audio_count
-  audio_count="$(ffprobe -v error -select_streams a -show_entries stream=index -of compact "$i" | wc -w)"
+  audio_count="$(ffprobe -v fatal -select_streams a -show_entries stream=index -of compact "$i" | wc -w)"
 
   if [[ $audio_count -ne 0 ]]; then
     if [[ "${printForPositive}" == "true" ]]; then
