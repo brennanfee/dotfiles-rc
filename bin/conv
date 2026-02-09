@@ -175,7 +175,7 @@ function setup_script_vars() {
   g_recursive="false"
   g_pipe="false"
   g_sub_commands=("conv-mkv" "conv-gif" "strip-meta" "extract-subs" "list-noaudio"
-    "rename-fixperiods")
+    "rename-fixperiods" "fix-faststart")
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
@@ -444,6 +444,67 @@ function stripMetadata() {
   fi
 }
 
+function _updateFileForFaststart() {
+  print_blue "Remuxing file for faststart: '$1'"
+
+  local tempFile="fixed-${1##*/}"
+  get_exit_code ffmpeg -i "$1" -map 0 -c:v copy -c:a copy -c:s copy -c:d copy -c:t copy -movflags \
+    +faststart "${tempFile}"
+
+  if [[ ${EXIT_CODE} -eq 0 ]]; then
+    rm "${1}"
+    mv "${tempFile}" "${1}"
+    print_green "File setup for faststart: '$1'"
+  else
+    rm "${tempFile}"
+    print_red "Failed to remux file for faststart: '$1'"
+  fi
+}
+
+function _fixFaststart() {
+  print_blue "Checking file: $1"
+  local first_line
+  # set +o pipefail
+  first_line=$(ffmpeg -v trace -i "$1" 2>&1 | grep -e type:\'mdat\' -e type:\'moov\' | head -n 1 || true)
+  # set -o pipefail
+
+  if ! echo "${first_line}" | grep -q -i 'moov'; then
+    _updateFileForFaststart "$1"
+  else
+    print_yellow "Skipping '$1', already setup for fast start."
+  fi
+}
+
+function fixFaststart() {
+  local fileOrPath file files
+  fileOrPath=$(pwd)
+  if [[ -n "${1:-}" ]]; then
+    fileOrPath="$1"
+  fi
+
+  if [[ -d "${fileOrPath}" ]]; then
+    if [[ "${g_recursive}" == "true" ]]; then
+      files=("${fileOrPath}"/*.mp4 "${fileOrPath}"/**/*.mp4)
+    else
+      files=("${fileOrPath}"/*.mp4)
+    fi
+
+    for file in "${files[@]}"; do
+      if [[ ! "${file}" == *"*"* ]]; then
+        _fixFaststart "${file}"
+      fi
+    done
+
+    print_blue "Finished fixing fast start for files."
+  else
+    if [[ -f "${fileOrPath}" ]]; then
+      _fixFaststart "${fileOrPath}"
+    else
+      throw_error_msg "Value given is not a file or a directory: '${fileOrPath}'"
+    fi
+  fi
+}
+
 function _extractSubtitles() {
   local file="$1"
   local subtitleNumber="$2"
@@ -615,6 +676,9 @@ function main() {
     ;;
   "conv-gif")
     convertGifToMp4 "$@"
+    ;;
+  "fix-faststart")
+    fixFaststart "$@"
     ;;
   *)
     throw_error_msg "Unknown ${g_script_name} command: '${sub_command}'"
