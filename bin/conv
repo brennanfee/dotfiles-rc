@@ -30,7 +30,7 @@ unset sourced
 
 function initialize() {
   g_script_name=$(basename "${BASH_SOURCE[0]}")
-  g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
+  # g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   g_short_options=""
   g_long_options=""
@@ -175,7 +175,7 @@ function setup_script_vars() {
   g_recursive="false"
   g_pipe="false"
   g_sub_commands=("conv-mkv" "conv-gif" "strip-meta" "extract-subs" "list-noaudio"
-    "rename-fixperiods" "fix-faststart")
+    "rename-fixperiods" "fix-faststart" "rename-onlynumbers")
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
@@ -263,34 +263,6 @@ function verify_command() {
   fi
 }
 
-function _print() {
-  local color="$1"
-  local msg="$2"
-
-  if [[ ! "${g_pipe}" == "true" ]]; then
-    case "${color}" in
-    "green")
-      print_green "${msg}"
-      ;;
-    "normal")
-      print_normal "${msg}"
-      ;;
-    "yellow")
-      print_yellow "${msg}"
-      ;;
-    "blue")
-      print_blue "${msg}"
-      ;;
-    "red")
-      print_red "${msg}"
-      ;;
-    *)
-      throw_error_msg "Internal error. Unknown color: '${color}'"
-      ;;
-    esac
-  fi
-}
-
 function _convertMkvFileToMp4() {
   print_blue "Converting file: $1"
 
@@ -308,7 +280,7 @@ function _convertMkvFileToMp4() {
 }
 
 function convertMkvToMp4() {
-  local fileOrPath file files
+  local fileOrPath file
   fileOrPath=$(pwd)
   if [[ -n "${1:-}" ]]; then
     fileOrPath="$1"
@@ -316,7 +288,6 @@ function convertMkvToMp4() {
 
   if [[ -d "${fileOrPath}" ]]; then
     local mask="*.mkv"
-    local file
     if [[ "${g_recursive}" == "true" ]]; then
       while IFS='' read -r -d '' file; do
         _convertMkvFileToMp4 "${file}"
@@ -353,7 +324,7 @@ function _convertGifFileToMp4() {
 }
 
 function convertGifToMp4() {
-  local fileOrPath file files
+  local fileOrPath file
   fileOrPath=$(pwd)
   if [[ -n "${1:-}" ]]; then
     fileOrPath="$1"
@@ -361,7 +332,6 @@ function convertGifToMp4() {
 
   if [[ -d "${fileOrPath}" ]]; then
     local mask="*.gif"
-    local file
     if [[ "${g_recursive}" == "true" ]]; then
       while IFS='' read -r -d '' file; do
         _convertGifFileToMp4 "${file}"
@@ -415,7 +385,7 @@ function _stripMetadata() {
 }
 
 function stripMetadata() {
-  local fileOrPath file files
+  local fileOrPath file
   fileOrPath=$(pwd)
   if [[ -n "${1:-}" ]]; then
     fileOrPath="$1"
@@ -423,7 +393,6 @@ function stripMetadata() {
 
   if [[ -d "${fileOrPath}" ]]; then
     local mask="*.mp4"
-    local file
     if [[ "${g_recursive}" == "true" ]]; then
       while IFS='' read -r -d '' file; do
         _stripMetadata "${file}"
@@ -476,7 +445,7 @@ function _fixFaststart() {
 }
 
 function fixFaststart() {
-  local fileOrPath file files
+  local fileOrPath file
   fileOrPath=$(pwd)
   if [[ -n "${1:-}" ]]; then
     fileOrPath="$1"
@@ -525,7 +494,7 @@ function _extractSubtitles() {
 }
 
 function extractSubtitles() {
-  local fileOrPath file files
+  local fileOrPath file
   local subtitleNumber=0
   if [[ -n "${1:-}" ]]; then
     subtitleNumber="$1"
@@ -538,7 +507,6 @@ function extractSubtitles() {
 
   if [[ -d "${fileOrPath}" ]]; then
     local mask="*.{mkv,mp4}"
-    local file
     if [[ "${g_recursive}" == "true" ]]; then
       while IFS='' read -r -d '' file; do
         _extractSubtitles "${file}" "${subtitleNumber}"
@@ -579,17 +547,16 @@ function _checkFileForAudio() {
 }
 
 function listVideosWithNoAudio() {
-  local fileOrPath file files
+  local fileOrPath file
   fileOrPath=$(pwd)
   if [[ -n "${1:-}" ]]; then
     fileOrPath="$1"
   fi
 
   if [[ -d "${fileOrPath}" ]]; then
-    _print "blue" "Searching for videos with no audio."
+    print_blue "Searching for videos with no audio."
 
     local mask="*.mp4"
-    local file
     if [[ "${g_recursive}" == "true" ]]; then
       while IFS='' read -r -d '' file; do
         _checkFileForAudio "${file}"
@@ -600,7 +567,7 @@ function listVideosWithNoAudio() {
       done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
     fi
 
-    _print "blue" "Finished searching for videos with no audio."
+    print_blue "Finished searching for videos with no audio."
   else
     if [[ -f "${fileOrPath}" ]]; then
       _checkFileForAudio "${file}" "true"
@@ -611,11 +578,16 @@ function listVideosWithNoAudio() {
 }
 
 function _renameFileFixPeriods() {
-  rename --nopath -f 's/\.(?![^.]+$)/ /g' "$1"
+  print_blue "Stripping periods in file: '${1}'"
+  local extension="${1##*.}"
+  # ignore SRT files
+  if [[ "${extension}" != "srt" ]]; then
+    rename --nopath -f -e 's/\.(?![^.]+$)/ /g' "$1"
+  fi
 }
 
 function renameFixPeriods() {
-  local fileOrMask path file files
+  local fileOrMask path file
   fileOrMask="*"
   if [[ -n "${1:-}" ]]; then
     fileOrMask="$1"
@@ -631,7 +603,6 @@ function renameFixPeriods() {
   else
     print_blue "Renaming files..."
 
-    local file
     if [[ "${g_recursive}" == "true" ]]; then
       while IFS='' read -r -d '' file; do
         _renameFileFixPeriods "${file}"
@@ -639,6 +610,53 @@ function renameFixPeriods() {
     else
       while IFS='' read -r -d '' file; do
         _renameFileFixPeriods "${file}"
+      done < <(find "${path}" -maxdepth 1 -type f -iname "${fileOrMask}" -print0)
+    fi
+
+    print_blue "Finished renaming files."
+  fi
+}
+
+function _renameOnlyNumbers() {
+  print_blue "Renaming file: '${2}'"
+  local extension="${2##*.}"
+  # ignore SRT files
+  if [[ "${extension}" != "srt" ]]; then
+    # shellcheck disable=2016
+    local regex='s/.*[Ss](\d\d)[Ee](\d\d)[^.]*\.(.*)$/'"$1"' s$1e$2\.$3/'
+    rename --nopath -f -e "${regex}" "$2"
+  fi
+}
+
+function renameOnlyNumbers() {
+  local showTitle fileOrMask path file
+  if [[ -z "${1:-}" ]]; then
+    throw_error_msg "You must provide a show title"
+  fi
+  showTitle="${1}"
+
+  fileOrMask="*"
+  if [[ -n "${2:-}" ]]; then
+    fileOrMask="$2"
+  fi
+
+  path="$(pwd)"
+  if [[ -n "${3:-}" ]]; then
+    path="$3"
+  fi
+
+  if [[ -f "${fileOrMask}" ]]; then
+    _renameOnlyNumbers "${showTitle}" "${fileOrMask}"
+  else
+    print_blue "Renaming files..."
+
+    if [[ "${g_recursive}" == "true" ]]; then
+      while IFS='' read -r -d '' file; do
+        _renameOnlyNumbers "${showTitle}" "${file}"
+      done < <(find "${path}" -type f -iname "${fileOrMask}" -print0)
+    else
+      while IFS='' read -r -d '' file; do
+        _renameOnlyNumbers "${showTitle}" "${file}"
       done < <(find "${path}" -maxdepth 1 -type f -iname "${fileOrMask}" -print0)
     fi
 
@@ -678,6 +696,10 @@ function main() {
     ;;
   "fix-faststart")
     fixFaststart "$@"
+    ;;
+  "rename-onlynumbers")
+    renameFixPeriods "${2:-}" "${3:-}"
+    renameOnlyNumbers "$@"
     ;;
   *)
     throw_error_msg "Unknown ${g_script_name} command: '${sub_command}'"
