@@ -343,13 +343,21 @@ function convertGifToMp4() {
   if [[ -d "${fileOrPath}" ]]; then
     local mask="*.gif"
     if [[ "${g_recursive}" == "true" ]]; then
-      while IFS= read -r -d '' file; do
+      shopt -s globstar nullglob
+      for file in "${fileOrPath}"/**/*.gif; do
         _convertGifFileToMp4 "${file}"
-      done < <(find "${fileOrPath}" -type f -iname "${mask}" -print0)
+      done
+      # while IFS= read -r -d '' file; do
+      #   _convertGifFileToMp4 "${file}"
+      # done < <(find "${fileOrPath}" -type f -iname "${mask}" -print0)
     else
-      while IFS= read -r -d '' file; do
+      shopt -s nullglob
+      for file in "${fileOrPath}"/*.gif; do
         _convertGifFileToMp4 "${file}"
-      done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
+      done
+      # while IFS= read -r -d '' file; do
+      #   _convertGifFileToMp4 "${file}"
+      # done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
     fi
 
     print_blue "Finished converting gif's to mp4's."
@@ -404,13 +412,21 @@ function stripMetadata() {
   if [[ -d "${fileOrPath}" ]]; then
     local mask="*.mp4"
     if [[ "${g_recursive}" == "true" ]]; then
-      while IFS='' read -r -d '' file; do
+      shopt -s globstar nullglob
+      for file in "${fileOrPath}"/**/*.mp4; do
         _stripMetadata "${file}"
-      done < <(find "${fileOrPath}" -type f -iname "${mask}" -print0)
+      done
+      # while IFS='' read -r -d '' file; do
+      #   _stripMetadata "${file}"
+      # done < <(find "${fileOrPath}" -type f -iname "${mask}" -print0)
     else
-      while IFS='' read -r -d '' file; do
+      shopt -s nullglob
+      for file in "${fileOrPath}"/*.mp4; do
         _stripMetadata "${file}"
-      done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
+      done
+      # while IFS='' read -r -d '' file; do
+      #   _stripMetadata "${file}"
+      # done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
     fi
 
     print_blue "Finished stripping metadata from files."
@@ -465,13 +481,21 @@ function fixFaststart() {
     local mask="*.mp4"
     local file
     if [[ "${g_recursive}" == "true" ]]; then
-      while IFS='' read -r -d '' file; do
+      shopt -s globstar nullglob
+      for file in "${fileOrPath}"/**/*.mp4; do
         _fixFaststart "${file}"
-      done < <(find "${fileOrPath}" -type f -iname "${mask}" -print0)
+      done
+      # while IFS='' read -r -d '' file; do
+      #   _fixFaststart "${file}"
+      # done < <(find "${fileOrPath}" -type f -iname "${mask}" -print0)
     else
-      while IFS='' read -r -d '' file; do
+      shopt -s nullglob
+      for file in "${fileOrPath}"/*.mp4; do
         _fixFaststart "${file}"
-      done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
+      done
+      # while IFS='' read -r -d '' file; do
+      #   _fixFaststart "${file}"
+      # done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
     fi
 
     print_blue "Finished fixing fast start for files."
@@ -518,13 +542,21 @@ function extractSubtitles() {
   if [[ -d "${fileOrPath}" ]]; then
     local mask="*.{mkv,mp4}"
     if [[ "${g_recursive}" == "true" ]]; then
-      while IFS='' read -r -d '' file; do
+      shopt -s globstar nullglob
+      for file in "${fileOrPath}"/**/*.{mkv,mp4}; do
         _extractSubtitles "${file}" "${subtitleNumber}"
-      done < <(find "${fileOrPath}" -type f -iname "${mask}" -print0)
+      done
+      # while IFS='' read -r -d '' file; do
+      #   _extractSubtitles "${file}" "${subtitleNumber}"
+      # done < <(find "${fileOrPath}" -type f -iname "${mask}" -print0)
     else
-      while IFS='' read -r -d '' file; do
+      shopt -s nullglob
+      for file in "${fileOrPath}"/*.{mkv,mp4}; do
         _extractSubtitles "${file}" "${subtitleNumber}"
-      done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
+      done
+      # while IFS='' read -r -d '' file; do
+      #   _extractSubtitles "${file}" "${subtitleNumber}"
+      # done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
     fi
 
     print_blue "Finished extracting subtitles from files."
@@ -568,13 +600,21 @@ function listVideosWithNoAudio() {
 
     local mask="*.mp4"
     if [[ "${g_recursive}" == "true" ]]; then
-      while IFS='' read -r -d '' file; do
+      shopt -s globstar nullglob
+      for file in "${fileOrPath}"/**/*.mp4; do
         _checkFileForAudio "${file}"
-      done < <(find "${fileOrPath}" -type f -iname "${mask}" -print0)
+      done
+      # while IFS='' read -r -d '' file; do
+      #   _checkFileForAudio "${file}"
+      # done < <(find "${fileOrPath}" -type f -iname "${mask}" -print0)
     else
-      while IFS='' read -r -d '' file; do
+      shopt -s nullglob
+      for file in "${fileOrPath}"/*.mp4; do
         _checkFileForAudio "${file}"
-      done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
+      done
+      # while IFS='' read -r -d '' file; do
+      #   _checkFileForAudio "${file}"
+      # done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
     fi
 
     print_blue "Finished searching for videos with no audio."
