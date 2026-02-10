@@ -268,8 +268,10 @@ function _convertMkvFileToMp4() {
 
   local new_file="${1%.*}.mp4"
 
-  get_exit_code ffmpeg -i "$1" -map_metadata -1 -codec copy -movflags +faststart \
-    "${new_file}"
+  print_yellow "Old File: '$1'"
+  print_yellow "New File: '${new_file}'"
+
+  get_exit_code ffmpeg -i "$1" -map_metadata -1 -codec copy -movflags +faststart "${new_file}"
 
   if [[ ${EXIT_CODE} -eq 0 ]]; then
     rm "${1}"
@@ -289,13 +291,21 @@ function convertMkvToMp4() {
   if [[ -d "${fileOrPath}" ]]; then
     local mask="*.mkv"
     if [[ "${g_recursive}" == "true" ]]; then
-      while IFS='' read -r -d '' file; do
+      # while IFS= read -r -d '' file; do
+      #   _convertMkvFileToMp4 "${file}"
+      # done < <(find "${fileOrPath}" -type f -iname "${mask}" -print0)
+      shopt -s globstar nullglob
+      for file in "${fileOrPath}"/**/*.mkv; do
         _convertMkvFileToMp4 "${file}"
-      done < <(find "${fileOrPath}" -type f -iname "${mask}" -print0)
+      done
     else
-      while IFS='' read -r -d '' file; do
+      # while IFS= read -r -d '' file; do
+      #   _convertMkvFileToMp4 "${file}"
+      # done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
+      shopt -s nullglob
+      for file in "${fileOrPath}"/*.mkv; do
         _convertMkvFileToMp4 "${file}"
-      done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
+      done
     fi
 
     print_blue "Finished converting mkv's to mp4's."
@@ -333,11 +343,11 @@ function convertGifToMp4() {
   if [[ -d "${fileOrPath}" ]]; then
     local mask="*.gif"
     if [[ "${g_recursive}" == "true" ]]; then
-      while IFS='' read -r -d '' file; do
+      while IFS= read -r -d '' file; do
         _convertGifFileToMp4 "${file}"
       done < <(find "${fileOrPath}" -type f -iname "${mask}" -print0)
     else
-      while IFS='' read -r -d '' file; do
+      while IFS= read -r -d '' file; do
         _convertGifFileToMp4 "${file}"
       done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
     fi
@@ -645,6 +655,8 @@ function renameOnlyNumbers() {
     path="$3"
   fi
 
+  renameFixPeriods "${fileOrMask}" "${path}"
+
   if [[ -f "${fileOrMask}" ]]; then
     _renameOnlyNumbers "${showTitle}" "${fileOrMask}"
   else
@@ -698,7 +710,6 @@ function main() {
     fixFaststart "$@"
     ;;
   "rename-onlynumbers")
-    renameFixPeriods "${2:-}" "${3:-}"
     renameOnlyNumbers "$@"
     ;;
   *)
