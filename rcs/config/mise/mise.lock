@@ -1,15 +1,16 @@
 [[tools.aws-cli]]
-version = "2.33.13"
+version = "2.33.16"
 backend = "aqua:aws/aws-cli"
-"platforms.linux-x64" = { checksum = "blake3:ac14bfedbfe89c2b5fe545a909198dff7c27cd2609ded8f2c4cde0b36dd7294b", url = "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.33.13.zip"}
+"platforms.linux-x64" = { checksum = "blake3:08027606f2a95a65e7c47ad63b2f5925fc92406b7ec18a6fe2a129149b9a6c3e", url = "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.33.16.zip"}
 
 [[tools.bat]]
 version = "0.26.1"
 backend = "aqua:sharkdp/bat"
 
 [[tools.bitwarden]]
-version = "2025.12.1"
+version = "2026.1.0"
 backend = "aqua:bitwarden/clients"
+"platforms.linux-x64" = { checksum = "sha256:1d7b44c94b17a0a6c1264ba529f94b8b50fe059ab08d20aa5a5cbfdd25084aab", url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.1.0/bw-linux-2026.1.0.zip"}
 
 [[tools.bottom]]
 version = "0.12.3"
@@ -83,8 +84,9 @@ backend = "gitlab:gitlab-org/cli"
 "platforms.linux-x64" = { checksum = "sha256:6589bd77e3042b728f0918090eb95ae63f8e9993ddd5db64bdb2a04e2c38ade6", url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.82.0/downloads/glab_1.82.0_linux_amd64.tar.gz", url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E82%2E0/glab_1%2E82%2E0_linux_amd64%2Etar%2Egz"}
 
 [[tools.go]]
-version = "1.25.6"
+version = "1.25.7"
 backend = "core:go"
+"platforms.linux-x64" = { checksum = "sha256:12e6d6a191091ae27dc31f6efc630e3a3b8ba409baf3573d955b196fdf086005", url = "https://dl.google.com/go/go1.25.7.linux-amd64.tar.gz"}
 
 [[tools."go:github.com/boyter/scc"]]
 version = "2.12.0+incompatible"
@@ -99,7 +101,7 @@ version = "1.46.0"
 backend = "aqua:casey/just"
 
 [[tools.kotlin]]
-version = "2.3.0"
+version = "2.3.10"
 backend = "asdf:kotlin"
 
 [[tools.lazygit]]
@@ -127,7 +129,7 @@ version = "11.12.0"
 backend = "npm:@mermaid-js/mermaid-cli"
 
 [[tools."npm:aws-cdk"]]
-version = "2.1104.0"
+version = "2.1105.0"
 backend = "npm:aws-cdk"
 
 [[tools."npm:commitlint-format-json"]]
@@ -155,7 +157,7 @@ version = "3.8.1"
 backend = "npm:prettier"
 
 [[tools."npm:stylelint"]]
-version = "17.1.0"
+version = "17.1.1"
 backend = "npm:stylelint"
 
 [[tools."npm:stylelint-prettier"]]
@@ -179,15 +181,16 @@ version = "1.11.4"
 backend = "aqua:opentofu/opentofu"
 
 [[tools.packer]]
-version = "1.14.3"
+version = "1.15.0"
 backend = "aqua:hashicorp/packer"
+"platforms.linux-x64" = { checksum = "sha256:2fd1149c5c6c7604ced64d7b56638af05f6b7ed3f6835182bc913ddaba1f16b8", url = "https://releases.hashicorp.com/packer/1.15.0/packer_1.15.0_linux_amd64.zip"}
 
 [[tools.php]]
 version = "8.5.2"
 backend = "vfox:php"
 
 [[tools.python]]
-version = "3.14.2"
+version = "3.14.3"
 backend = "core:python"
 
 [[tools.ripgrep]]
@@ -231,8 +234,9 @@ version = "2.16.1"
 backend = "aqua:jdx/usage"
 
 [[tools.uv]]
-version = "0.9.28"
+version = "0.10.0"
 backend = "aqua:astral-sh/uv"
+"platforms.linux-x64" = { checksum = "sha256:312d37f31b6f2c3bfc65668ba0efea9f1f9eaf7bc3209fe1a109e5cf861b95fa", url = "https://github.com/astral-sh/uv/releases/download/0.10.0/uv-x86_64-unknown-linux-musl.tar.gz"}
 
 [[tools.zig]]
 version = "0.15.2"
