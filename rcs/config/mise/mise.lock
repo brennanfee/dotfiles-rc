@@ -1,7 +1,7 @@
 [[tools.aws-cli]]
-version = "2.33.16"
+version = "2.33.22"
 backend = "aqua:aws/aws-cli"
-"platforms.linux-x64" = { checksum = "blake3:08027606f2a95a65e7c47ad63b2f5925fc92406b7ec18a6fe2a129149b9a6c3e", url = "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.33.16.zip"}
+"platforms.linux-x64" = { checksum = "blake3:d588dbb93845d8981e97c9d4516141ecc3affa429b97dbd24dfac140a05f68e4", url = "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.33.22.zip"}
 
 [[tools.bat]]
 version = "0.26.1"
@@ -17,12 +17,14 @@ version = "0.12.3"
 backend = "aqua:ClementTsang/bottom"
 
 [[tools.bun]]
-version = "1.3.8"
+version = "1.3.9"
 backend = "core:bun"
+"platforms.linux-x64" = { checksum = "blake3:b1ef93f3692471e33b5b5ee7052299328b07bd0be8e6d24479978bd33beb9f26"}
 
 [[tools.cargo-binstall]]
-version = "1.17.4"
+version = "1.17.5"
 backend = "aqua:cargo-bins/cargo-binstall"
+"platforms.linux-x64" = { checksum = "sha256:c0f247726165afc445076a9d58cf3795512b6e5787ae469297a39b8c9e30a51f", url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.17.5/cargo-binstall-x86_64-unknown-linux-musl.tgz"}
 
 [[tools."cargo:dysk"]]
 version = "3.6.0"
@@ -54,12 +56,12 @@ version = "0.18.2"
 backend = "aqua:dandavison/delta"
 
 [[tools.deno]]
-version = "2.6.8"
+version = "2.6.9"
 backend = "core:deno"
-"platforms.linux-x64" = { checksum = "blake3:06edb913692efbd6855904835f98083b87482a16aa66c56f912842bf934b208e"}
+"platforms.linux-x64" = { checksum = "blake3:8e0b8cde512c80db41adbd3e0d16e08ca4c89b14a8f20bf1cd0b34020053f121"}
 
 [[tools.dotnet]]
-version = "10.0.102"
+version = "10.0.103"
 backend = "vfox:mise-plugins/vfox-dotnet"
 
 [[tools.eza]]
@@ -79,14 +81,14 @@ version = "tectonic@0.15.0"
 backend = "github:tectonic-typesetting/tectonic"
 
 [[tools.glab]]
-version = "1.82.0"
+version = "1.85.1"
 backend = "gitlab:gitlab-org/cli"
-"platforms.linux-x64" = { checksum = "sha256:6589bd77e3042b728f0918090eb95ae63f8e9993ddd5db64bdb2a04e2c38ade6", url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.82.0/downloads/glab_1.82.0_linux_amd64.tar.gz", url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E82%2E0/glab_1%2E82%2E0_linux_amd64%2Etar%2Egz"}
+"platforms.linux-x64" = { checksum = "sha256:9190fbdb09a93fa500004710b1c541482490e6e2498a5ed8d3b8a7a1b1c3d387", url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.85.1/downloads/glab_1.85.1_linux_amd64.tar.gz", url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E85%2E1/glab_1%2E85%2E1_linux_amd64%2Etar%2Egz"}
 
 [[tools.go]]
-version = "1.25.7"
+version = "1.26.0"
 backend = "core:go"
-"platforms.linux-x64" = { checksum = "sha256:12e6d6a191091ae27dc31f6efc630e3a3b8ba409baf3573d955b196fdf086005", url = "https://dl.google.com/go/go1.25.7.linux-amd64.tar.gz"}
+"platforms.linux-x64" = { checksum = "sha256:aac1b08a0fb0c4e0a7c1555beb7b59180b05dfc5a3d62e40e9de90cd42f88235", url = "https://dl.google.com/go/go1.26.0.linux-amd64.tar.gz"}
 
 [[tools."go:github.com/boyter/scc"]]
 version = "2.12.0+incompatible"
@@ -105,15 +107,16 @@ version = "2.3.10"
 backend = "asdf:kotlin"
 
 [[tools.lazygit]]
-version = "0.58.1"
+version = "0.59.0"
 backend = "aqua:jesseduffield/lazygit"
+"platforms.linux-x64" = { checksum = "sha256:264283f40a40c899d702a338b20622f690221f753f03bac827c1f34e91f516c2", url = "https://github.com/jesseduffield/lazygit/releases/download/v0.59.0/lazygit_0.59.0_linux_x86_64.tar.gz"}
 
 [[tools.neovim]]
 version = "0.11.6"
 backend = "vfox:mise-plugins/vfox-neovim"
 
 [[tools.node]]
-version = "24.13.0"
+version = "24.13.1"
 backend = "core:node"
 
 [[tools."npm:@commitlint/cli"]]
@@ -129,7 +132,7 @@ version = "11.12.0"
 backend = "npm:@mermaid-js/mermaid-cli"
 
 [[tools."npm:aws-cdk"]]
-version = "2.1105.0"
+version = "2.1106.0"
 backend = "npm:aws-cdk"
 
 [[tools."npm:commitlint-format-json"]]
@@ -137,7 +140,7 @@ version = "1.1.0"
 backend = "npm:commitlint-format-json"
 
 [[tools."npm:eslint"]]
-version = "9.39.2"
+version = "10.0.0"
 backend = "npm:eslint"
 
 [[tools."npm:eslint-config-prettier"]]
@@ -157,7 +160,7 @@ version = "3.8.1"
 backend = "npm:prettier"
 
 [[tools."npm:stylelint"]]
-version = "17.1.1"
+version = "17.3.0"
 backend = "npm:stylelint"
 
 [[tools."npm:stylelint-prettier"]]
@@ -175,10 +178,12 @@ backend = "npm:wsl-open"
 [[tools.openbao]]
 version = "2.4.4"
 backend = "github:openbao/openbao"
+"platforms.linux-x64" = { checksum = "sha256:7fc35912f5c4048b4a2a587e326828f4a01f5eae8c609c97e77e5fead194c920", url = "https://github.com/openbao/openbao/releases/download/v2.4.4/bao-hsm_2.4.4_linux_amd64.pkg.tar.zst", url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/320365318"}
 
 [[tools.opentofu]]
-version = "1.11.4"
+version = "1.11.5"
 backend = "aqua:opentofu/opentofu"
+"platforms.linux-x64" = { checksum = "sha256:e73868ab8abaca15d3c974dcf6a5e878860d6f2212867433aa3d8f2b43a492d9", url = "https://github.com/opentofu/opentofu/releases/download/v1.11.5/tofu_1.11.5_linux_amd64.tar.gz"}
 
 [[tools.packer]]
 version = "1.15.0"
@@ -202,7 +207,7 @@ version = "4.0.1"
 backend = "core:ruby"
 
 [[tools.rust]]
-version = "1.93.0"
+version = "1.93.1"
 backend = "core:rust"
 
 [[tools.sops]]
@@ -214,8 +219,9 @@ version = "1.24.2"
 backend = "aqua:starship/starship"
 
 [[tools.terraform]]
-version = "1.14.4"
+version = "1.14.5"
 backend = "aqua:hashicorp/terraform"
+"platforms.linux-x64" = { checksum = "sha256:ac21c2b9dcd115711f540cbd27ead0596bb4288a917cb56dfa9b25edb3eb6280", url = "https://releases.hashicorp.com/terraform/1.14.5/terraform_1.14.5_linux_amd64.zip"}
 
 [[tools.tmux]]
 version = "3.6a"
@@ -230,13 +236,14 @@ version = "0.14.2"
 backend = "aqua:typst/typst"
 
 [[tools.usage]]
-version = "2.16.1"
+version = "2.16.2"
 backend = "aqua:jdx/usage"
+"platforms.linux-x64" = { checksum = "sha256:517020bfde6d29a9c7b1fd9096ea62a3394e4763f1c4cb880522c58205aa20c6", url = "https://github.com/jdx/usage/releases/download/v2.16.2/usage-x86_64-unknown-linux-musl.tar.gz"}
 
 [[tools.uv]]
-version = "0.10.0"
+version = "0.10.2"
 backend = "aqua:astral-sh/uv"
-"platforms.linux-x64" = { checksum = "sha256:312d37f31b6f2c3bfc65668ba0efea9f1f9eaf7bc3209fe1a109e5cf861b95fa", url = "https://github.com/astral-sh/uv/releases/download/0.10.0/uv-x86_64-unknown-linux-musl.tar.gz"}
+"platforms.linux-x64" = { checksum = "sha256:c162182ba7dd692794362d76dd183990d6e51553217954106da19bdb6ced211b", url = "https://github.com/astral-sh/uv/releases/download/0.10.2/uv-x86_64-unknown-linux-musl.tar.gz"}
 
 [[tools.zig]]
 version = "0.15.2"

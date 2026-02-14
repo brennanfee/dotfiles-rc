@@ -8,7 +8,7 @@ pipx.uvx = true
 python.default_packages_file = "~/.config/mise/default-python-packages"
 python.uv_venv_auto = true
 experimental = true
-disable_backends = ["asdf"]
+disable_backends = ["asdf","ubi"]
 idiomatic_version_file_enable_tools = ["python"]
 
 [tool_alias]
