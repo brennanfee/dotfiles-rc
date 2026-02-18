@@ -170,8 +170,8 @@ function setup_script_vars() {
   # Must be set here
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
-  g_script_version="0.6"
-  g_script_date="2025-05-04"
+  g_script_version="0.7"
+  g_script_date="2026-02-18"
 
   # Add others here
   g_quiet="false"
@@ -389,6 +389,9 @@ function yt_helper() {
     yt_dlp_params+=("--compat-options" "allow-unsafe-ext")
     yt_dlp_params+=("--ies" "generic,default")
   fi
+
+  # Add referer to all calls
+  yt_dlp_params+=("--referer" "'https://www.google.com'")
 
   #### END Site specific customizations
 
