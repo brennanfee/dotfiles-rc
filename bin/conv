@@ -167,22 +167,27 @@ function setup_script_vars() {
   # Must be set here
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
-  g_script_version="0.1"
-  g_script_date="2024-11-26"
+  g_script_version="0.5"
+  g_script_date="2026-02-14"
+
+  g_current_command=""
 
   # Add others here
   g_force="false"
   g_recursive="false"
   g_pipe="false"
+  g_notify="false"
   g_sub_commands=("conv-mkv" "conv-gif" "strip-meta" "extract-subs" "list-noaudio"
     "rename-fixperiods" "fix-faststart" "rename-onlynumbers")
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
 function cleanup_script_vars() {
+  unset g_current_command
   unset g_force
   unset g_recursive
   unset g_pipe
+  unset g_notify
   unset g_sub_commands
 }
 
@@ -191,8 +196,8 @@ function cleanup_script_vars() {
 ## set_long_options.  They accept a string with syntax that is the same for
 ## the getopt program.  See it's help for more information.
 function setup_options() {
-  set_short_options "frp"
-  set_long_options "force,recursive,pipe"
+  set_short_options "frpn"
+  set_long_options "force,recursive,pipe,notify"
 }
 
 ## Usage: If you added command-line flags or options using setup_options,
@@ -212,6 +217,10 @@ function process_flags() {
       ;;
     '-p' | '--pipe')
       g_pipe="true"
+      shift
+      ;;
+    '-n' | '--notify')
+      g_notify="true"
       shift
       ;;
     '--')
@@ -252,11 +261,32 @@ function print_help() {
   print_out "     Some sub-commands produce a list of files, this option formats the"
   print_out "     list of files suitable for piping through to other output or to a file."
   print_blank_line
+  print_out "  -n or --notify"
+  print_out "     Whether to announce/notify when the process is done."
+  print_blank_line
   print_out "The supported sub-commands are:"
-  print_out "  conv-mkv, strip-meta, extract-subs, list-no-audio, rename-fix-periods"
+  print_out "  conv-mkv, conv-gif, strip-meta, extract-subs, list-noaudio, rename-fixperiods,"
+  print_out "  rename-onlynumbers, fix-faststart"
 }
 
-function verify_command() {
+function _log_file_fail() {
+  local logfile stamp message
+
+  logfile="${HOME}/profile/conv-errors.txt"
+  stamp="$(/usr/bin/date '+%F %I:%M:%S.%N %p')"
+
+  message="Failed Operation: ${g_current_command} - Date: ${stamp} - On File: ${1}"
+
+  echo "${message}" >>"${logfile}"
+}
+
+function _notify() {
+  if [[ "${g_notify}" == "true" ]]; then
+    full_notify "${g_current_command} command run complete."
+  fi
+}
+
+function _verify_command() {
   get_exit_code contains_element "${1}" "${g_sub_commands[@]}"
   if [[ ! ${EXIT_CODE} -eq 0 ]]; then
     throw_error_msg "Unknown ${g_script_name} command: '${sub_command}'"
@@ -264,20 +294,21 @@ function verify_command() {
 }
 
 function _convertMkvFileToMp4() {
-  print_blue "Converting file: $1"
+  print_status "Converting file: $1"
 
   local new_file="${1%.*}.mp4"
 
-  print_yellow "Old File: '$1'"
-  print_yellow "New File: '${new_file}'"
+  print_diag "Old File: '$1'"
+  print_diag "New File: '${new_file}'"
 
   get_exit_code ffmpeg -i "$1" -map_metadata -1 -codec copy -movflags +faststart "${new_file}"
 
   if [[ ${EXIT_CODE} -eq 0 ]]; then
     rm "${1}"
-    print_green "File converted: ${new_file}"
+    print_success "File converted: ${new_file}"
   else
-    print_red "Failed to convert file: $1"
+    _log_file_fail "$1"
+    print_warning "Failed to convert file: $1"
   fi
 }
 
@@ -289,7 +320,9 @@ function convertMkvToMp4() {
   fi
 
   if [[ -d "${fileOrPath}" ]]; then
-    local mask="*.mkv"
+    print_heading "Converting mkv's to mp4's"
+
+    # local mask="*.mkv"
     if [[ "${g_recursive}" == "true" ]]; then
       # while IFS= read -r -d '' file; do
       #   _convertMkvFileToMp4 "${file}"
@@ -308,7 +341,8 @@ function convertMkvToMp4() {
       done
     fi
 
-    print_blue "Finished converting mkv's to mp4's."
+    print_status "Finished converting mkv's to mp4's."
+    _notify
   else
     if [[ -f "${fileOrPath}" ]]; then
       _convertMkvFileToMp4 "${fileOrPath}"
@@ -319,7 +353,7 @@ function convertMkvToMp4() {
 }
 
 function _convertGifFileToMp4() {
-  print_blue "Converting file: $1"
+  print_status "Converting file: $1"
 
   local new_file="${1%.*}.mp4"
 
@@ -327,9 +361,10 @@ function _convertGifFileToMp4() {
     -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" "${new_file}"
 
   if [[ ${EXIT_CODE} -eq 0 ]]; then
-    print_green "File converted: ${new_file}"
+    print_success "File converted: ${new_file}"
   else
-    print_red "Failed to convert file: $1"
+    _log_file_fail "$1"
+    print_warning "Failed to convert file: $1"
   fi
 }
 
@@ -341,7 +376,9 @@ function convertGifToMp4() {
   fi
 
   if [[ -d "${fileOrPath}" ]]; then
-    local mask="*.gif"
+    print_heading "Converting gif's to mp4's"
+
+    # local mask="*.gif"
     if [[ "${g_recursive}" == "true" ]]; then
       shopt -s globstar nullglob
       for file in "${fileOrPath}"/**/*.gif; do
@@ -360,7 +397,8 @@ function convertGifToMp4() {
       # done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
     fi
 
-    print_blue "Finished converting gif's to mp4's."
+    print_status "Finished converting gif's to mp4's."
+    _notify
   else
     if [[ -f "${fileOrPath}" ]]; then
       _convertGifFileToMp4 "${fileOrPath}"
@@ -371,7 +409,7 @@ function convertGifToMp4() {
 }
 
 function _stripMetadataFromFile() {
-  print_blue "Stripping metadata from file: $1"
+  print_status "Stripping metadata from file: $1"
 
   local tempFile="fixed-${1##*/}"
   get_exit_code ffmpeg -i "$1" -map_metadata -1 -codec copy -movflags +faststart \
@@ -380,10 +418,11 @@ function _stripMetadataFromFile() {
   if [[ ${EXIT_CODE} -eq 0 ]]; then
     rm "${1}"
     mv "${tempFile}" "${1}"
-    print_green "Metadata removed from file: ${1}"
+    print_success "Metadata removed from file: ${1}"
   else
     rm "${tempFile}"
-    print_red "Failed to strip metadata from file: $1"
+    _log_file_fail "$1"
+    print_warning "Failed to strip metadata from file: $1"
   fi
 }
 
@@ -391,13 +430,13 @@ function _stripMetadata() {
   if [[ "${g_force}" == "true" ]]; then
     _stripMetadataFromFile "$1"
   else
-    print_blue "Checking file: $1"
+    print_status "Checking file: $1"
     local has_metadata
     has_metadata=$(ffprobe -v fatal -show_entries 'format_tags=title' -of csv=s=x:p=0 "$1")
     if [[ -n "$has_metadata" ]]; then
       _stripMetadataFromFile "$1"
     else
-      print_yellow "Skipping '$1', no metadata."
+      print_info "Skipping '$1', no metadata."
     fi
   fi
 }
@@ -410,7 +449,9 @@ function stripMetadata() {
   fi
 
   if [[ -d "${fileOrPath}" ]]; then
-    local mask="*.mp4"
+    print_heading "Stripping metadata from files"
+
+    # local mask="*.mp4"
     if [[ "${g_recursive}" == "true" ]]; then
       shopt -s globstar nullglob
       for file in "${fileOrPath}"/**/*.mp4; do
@@ -429,7 +470,8 @@ function stripMetadata() {
       # done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
     fi
 
-    print_blue "Finished stripping metadata from files."
+    print_status "Finished stripping metadata from files."
+    _notify
   else
     if [[ -f "${fileOrPath}" ]]; then
       _stripMetadata "${fileOrPath}"
@@ -440,7 +482,7 @@ function stripMetadata() {
 }
 
 function _updateFileForFaststart() {
-  print_blue "Remuxing file for faststart: '$1'"
+  print_status "Remuxing file for faststart: '$1'"
 
   local tempFile="fixed-${1##*/}"
   get_exit_code ffmpeg -i "$1" -map 0 -c:v copy -c:a copy -c:s copy -c:d copy -c:t copy -movflags \
@@ -449,15 +491,16 @@ function _updateFileForFaststart() {
   if [[ ${EXIT_CODE} -eq 0 ]]; then
     rm "${1}"
     mv "${tempFile}" "${1}"
-    print_green "Faststart fixed for file: '$1'"
+    print_success "Faststart fixed for file: '$1'"
   else
     rm "${tempFile}"
-    print_red "Failed to remux file for faststart: '$1'"
+    _log_file_fail "$1"
+    print_warning "Failed to remux file for faststart: '$1'"
   fi
 }
 
 function _fixFaststart() {
-  print_blue "Checking file: $1"
+  print_status "Checking file: $1"
   local first_line
   # set +o pipefail
   first_line=$(ffmpeg -v trace -i "$1" 2>&1 | grep -e type:\'mdat\' -e type:\'moov\' | head -n 1 || true)
@@ -466,7 +509,7 @@ function _fixFaststart() {
   if ! echo "${first_line}" | grep -q -i 'moov'; then
     _updateFileForFaststart "$1"
   else
-    print_yellow "Skipping '$1', already setup for fast start."
+    print_info "Skipping '$1', already setup for fast start."
   fi
 }
 
@@ -478,7 +521,9 @@ function fixFaststart() {
   fi
 
   if [[ -d "${fileOrPath}" ]]; then
-    local mask="*.mp4"
+    print_heading "Fixing fast start on files"
+
+    # local mask="*.mp4"
     local file
     if [[ "${g_recursive}" == "true" ]]; then
       shopt -s globstar nullglob
@@ -498,7 +543,8 @@ function fixFaststart() {
       # done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
     fi
 
-    print_blue "Finished fixing fast start for files."
+    print_status "Finished fixing fast start for files."
+    _notify
   else
     if [[ -f "${fileOrPath}" ]]; then
       _fixFaststart "${fileOrPath}"
@@ -513,17 +559,18 @@ function _extractSubtitles() {
   local subtitleNumber="$2"
   local srtFile
 
-  print_blue "Extracting subtitle #${subtitleNumber} from file: ${file}"
+  print_status "Extracting subtitle #${subtitleNumber} from file: ${file}"
 
   srtFile="${file%.*}.en.forced.srt"
 
   get_exit_code ffmpeg -i "${file}" -map "0:s:${subtitleNumber}" "${srtFile}"
 
   if [[ ${EXIT_CODE} -eq 0 ]]; then
-    print_green "Subtitles extracted to file: ${srtFile}"
+    print_success "Subtitles extracted to file: ${srtFile}"
   else
     rm "${srtFile}"
-    print_red "Failed to extract subtitles from file: $1"
+    _log_file_fail "$1"
+    print_warning "Failed to extract subtitles from file: $1"
   fi
 }
 
@@ -540,7 +587,9 @@ function extractSubtitles() {
   fi
 
   if [[ -d "${fileOrPath}" ]]; then
-    local mask="*.{mkv,mp4}"
+    print_heading "Extracting subtitles from files"
+
+    # local mask="*.{mkv,mp4}"
     if [[ "${g_recursive}" == "true" ]]; then
       shopt -s globstar nullglob
       for file in "${fileOrPath}"/**/*.{mkv,mp4}; do
@@ -559,7 +608,7 @@ function extractSubtitles() {
       # done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
     fi
 
-    print_blue "Finished extracting subtitles from files."
+    print_status "Finished extracting subtitles from files."
   else
     if [[ -f "${fileOrPath}" ]]; then
       _extractSubtitles "${fileOrPath}" "${subtitleNumber}"
@@ -577,13 +626,13 @@ function _checkFileForAudio() {
 
   if [[ $audio_count -ne 0 ]]; then
     if [[ "${printForPositive}" == "true" ]]; then
-      print_green "File '$1' has audio."
+      print_success "File '$1' has audio."
     fi
   else
     if [[ "${g_pipe}" == "true" ]]; then
-      print_normal "$1"
+      print_output "$1"
     else
-      print_yellow "File '$1' has no audio!"
+      print_info "File '$1' has no audio!"
     fi
   fi
 }
@@ -596,9 +645,9 @@ function listVideosWithNoAudio() {
   fi
 
   if [[ -d "${fileOrPath}" ]]; then
-    print_blue "Searching for videos with no audio."
+    print_heading "Searching for videos with no audio."
 
-    local mask="*.mp4"
+    # local mask="*.mp4"
     if [[ "${g_recursive}" == "true" ]]; then
       shopt -s globstar nullglob
       for file in "${fileOrPath}"/**/*.mp4; do
@@ -617,7 +666,8 @@ function listVideosWithNoAudio() {
       # done < <(find "${fileOrPath}" -maxdepth 1 -type f -iname "${mask}" -print0)
     fi
 
-    print_blue "Finished searching for videos with no audio."
+    print_status "Finished searching for videos with no audio."
+    _notify
   else
     if [[ -f "${fileOrPath}" ]]; then
       _checkFileForAudio "${file}" "true"
@@ -628,7 +678,7 @@ function listVideosWithNoAudio() {
 }
 
 function _renameFileFixPeriods() {
-  print_blue "Stripping periods in file: '${1}'"
+  print_status "Stripping periods in file: '${1}'"
   local extension="${1##*.}"
   # ignore SRT files
   if [[ "${extension}" != "srt" ]]; then
@@ -651,7 +701,7 @@ function renameFixPeriods() {
   if [[ -f "${fileOrMask}" ]]; then
     _renameFileFixPeriods "${fileOrMask}"
   else
-    print_blue "Renaming files..."
+    print_heading "Renaming files..."
 
     if [[ "${g_recursive}" == "true" ]]; then
       while IFS='' read -r -d '' file; do
@@ -663,12 +713,13 @@ function renameFixPeriods() {
       done < <(find "${path}" -maxdepth 1 -type f -iname "${fileOrMask}" -print0)
     fi
 
-    print_blue "Finished renaming files."
+    print_status "Finished renaming files."
+    _notify
   fi
 }
 
 function _renameOnlyNumbers() {
-  print_blue "Renaming file: '${2}'"
+  print_status "Renaming file: '${2}'"
   local extension="${2##*.}"
   # ignore SRT files
   if [[ "${extension}" != "srt" ]]; then
@@ -700,7 +751,7 @@ function renameOnlyNumbers() {
   if [[ -f "${fileOrMask}" ]]; then
     _renameOnlyNumbers "${showTitle}" "${fileOrMask}"
   else
-    print_blue "Renaming files..."
+    print_heading "Renaming files..."
 
     if [[ "${g_recursive}" == "true" ]]; then
       while IFS='' read -r -d '' file; do
@@ -712,7 +763,8 @@ function renameOnlyNumbers() {
       done < <(find "${path}" -maxdepth 1 -type f -iname "${fileOrMask}" -print0)
     fi
 
-    print_blue "Finished renaming files."
+    print_status "Finished renaming files."
+    _notify
   fi
 }
 
@@ -725,7 +777,8 @@ function main() {
 
   sub_command=$(echo "${sub_command}" | tr "[:upper:]" "[:lower:]")
 
-  verify_command "${sub_command}"
+  _verify_command "${sub_command}"
+  g_current_command="${sub_command}"
 
   case "${sub_command}" in
   "conv-mkv")
