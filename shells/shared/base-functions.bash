@@ -593,7 +593,8 @@ function speech_notification {
 }
 
 function remote_notification {
-  to_be_developed
+  # to_be_developed
+  true
 }
 
 function os_notify {
