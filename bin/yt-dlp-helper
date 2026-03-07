@@ -385,13 +385,14 @@ function yt_helper() {
     fi
   fi
 
-  if [[ "${domain}" == "xhamster.com" ]]; then
+  if [[ "${domain}" == "xhamster.com" || "${domain}" == "xhamster.desi" ]]; then
     yt_dlp_params+=("--compat-options" "allow-unsafe-ext")
     yt_dlp_params+=("--ies" "generic,default")
   fi
 
-  # Add referer to all calls
-  yt_dlp_params+=("--referer" "'https://www.google.com'")
+  if [[ "${domain}" == "pornhub.com" ]]; then
+    yt_dlp_params+=("--referer" "'https://www.google.com'")
+  fi
 
   #### END Site specific customizations
 
