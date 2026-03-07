@@ -94,6 +94,11 @@ function cdp() {
   fi
 }
 
+# Processing folder
+function cdpp() {
+  xdg-go-to-dir "PROCESSING" "${PROFILEPATH}/processing" "${1:-}"
+}
+
 # Desktop folder
 function cdsk() {
   xdg-go-to-dir "DESKTOP" "${HOME}/Desktop" "${1:-}"
