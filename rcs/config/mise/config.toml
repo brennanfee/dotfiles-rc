@@ -86,3 +86,4 @@ zig = "latest"
 "npm:typescript" = "latest"
 "npm:wsl-open" = "latest"
 "github:tectonic-typesetting/tectonic" = { version = "tectonic@0.15.0", exe = "tectonic" }
+tmux = "latest"
