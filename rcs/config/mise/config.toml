@@ -8,7 +8,7 @@ pipx.uvx = true
 python.default_packages_file = "~/.config/mise/default-python-packages"
 python.uv_venv_auto = true
 experimental = true
-disable_backends = ["asdf","ubi"]
+disable_backends = ["asdf", "ubi"]
 idiomatic_version_file_enable_tools = ["python"]
 
 [tool_alias]
@@ -38,7 +38,7 @@ bat = "latest"
 bitwarden = "latest"
 bottom = "latest"
 bun = "latest"
-# coreutils = "latest"
+coreutils = "latest"
 delta = "latest"
 deno = "latest"
 dotnet = "latest"
@@ -64,6 +64,7 @@ rust = "latest"
 sops = "latest"
 starship = "latest"
 terraform = "latest"
+tmux = "latest"
 tree-sitter = "latest"
 typst = "latest"
 zig = "latest"
@@ -86,4 +87,3 @@ zig = "latest"
 "npm:typescript" = "latest"
 "npm:wsl-open" = "latest"
 "github:tectonic-typesetting/tectonic" = { version = "tectonic@0.15.0", exe = "tectonic" }
-tmux = "latest"
