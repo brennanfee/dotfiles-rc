@@ -11,8 +11,8 @@ experimental = true
 disable_backends = ["asdf", "ubi"]
 idiomatic_version_file_enable_tools = ["python"]
 
-[tool_alias]
-php = "vfox:php"
+# [tool_alias]
+# php = "vfox:mise-plugins/vfox-php"
 
 [tool_alias.node.versions]
 lts = "24"
