@@ -454,25 +454,85 @@ url = "https://github.com/junegunn/fzf/releases/download/v0.70.0/fzf-0.70.0-darw
 checksum = "sha256:7465a6738e2c844742df973459c7509aed2d10d7a72bfd6de201b867b4eda4cd"
 url = "https://github.com/junegunn/fzf/releases/download/v0.70.0/fzf-0.70.0-windows_amd64.zip"
 
+[[tools."github:JetBrains/kotlin"]]
+version = "2.3.20"
+backend = "github:JetBrains/kotlin"
+
+[tools."github:JetBrains/kotlin"."platforms.linux-arm64"]
+checksum = "sha256:222ba516cdc4052ce0be9d2ec6adf3c5c64fc53156d7dd91d1f5317809431b98"
+url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-compiler-2.3.20.zip"
+url_api = "https://api.github.com/repos/JetBrains/kotlin/releases/assets/374841797"
+
+[tools."github:JetBrains/kotlin"."platforms.linux-arm64-musl"]
+checksum = "sha256:222ba516cdc4052ce0be9d2ec6adf3c5c64fc53156d7dd91d1f5317809431b98"
+url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-compiler-2.3.20.zip"
+url_api = "https://api.github.com/repos/JetBrains/kotlin/releases/assets/374841797"
+
+[tools."github:JetBrains/kotlin"."platforms.linux-x64"]
+checksum = "sha256:a67e990826700ffccd0af0f88ab5f7099e3e608fade997cbacc8352da39934bc"
+url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-native-prebuilt-linux-x86_64-2.3.20.tar.gz"
+url_api = "https://api.github.com/repos/JetBrains/kotlin/releases/assets/374841832"
+
+[tools."github:JetBrains/kotlin"."platforms.linux-x64-baseline"]
+checksum = "sha256:a67e990826700ffccd0af0f88ab5f7099e3e608fade997cbacc8352da39934bc"
+url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-native-prebuilt-linux-x86_64-2.3.20.tar.gz"
+url_api = "https://api.github.com/repos/JetBrains/kotlin/releases/assets/374841832"
+
+[tools."github:JetBrains/kotlin"."platforms.linux-x64-musl"]
+checksum = "sha256:a67e990826700ffccd0af0f88ab5f7099e3e608fade997cbacc8352da39934bc"
+url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-native-prebuilt-linux-x86_64-2.3.20.tar.gz"
+url_api = "https://api.github.com/repos/JetBrains/kotlin/releases/assets/374841832"
+
+[tools."github:JetBrains/kotlin"."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:a67e990826700ffccd0af0f88ab5f7099e3e608fade997cbacc8352da39934bc"
+url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-native-prebuilt-linux-x86_64-2.3.20.tar.gz"
+url_api = "https://api.github.com/repos/JetBrains/kotlin/releases/assets/374841832"
+
+[tools."github:JetBrains/kotlin"."platforms.macos-arm64"]
+checksum = "sha256:5c2f14d34025a6eddc6e371f8cbac0d09d1f895be6a3c0e81c2226d06a7a43ab"
+url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-native-prebuilt-macos-aarch64-2.3.20.tar.gz"
+url_api = "https://api.github.com/repos/JetBrains/kotlin/releases/assets/374841899"
+
+[tools."github:JetBrains/kotlin"."platforms.macos-x64"]
+checksum = "sha256:88c000e2b23db78ac801e9584653c1d7a8317a8c06a8ba0d258b5dc8b5d94050"
+url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-native-prebuilt-macos-x86_64-2.3.20.tar.gz"
+url_api = "https://api.github.com/repos/JetBrains/kotlin/releases/assets/374842004"
+
+[tools."github:JetBrains/kotlin"."platforms.macos-x64-baseline"]
+checksum = "sha256:88c000e2b23db78ac801e9584653c1d7a8317a8c06a8ba0d258b5dc8b5d94050"
+url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-native-prebuilt-macos-x86_64-2.3.20.tar.gz"
+url_api = "https://api.github.com/repos/JetBrains/kotlin/releases/assets/374842004"
+
+[tools."github:JetBrains/kotlin"."platforms.windows-x64"]
+checksum = "sha256:174e4087563ea5aad33d57bfd2d28bbd04e242ad0c802c04ec39fe6b66380ce1"
+url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-native-prebuilt-windows-x86_64-2.3.20.zip"
+url_api = "https://api.github.com/repos/JetBrains/kotlin/releases/assets/374842115"
+
+[tools."github:JetBrains/kotlin"."platforms.windows-x64-baseline"]
+checksum = "sha256:174e4087563ea5aad33d57bfd2d28bbd04e242ad0c802c04ec39fe6b66380ce1"
+url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-native-prebuilt-windows-x86_64-2.3.20.zip"
+url_api = "https://api.github.com/repos/JetBrains/kotlin/releases/assets/374842115"
+
 [[tools."github:tectonic-typesetting/tectonic"]]
-version = "tectonic@0.15.0"
+version = "0.15.0"
 backend = "github:tectonic-typesetting/tectonic"
 
 [tools."github:tectonic-typesetting/tectonic"."platforms.linux-arm64"]
 url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-aarch64-unknown-linux-musl.tar.gz"
 url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825645"
 
-[tools."github:tectonic-typesetting/tectonic"."platforms.linux-arm64-musl"]
-url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825645"
-
 [tools."github:tectonic-typesetting/tectonic"."platforms.linux-x64"]
+checksum = "blake3:21977cc17c2b040dc2000bd32527be9d737981163eb06e87040b51a16c65cb5a"
 url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-unknown-linux-gnu.tar.gz"
 url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825659"
 
-[tools."github:tectonic-typesetting/tectonic"."platforms.linux-x64-musl"]
-url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825664"
+[tools."github:tectonic-typesetting/tectonic"."platforms.linux-x64-baseline"]
+url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825659"
+
+[tools."github:tectonic-typesetting/tectonic"."platforms.linux-x64-musl-baseline"]
+url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825659"
 
 [tools."github:tectonic-typesetting/tectonic"."platforms.macos-arm64"]
 url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-aarch64-apple-darwin.tar.gz"
@@ -482,9 +542,9 @@ url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/a
 url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-apple-darwin.tar.gz"
 url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825653"
 
-[tools."github:tectonic-typesetting/tectonic"."platforms.windows-x64"]
-url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-pc-windows-msvc.zip"
-url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825657"
+[tools."github:tectonic-typesetting/tectonic"."platforms.macos-x64-baseline"]
+url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825653"
 
 [[tools.glab]]
 version = "1.89.0"
