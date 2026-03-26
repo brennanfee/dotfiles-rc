@@ -13,7 +13,13 @@ url = "https://awscli.amazonaws.com/awscli-exe-linux-aarch64-2.34.14.zip"
 [tools.aws-cli."platforms.linux-x64"]
 url = "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.34.14.zip"
 
+[tools.aws-cli."platforms.linux-x64-baseline"]
+url = "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.34.14.zip"
+
 [tools.aws-cli."platforms.linux-x64-musl"]
+url = "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.34.14.zip"
+
+[tools.aws-cli."platforms.linux-x64-musl-baseline"]
 url = "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.34.14.zip"
 
 [tools.aws-cli."platforms.macos-arm64"]
@@ -21,6 +27,40 @@ url = "https://awscli.amazonaws.com/AWSCLIV2-2.34.14.pkg"
 
 [tools.aws-cli."platforms.macos-x64"]
 url = "https://awscli.amazonaws.com/AWSCLIV2-2.34.14.pkg"
+
+[tools.aws-cli."platforms.macos-x64-baseline"]
+url = "https://awscli.amazonaws.com/AWSCLIV2-2.34.14.pkg"
+
+[[tools.aws-cli]]
+version = "2.34.18"
+backend = "aqua:aws/aws-cli"
+
+[tools.aws-cli."platforms.linux-arm64"]
+url = "https://awscli.amazonaws.com/awscli-exe-linux-aarch64-2.34.18.zip"
+
+[tools.aws-cli."platforms.linux-arm64-musl"]
+url = "https://awscli.amazonaws.com/awscli-exe-linux-aarch64-2.34.18.zip"
+
+[tools.aws-cli."platforms.linux-x64"]
+url = "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.34.18.zip"
+
+[tools.aws-cli."platforms.linux-x64-baseline"]
+url = "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.34.18.zip"
+
+[tools.aws-cli."platforms.linux-x64-musl"]
+url = "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.34.18.zip"
+
+[tools.aws-cli."platforms.linux-x64-musl-baseline"]
+url = "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.34.18.zip"
+
+[tools.aws-cli."platforms.macos-arm64"]
+url = "https://awscli.amazonaws.com/AWSCLIV2-2.34.18.pkg"
+
+[tools.aws-cli."platforms.macos-x64"]
+url = "https://awscli.amazonaws.com/AWSCLIV2-2.34.18.pkg"
+
+[tools.aws-cli."platforms.macos-x64-baseline"]
+url = "https://awscli.amazonaws.com/AWSCLIV2-2.34.18.pkg"
 
 [[tools.bat]]
 version = "0.26.1"
@@ -78,7 +118,15 @@ backend = "aqua:bitwarden/clients"
 checksum = "sha256:8d73e2a471993db8b2e6e4f69293a71e28e9b4c2cb4b696665f5f396126e1850"
 url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.2.0/bw-linux-2026.2.0.zip"
 
+[tools.bitwarden."platforms.linux-x64-baseline"]
+checksum = "sha256:8d73e2a471993db8b2e6e4f69293a71e28e9b4c2cb4b696665f5f396126e1850"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.2.0/bw-linux-2026.2.0.zip"
+
 [tools.bitwarden."platforms.linux-x64-musl"]
+checksum = "sha256:8d73e2a471993db8b2e6e4f69293a71e28e9b4c2cb4b696665f5f396126e1850"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.2.0/bw-linux-2026.2.0.zip"
+
+[tools.bitwarden."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:8d73e2a471993db8b2e6e4f69293a71e28e9b4c2cb4b696665f5f396126e1850"
 url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.2.0/bw-linux-2026.2.0.zip"
 
@@ -90,7 +138,15 @@ url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.2.0/bw-m
 checksum = "sha256:60cc5109b1cdad560231e02098f1ab2d16efa821d51c6ec089cb5c3cc351b2e5"
 url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.2.0/bw-macos-2026.2.0.zip"
 
+[tools.bitwarden."platforms.macos-x64-baseline"]
+checksum = "sha256:60cc5109b1cdad560231e02098f1ab2d16efa821d51c6ec089cb5c3cc351b2e5"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.2.0/bw-macos-2026.2.0.zip"
+
 [tools.bitwarden."platforms.windows-x64"]
+checksum = "sha256:6e7fe65ef0d0401af20bb739cb81469a0c001d9ee249ceea4a86974ae27a4c46"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.2.0/bw-windows-2026.2.0.zip"
+
+[tools.bitwarden."platforms.windows-x64-baseline"]
 checksum = "sha256:6e7fe65ef0d0401af20bb739cb81469a0c001d9ee249ceea4a86974ae27a4c46"
 url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.2.0/bw-windows-2026.2.0.zip"
 
@@ -110,7 +166,15 @@ url = "https://github.com/ClementTsang/bottom/releases/download/0.12.3/bottom_aa
 checksum = "sha256:0d6352079422fda8f4ee242eb849f45a6008db96d6c1cd35e8436babc51bc33f"
 url = "https://github.com/ClementTsang/bottom/releases/download/0.12.3/bottom_x86_64-unknown-linux-musl.tar.gz"
 
+[tools.bottom."platforms.linux-x64-baseline"]
+checksum = "sha256:0d6352079422fda8f4ee242eb849f45a6008db96d6c1cd35e8436babc51bc33f"
+url = "https://github.com/ClementTsang/bottom/releases/download/0.12.3/bottom_x86_64-unknown-linux-musl.tar.gz"
+
 [tools.bottom."platforms.linux-x64-musl"]
+checksum = "sha256:0d6352079422fda8f4ee242eb849f45a6008db96d6c1cd35e8436babc51bc33f"
+url = "https://github.com/ClementTsang/bottom/releases/download/0.12.3/bottom_x86_64-unknown-linux-musl.tar.gz"
+
+[tools.bottom."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:0d6352079422fda8f4ee242eb849f45a6008db96d6c1cd35e8436babc51bc33f"
 url = "https://github.com/ClementTsang/bottom/releases/download/0.12.3/bottom_x86_64-unknown-linux-musl.tar.gz"
 
@@ -122,7 +186,15 @@ url = "https://github.com/ClementTsang/bottom/releases/download/0.12.3/bottom_aa
 checksum = "sha256:5744b5c78db14b85e025c31ded93ba038041e6ff2e8c16ea1d2f9bdb6487316f"
 url = "https://github.com/ClementTsang/bottom/releases/download/0.12.3/bottom_x86_64-apple-darwin.tar.gz"
 
+[tools.bottom."platforms.macos-x64-baseline"]
+checksum = "sha256:5744b5c78db14b85e025c31ded93ba038041e6ff2e8c16ea1d2f9bdb6487316f"
+url = "https://github.com/ClementTsang/bottom/releases/download/0.12.3/bottom_x86_64-apple-darwin.tar.gz"
+
 [tools.bottom."platforms.windows-x64"]
+checksum = "sha256:567879fd7210f8a692cd2657b41eda43c7713bef74dd025b240247accdda14fb"
+url = "https://github.com/ClementTsang/bottom/releases/download/0.12.3/bottom_x86_64-pc-windows-msvc.zip"
+
+[tools.bottom."platforms.windows-x64-baseline"]
 checksum = "sha256:567879fd7210f8a692cd2657b41eda43c7713bef74dd025b240247accdda14fb"
 url = "https://github.com/ClementTsang/bottom/releases/download/0.12.3/bottom_x86_64-pc-windows-msvc.zip"
 
@@ -190,7 +262,15 @@ url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.17.8/ca
 checksum = "sha256:1da1ef72448db667cc4ae6d48e37451087602c8c07dc61782a4a5e538303e015"
 url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.17.8/cargo-binstall-x86_64-unknown-linux-musl.tgz"
 
+[tools.cargo-binstall."platforms.linux-x64-baseline"]
+checksum = "sha256:1da1ef72448db667cc4ae6d48e37451087602c8c07dc61782a4a5e538303e015"
+url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.17.8/cargo-binstall-x86_64-unknown-linux-musl.tgz"
+
 [tools.cargo-binstall."platforms.linux-x64-musl"]
+checksum = "sha256:1da1ef72448db667cc4ae6d48e37451087602c8c07dc61782a4a5e538303e015"
+url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.17.8/cargo-binstall-x86_64-unknown-linux-musl.tgz"
+
+[tools.cargo-binstall."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:1da1ef72448db667cc4ae6d48e37451087602c8c07dc61782a4a5e538303e015"
 url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.17.8/cargo-binstall-x86_64-unknown-linux-musl.tgz"
 
@@ -202,7 +282,15 @@ url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.17.8/ca
 checksum = "sha256:db353e01b582c97382178db9b4dfe22d81109782e480a38f3db953e62f569952"
 url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.17.8/cargo-binstall-x86_64-apple-darwin.zip"
 
+[tools.cargo-binstall."platforms.macos-x64-baseline"]
+checksum = "sha256:db353e01b582c97382178db9b4dfe22d81109782e480a38f3db953e62f569952"
+url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.17.8/cargo-binstall-x86_64-apple-darwin.zip"
+
 [tools.cargo-binstall."platforms.windows-x64"]
+checksum = "sha256:fef07560d4e391812091bb30c6ed1bd5289f74403a0c947b47b8a8c7a597b51b"
+url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.17.8/cargo-binstall-x86_64-pc-windows-msvc.zip"
+
+[tools.cargo-binstall."platforms.windows-x64-baseline"]
 checksum = "sha256:fef07560d4e391812091bb30c6ed1bd5289f74403a0c947b47b8a8c7a597b51b"
 url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.17.8/cargo-binstall-x86_64-pc-windows-msvc.zip"
 
@@ -282,7 +370,15 @@ url = "https://github.com/uutils/coreutils/releases/download/0.7.0/coreutils-0.7
 checksum = "sha256:9f8f6039f162ace2d398b23fe989d74baeb108e8060aa58c0984b363175424ee"
 url = "https://github.com/uutils/coreutils/releases/download/0.7.0/coreutils-0.7.0-x86_64-unknown-linux-musl.tar.gz"
 
+[tools.coreutils."platforms.linux-x64-baseline"]
+checksum = "sha256:9f8f6039f162ace2d398b23fe989d74baeb108e8060aa58c0984b363175424ee"
+url = "https://github.com/uutils/coreutils/releases/download/0.7.0/coreutils-0.7.0-x86_64-unknown-linux-musl.tar.gz"
+
 [tools.coreutils."platforms.linux-x64-musl"]
+checksum = "sha256:9f8f6039f162ace2d398b23fe989d74baeb108e8060aa58c0984b363175424ee"
+url = "https://github.com/uutils/coreutils/releases/download/0.7.0/coreutils-0.7.0-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.coreutils."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:9f8f6039f162ace2d398b23fe989d74baeb108e8060aa58c0984b363175424ee"
 url = "https://github.com/uutils/coreutils/releases/download/0.7.0/coreutils-0.7.0-x86_64-unknown-linux-musl.tar.gz"
 
@@ -294,7 +390,15 @@ url = "https://github.com/uutils/coreutils/releases/download/0.7.0/coreutils-0.7
 checksum = "sha256:fd66dfbd5672eebdf5381a22d82c1b0bef6f5c3f6ebe9f90b59d4317f4435225"
 url = "https://github.com/uutils/coreutils/releases/download/0.7.0/coreutils-0.7.0-x86_64-apple-darwin.tar.gz"
 
+[tools.coreutils."platforms.macos-x64-baseline"]
+checksum = "sha256:fd66dfbd5672eebdf5381a22d82c1b0bef6f5c3f6ebe9f90b59d4317f4435225"
+url = "https://github.com/uutils/coreutils/releases/download/0.7.0/coreutils-0.7.0-x86_64-apple-darwin.tar.gz"
+
 [tools.coreutils."platforms.windows-x64"]
+checksum = "sha256:df878e29fc738bc4273e85c9d2c35ab898e31568021e6baf1c330c7961943c8f"
+url = "https://github.com/uutils/coreutils/releases/download/0.7.0/coreutils-0.7.0-x86_64-pc-windows-msvc.zip"
+
+[tools.coreutils."platforms.windows-x64-baseline"]
 checksum = "sha256:df878e29fc738bc4273e85c9d2c35ab898e31568021e6baf1c330c7961943c8f"
 url = "https://github.com/uutils/coreutils/releases/download/0.7.0/coreutils-0.7.0-x86_64-pc-windows-msvc.zip"
 
@@ -317,7 +421,17 @@ checksum = "sha256:db15cc99e6e4837daabab023742aaddc3841ce57f193d11b7c3e06c800364
 url = "https://github.com/sigstore/cosign/releases/download/v3.0.5/cosign-linux-amd64"
 provenance = "cosign"
 
+[tools.cosign."platforms.linux-x64-baseline"]
+checksum = "sha256:db15cc99e6e4837daabab023742aaddc3841ce57f193d11b7c3e06c8003642b2"
+url = "https://github.com/sigstore/cosign/releases/download/v3.0.5/cosign-linux-amd64"
+provenance = "cosign"
+
 [tools.cosign."platforms.linux-x64-musl"]
+checksum = "sha256:db15cc99e6e4837daabab023742aaddc3841ce57f193d11b7c3e06c8003642b2"
+url = "https://github.com/sigstore/cosign/releases/download/v3.0.5/cosign-linux-amd64"
+provenance = "cosign"
+
+[tools.cosign."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:db15cc99e6e4837daabab023742aaddc3841ce57f193d11b7c3e06c8003642b2"
 url = "https://github.com/sigstore/cosign/releases/download/v3.0.5/cosign-linux-amd64"
 provenance = "cosign"
@@ -332,7 +446,17 @@ checksum = "sha256:e032c44d3f7c247bbb2966b41239f88ffba002497a4516358d327ad5693c3
 url = "https://github.com/sigstore/cosign/releases/download/v3.0.5/cosign-darwin-amd64"
 provenance = "cosign"
 
+[tools.cosign."platforms.macos-x64-baseline"]
+checksum = "sha256:e032c44d3f7c247bbb2966b41239f88ffba002497a4516358d327ad5693c386f"
+url = "https://github.com/sigstore/cosign/releases/download/v3.0.5/cosign-darwin-amd64"
+provenance = "cosign"
+
 [tools.cosign."platforms.windows-x64"]
+checksum = "sha256:44e9e44202b67ddfaaf5ea1234f5a265417960c4ae98c5b57c35bc40ba9dd714"
+url = "https://github.com/sigstore/cosign/releases/download/v3.0.5/cosign-windows-amd64.exe"
+provenance = "cosign"
+
+[tools.cosign."platforms.windows-x64-baseline"]
 checksum = "sha256:44e9e44202b67ddfaaf5ea1234f5a265417960c4ae98c5b57c35bc40ba9dd714"
 url = "https://github.com/sigstore/cosign/releases/download/v3.0.5/cosign-windows-amd64.exe"
 provenance = "cosign"
@@ -345,7 +469,15 @@ backend = "aqua:dandavison/delta"
 checksum = "sha256:b4096cf910255e64941e06f217b87bbfbdd9ab7c0a1a9e373d3220b98055170c"
 url = "https://github.com/dandavison/delta/releases/download/0.19.0/delta-0.19.0-x86_64-unknown-linux-musl.tar.gz"
 
+[tools.delta."platforms.linux-x64-baseline"]
+checksum = "sha256:b4096cf910255e64941e06f217b87bbfbdd9ab7c0a1a9e373d3220b98055170c"
+url = "https://github.com/dandavison/delta/releases/download/0.19.0/delta-0.19.0-x86_64-unknown-linux-musl.tar.gz"
+
 [tools.delta."platforms.linux-x64-musl"]
+checksum = "sha256:b4096cf910255e64941e06f217b87bbfbdd9ab7c0a1a9e373d3220b98055170c"
+url = "https://github.com/dandavison/delta/releases/download/0.19.0/delta-0.19.0-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.delta."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:b4096cf910255e64941e06f217b87bbfbdd9ab7c0a1a9e373d3220b98055170c"
 url = "https://github.com/dandavison/delta/releases/download/0.19.0/delta-0.19.0-x86_64-unknown-linux-musl.tar.gz"
 
@@ -356,6 +488,50 @@ url = "https://github.com/dandavison/delta/releases/download/0.19.0/delta-0.19.0
 [tools.delta."platforms.windows-x64"]
 checksum = "sha256:c704699d76def630edfd65bf356e710c28acd147ca30a4f425762c934e8e107d"
 url = "https://github.com/dandavison/delta/releases/download/0.19.0/delta-0.19.0-x86_64-pc-windows-msvc.zip"
+
+[tools.delta."platforms.windows-x64-baseline"]
+checksum = "sha256:c704699d76def630edfd65bf356e710c28acd147ca30a4f425762c934e8e107d"
+url = "https://github.com/dandavison/delta/releases/download/0.19.0/delta-0.19.0-x86_64-pc-windows-msvc.zip"
+
+[[tools.delta]]
+version = "0.19.1"
+backend = "aqua:dandavison/delta"
+
+[tools.delta."platforms.linux-arm64"]
+checksum = "sha256:81cc5a2067762a5e1f3bc4dd12b01229dc134ec22221cb94062ce1fed769d26f"
+url = "https://github.com/dandavison/delta/releases/download/0.19.1/delta-0.19.1-aarch64-unknown-linux-gnu.tar.gz"
+
+[tools.delta."platforms.linux-arm64-musl"]
+checksum = "sha256:81cc5a2067762a5e1f3bc4dd12b01229dc134ec22221cb94062ce1fed769d26f"
+url = "https://github.com/dandavison/delta/releases/download/0.19.1/delta-0.19.1-aarch64-unknown-linux-gnu.tar.gz"
+
+[tools.delta."platforms.linux-x64"]
+checksum = "sha256:564a774237adb041a9a0098f2e55044e52b6ca5361e99cf179b892bdd5f91b92"
+url = "https://github.com/dandavison/delta/releases/download/0.19.1/delta-0.19.1-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.delta."platforms.linux-x64-baseline"]
+checksum = "sha256:564a774237adb041a9a0098f2e55044e52b6ca5361e99cf179b892bdd5f91b92"
+url = "https://github.com/dandavison/delta/releases/download/0.19.1/delta-0.19.1-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.delta."platforms.linux-x64-musl"]
+checksum = "sha256:564a774237adb041a9a0098f2e55044e52b6ca5361e99cf179b892bdd5f91b92"
+url = "https://github.com/dandavison/delta/releases/download/0.19.1/delta-0.19.1-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.delta."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:564a774237adb041a9a0098f2e55044e52b6ca5361e99cf179b892bdd5f91b92"
+url = "https://github.com/dandavison/delta/releases/download/0.19.1/delta-0.19.1-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.delta."platforms.macos-arm64"]
+checksum = "sha256:9802c1c89d92e854fcb3d36c8b270bbee6bbddf2df3de7167b11ab9d14baa63f"
+url = "https://github.com/dandavison/delta/releases/download/0.19.1/delta-0.19.1-aarch64-apple-darwin.tar.gz"
+
+[tools.delta."platforms.windows-x64"]
+checksum = "sha256:1603ad36d031f74a4b0b7b56fa0a674e8e99ab600383cfdf7c4d5a76f81f992a"
+url = "https://github.com/dandavison/delta/releases/download/0.19.1/delta-0.19.1-x86_64-pc-windows-msvc.zip"
+
+[tools.delta."platforms.windows-x64-baseline"]
+checksum = "sha256:1603ad36d031f74a4b0b7b56fa0a674e8e99ab600383cfdf7c4d5a76f81f992a"
+url = "https://github.com/dandavison/delta/releases/download/0.19.1/delta-0.19.1-x86_64-pc-windows-msvc.zip"
 
 [[tools.deno]]
 version = "2.7.7"
@@ -373,7 +549,15 @@ url = "https://dl.deno.land/release/v2.7.7/deno-aarch64-unknown-linux-gnu.zip"
 checksum = "sha256:0cd918870657ccc3d96ac682290e894dda374e2a742424aae9118b258a6cf7a3"
 url = "https://dl.deno.land/release/v2.7.7/deno-x86_64-unknown-linux-gnu.zip"
 
+[tools.deno."platforms.linux-x64-baseline"]
+checksum = "sha256:0cd918870657ccc3d96ac682290e894dda374e2a742424aae9118b258a6cf7a3"
+url = "https://dl.deno.land/release/v2.7.7/deno-x86_64-unknown-linux-gnu.zip"
+
 [tools.deno."platforms.linux-x64-musl"]
+checksum = "sha256:0cd918870657ccc3d96ac682290e894dda374e2a742424aae9118b258a6cf7a3"
+url = "https://dl.deno.land/release/v2.7.7/deno-x86_64-unknown-linux-gnu.zip"
+
+[tools.deno."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:0cd918870657ccc3d96ac682290e894dda374e2a742424aae9118b258a6cf7a3"
 url = "https://dl.deno.land/release/v2.7.7/deno-x86_64-unknown-linux-gnu.zip"
 
@@ -385,9 +569,65 @@ url = "https://dl.deno.land/release/v2.7.7/deno-aarch64-apple-darwin.zip"
 checksum = "sha256:2ca88d69c369a2757f17fce7c21d979f04cf56a6990d1f3858bd80b0487d0b74"
 url = "https://dl.deno.land/release/v2.7.7/deno-x86_64-apple-darwin.zip"
 
+[tools.deno."platforms.macos-x64-baseline"]
+checksum = "sha256:2ca88d69c369a2757f17fce7c21d979f04cf56a6990d1f3858bd80b0487d0b74"
+url = "https://dl.deno.land/release/v2.7.7/deno-x86_64-apple-darwin.zip"
+
 [tools.deno."platforms.windows-x64"]
 checksum = "sha256:Algorithm"
 url = "https://dl.deno.land/release/v2.7.7/deno-x86_64-pc-windows-msvc.zip"
+
+[tools.deno."platforms.windows-x64-baseline"]
+checksum = "sha256:Algorithm"
+url = "https://dl.deno.land/release/v2.7.7/deno-x86_64-pc-windows-msvc.zip"
+
+[[tools.deno]]
+version = "2.7.8"
+backend = "core:deno"
+
+[tools.deno."platforms.linux-arm64"]
+checksum = "sha256:83eae2c5a32eca2b16740cac76c23967e7e3fe1b356cf95625b7b6f4a0f366d8"
+url = "https://dl.deno.land/release/v2.7.8/deno-aarch64-unknown-linux-gnu.zip"
+
+[tools.deno."platforms.linux-arm64-musl"]
+checksum = "sha256:83eae2c5a32eca2b16740cac76c23967e7e3fe1b356cf95625b7b6f4a0f366d8"
+url = "https://dl.deno.land/release/v2.7.8/deno-aarch64-unknown-linux-gnu.zip"
+
+[tools.deno."platforms.linux-x64"]
+checksum = "sha256:4aa161f11f2560b6e8dc543c0d96a87d7d208989eb82380bd5c2e263e36bed12"
+url = "https://dl.deno.land/release/v2.7.8/deno-x86_64-unknown-linux-gnu.zip"
+
+[tools.deno."platforms.linux-x64-baseline"]
+checksum = "sha256:4aa161f11f2560b6e8dc543c0d96a87d7d208989eb82380bd5c2e263e36bed12"
+url = "https://dl.deno.land/release/v2.7.8/deno-x86_64-unknown-linux-gnu.zip"
+
+[tools.deno."platforms.linux-x64-musl"]
+checksum = "sha256:4aa161f11f2560b6e8dc543c0d96a87d7d208989eb82380bd5c2e263e36bed12"
+url = "https://dl.deno.land/release/v2.7.8/deno-x86_64-unknown-linux-gnu.zip"
+
+[tools.deno."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:4aa161f11f2560b6e8dc543c0d96a87d7d208989eb82380bd5c2e263e36bed12"
+url = "https://dl.deno.land/release/v2.7.8/deno-x86_64-unknown-linux-gnu.zip"
+
+[tools.deno."platforms.macos-arm64"]
+checksum = "sha256:1004913bb6385cde26db96a8a0e94bd752a89bc244317b94e916072b3038a85c"
+url = "https://dl.deno.land/release/v2.7.8/deno-aarch64-apple-darwin.zip"
+
+[tools.deno."platforms.macos-x64"]
+checksum = "sha256:020a5524119be371627ff164677965771d097359ac59d40ca48bba069acc3e61"
+url = "https://dl.deno.land/release/v2.7.8/deno-x86_64-apple-darwin.zip"
+
+[tools.deno."platforms.macos-x64-baseline"]
+checksum = "sha256:020a5524119be371627ff164677965771d097359ac59d40ca48bba069acc3e61"
+url = "https://dl.deno.land/release/v2.7.8/deno-x86_64-apple-darwin.zip"
+
+[tools.deno."platforms.windows-x64"]
+checksum = "sha256:Algorithm"
+url = "https://dl.deno.land/release/v2.7.8/deno-x86_64-pc-windows-msvc.zip"
+
+[tools.deno."platforms.windows-x64-baseline"]
+checksum = "sha256:Algorithm"
+url = "https://dl.deno.land/release/v2.7.8/deno-x86_64-pc-windows-msvc.zip"
 
 [[tools.dotnet]]
 version = "10.0.201"
@@ -402,7 +642,13 @@ url = "https://dot.net/v1/dotnet-install.sh"
 [tools.dotnet."platforms.linux-x64"]
 url = "https://dot.net/v1/dotnet-install.sh"
 
+[tools.dotnet."platforms.linux-x64-baseline"]
+url = "https://dot.net/v1/dotnet-install.sh"
+
 [tools.dotnet."platforms.linux-x64-musl"]
+url = "https://dot.net/v1/dotnet-install.sh"
+
+[tools.dotnet."platforms.linux-x64-musl-baseline"]
 url = "https://dot.net/v1/dotnet-install.sh"
 
 [tools.dotnet."platforms.macos-arm64"]
@@ -411,7 +657,13 @@ url = "https://dot.net/v1/dotnet-install.sh"
 [tools.dotnet."platforms.macos-x64"]
 url = "https://dot.net/v1/dotnet-install.sh"
 
+[tools.dotnet."platforms.macos-x64-baseline"]
+url = "https://dot.net/v1/dotnet-install.sh"
+
 [tools.dotnet."platforms.windows-x64"]
+url = "https://dot.net/v1/dotnet-install.ps1"
+
+[tools.dotnet."platforms.windows-x64-baseline"]
 url = "https://dot.net/v1/dotnet-install.ps1"
 
 [[tools.eza]]
@@ -430,11 +682,23 @@ url = "https://github.com/eza-community/eza/releases/download/v0.23.4/eza_aarch6
 checksum = "sha256:d231bb3ee33b08c76279b5888845dceb7034d055c42bb9be46dbe0dae39394df"
 url = "https://github.com/eza-community/eza/releases/download/v0.23.4/eza_x86_64-unknown-linux-musl.tar.gz"
 
+[tools.eza."platforms.linux-x64-baseline"]
+checksum = "sha256:d231bb3ee33b08c76279b5888845dceb7034d055c42bb9be46dbe0dae39394df"
+url = "https://github.com/eza-community/eza/releases/download/v0.23.4/eza_x86_64-unknown-linux-musl.tar.gz"
+
 [tools.eza."platforms.linux-x64-musl"]
 checksum = "sha256:d231bb3ee33b08c76279b5888845dceb7034d055c42bb9be46dbe0dae39394df"
 url = "https://github.com/eza-community/eza/releases/download/v0.23.4/eza_x86_64-unknown-linux-musl.tar.gz"
 
+[tools.eza."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:d231bb3ee33b08c76279b5888845dceb7034d055c42bb9be46dbe0dae39394df"
+url = "https://github.com/eza-community/eza/releases/download/v0.23.4/eza_x86_64-unknown-linux-musl.tar.gz"
+
 [tools.eza."platforms.windows-x64"]
+checksum = "sha256:4d4f87f6bc8e6ee176789c28bee698234ce0275da013709eb16b0f14819c1688"
+url = "https://github.com/eza-community/eza/releases/download/v0.23.4/eza.exe_x86_64-pc-windows-gnu.tar.gz"
+
+[tools.eza."platforms.windows-x64-baseline"]
 checksum = "sha256:4d4f87f6bc8e6ee176789c28bee698234ce0275da013709eb16b0f14819c1688"
 url = "https://github.com/eza-community/eza/releases/download/v0.23.4/eza.exe_x86_64-pc-windows-gnu.tar.gz"
 
@@ -454,7 +718,15 @@ url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-aarch6
 checksum = "sha256:e3257d48e29a6be965187dbd24ce9af564e0fe67b3e73c9bdcd180f4ec11bdde"
 url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-unknown-linux-musl.tar.gz"
 
+[tools.fd."platforms.linux-x64-baseline"]
+checksum = "sha256:e3257d48e29a6be965187dbd24ce9af564e0fe67b3e73c9bdcd180f4ec11bdde"
+url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-unknown-linux-musl.tar.gz"
+
 [tools.fd."platforms.linux-x64-musl"]
+checksum = "sha256:e3257d48e29a6be965187dbd24ce9af564e0fe67b3e73c9bdcd180f4ec11bdde"
+url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.fd."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:e3257d48e29a6be965187dbd24ce9af564e0fe67b3e73c9bdcd180f4ec11bdde"
 url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-unknown-linux-musl.tar.gz"
 
@@ -463,6 +735,10 @@ checksum = "sha256:623dc0afc81b92e4d4606b380d7bc91916ba7b97814263e554d50923a39e4
 url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-aarch64-apple-darwin.tar.gz"
 
 [tools.fd."platforms.windows-x64"]
+checksum = "sha256:b2816e506390a89941c63c9187d58a3cc10e9a55f2ef0685f9ea0eccaf7c98c8"
+url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-pc-windows-msvc.zip"
+
+[tools.fd."platforms.windows-x64-baseline"]
 checksum = "sha256:b2816e506390a89941c63c9187d58a3cc10e9a55f2ef0685f9ea0eccaf7c98c8"
 url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-pc-windows-msvc.zip"
 
@@ -482,7 +758,15 @@ url = "https://github.com/junegunn/fzf/releases/download/v0.70.0/fzf-0.70.0-linu
 checksum = "sha256:8fd0e0b93bdf64ba90081ffb6658d77ea5a024c122b36852b1de30f9d2733754"
 url = "https://github.com/junegunn/fzf/releases/download/v0.70.0/fzf-0.70.0-linux_amd64.tar.gz"
 
+[tools.fzf."platforms.linux-x64-baseline"]
+checksum = "sha256:8fd0e0b93bdf64ba90081ffb6658d77ea5a024c122b36852b1de30f9d2733754"
+url = "https://github.com/junegunn/fzf/releases/download/v0.70.0/fzf-0.70.0-linux_amd64.tar.gz"
+
 [tools.fzf."platforms.linux-x64-musl"]
+checksum = "sha256:8fd0e0b93bdf64ba90081ffb6658d77ea5a024c122b36852b1de30f9d2733754"
+url = "https://github.com/junegunn/fzf/releases/download/v0.70.0/fzf-0.70.0-linux_amd64.tar.gz"
+
+[tools.fzf."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:8fd0e0b93bdf64ba90081ffb6658d77ea5a024c122b36852b1de30f9d2733754"
 url = "https://github.com/junegunn/fzf/releases/download/v0.70.0/fzf-0.70.0-linux_amd64.tar.gz"
 
@@ -494,7 +778,15 @@ url = "https://github.com/junegunn/fzf/releases/download/v0.70.0/fzf-0.70.0-darw
 checksum = "sha256:46af74cfeb171c5e2eb936096a653061a0de0f5aeb70319bf9935d8d193e078f"
 url = "https://github.com/junegunn/fzf/releases/download/v0.70.0/fzf-0.70.0-darwin_amd64.tar.gz"
 
+[tools.fzf."platforms.macos-x64-baseline"]
+checksum = "sha256:46af74cfeb171c5e2eb936096a653061a0de0f5aeb70319bf9935d8d193e078f"
+url = "https://github.com/junegunn/fzf/releases/download/v0.70.0/fzf-0.70.0-darwin_amd64.tar.gz"
+
 [tools.fzf."platforms.windows-x64"]
+checksum = "sha256:7465a6738e2c844742df973459c7509aed2d10d7a72bfd6de201b867b4eda4cd"
+url = "https://github.com/junegunn/fzf/releases/download/v0.70.0/fzf-0.70.0-windows_amd64.zip"
+
+[tools.fzf."platforms.windows-x64-baseline"]
 checksum = "sha256:7465a6738e2c844742df973459c7509aed2d10d7a72bfd6de201b867b4eda4cd"
 url = "https://github.com/junegunn/fzf/releases/download/v0.70.0/fzf-0.70.0-windows_amd64.zip"
 
@@ -565,6 +857,10 @@ backend = "github:tectonic-typesetting/tectonic"
 url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-aarch64-unknown-linux-musl.tar.gz"
 url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825645"
 
+[tools."github:tectonic-typesetting/tectonic"."platforms.linux-arm64-musl"]
+url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825645"
+
 [tools."github:tectonic-typesetting/tectonic"."platforms.linux-x64"]
 checksum = "blake3:21977cc17c2b040dc2000bd32527be9d737981163eb06e87040b51a16c65cb5a"
 url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-unknown-linux-gnu.tar.gz"
@@ -573,6 +869,10 @@ url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/a
 [tools."github:tectonic-typesetting/tectonic"."platforms.linux-x64-baseline"]
 url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-unknown-linux-gnu.tar.gz"
 url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825659"
+
+[tools."github:tectonic-typesetting/tectonic"."platforms.linux-x64-musl"]
+url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825664"
 
 [tools."github:tectonic-typesetting/tectonic"."platforms.linux-x64-musl-baseline"]
 url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-unknown-linux-gnu.tar.gz"
@@ -589,6 +889,14 @@ url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/a
 [tools."github:tectonic-typesetting/tectonic"."platforms.macos-x64-baseline"]
 url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-apple-darwin.tar.gz"
 url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825653"
+
+[tools."github:tectonic-typesetting/tectonic"."platforms.windows-x64"]
+url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825657"
+
+[tools."github:tectonic-typesetting/tectonic"."platforms.windows-x64-baseline"]
+url = "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.15.0/tectonic-0.15.0-x86_64-pc-windows-gnu.zip"
+url_api = "https://api.github.com/repos/tectonic-typesetting/tectonic/releases/assets/149825655"
 
 [[tools.glab]]
 version = "1.89.0"
@@ -609,7 +917,17 @@ checksum = "sha256:941fdc97d80a88be858fee9f01cc82a7a2417e11f627689ab46f475141d0a
 url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.89.0/downloads/glab_1.89.0_linux_amd64.tar.gz"
 url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E89%2E0/glab_1%2E89%2E0_linux_amd64%2Etar%2Egz"
 
+[tools.glab."platforms.linux-x64-baseline"]
+checksum = "sha256:941fdc97d80a88be858fee9f01cc82a7a2417e11f627689ab46f475141d0afc9"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.89.0/downloads/glab_1.89.0_linux_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E89%2E0/glab_1%2E89%2E0_linux_amd64%2Etar%2Egz"
+
 [tools.glab."platforms.linux-x64-musl"]
+checksum = "sha256:941fdc97d80a88be858fee9f01cc82a7a2417e11f627689ab46f475141d0afc9"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.89.0/downloads/glab_1.89.0_linux_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E89%2E0/glab_1%2E89%2E0_linux_amd64%2Etar%2Egz"
+
+[tools.glab."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:941fdc97d80a88be858fee9f01cc82a7a2417e11f627689ab46f475141d0afc9"
 url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.89.0/downloads/glab_1.89.0_linux_amd64.tar.gz"
 url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E89%2E0/glab_1%2E89%2E0_linux_amd64%2Etar%2Egz"
@@ -624,10 +942,79 @@ checksum = "sha256:0ff3e452f07a6384cbb261837c9ff3a051cfee737a401bea321a8f2d36094
 url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.89.0/downloads/glab_1.89.0_darwin_amd64.tar.gz"
 url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E89%2E0/glab_1%2E89%2E0_darwin_amd64%2Etar%2Egz"
 
+[tools.glab."platforms.macos-x64-baseline"]
+checksum = "sha256:0ff3e452f07a6384cbb261837c9ff3a051cfee737a401bea321a8f2d36094245"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.89.0/downloads/glab_1.89.0_darwin_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E89%2E0/glab_1%2E89%2E0_darwin_amd64%2Etar%2Egz"
+
 [tools.glab."platforms.windows-x64"]
 checksum = "sha256:d5dc9879b447f1b28e58f4480da2901dd5302809efc65d62fab496da509f04cf"
 url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.89.0/downloads/glab_1.89.0_windows_amd64.zip"
 url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E89%2E0/glab_1%2E89%2E0_windows_amd64%2Ezip"
+
+[tools.glab."platforms.windows-x64-baseline"]
+checksum = "sha256:d5dc9879b447f1b28e58f4480da2901dd5302809efc65d62fab496da509f04cf"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.89.0/downloads/glab_1.89.0_windows_amd64.zip"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E89%2E0/glab_1%2E89%2E0_windows_amd64%2Ezip"
+
+[[tools.glab]]
+version = "1.90.0"
+backend = "gitlab:gitlab-org/cli"
+
+[tools.glab."platforms.linux-arm64"]
+checksum = "sha256:70c5309db87dd5b6c5b9310ad2745b0f1fc9d1c5850969f72aabf1cd2e23aaec"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.90.0/downloads/glab_1.90.0_linux_arm64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E90%2E0/glab_1%2E90%2E0_linux_arm64%2Etar%2Egz"
+
+[tools.glab."platforms.linux-arm64-musl"]
+checksum = "sha256:70c5309db87dd5b6c5b9310ad2745b0f1fc9d1c5850969f72aabf1cd2e23aaec"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.90.0/downloads/glab_1.90.0_linux_arm64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E90%2E0/glab_1%2E90%2E0_linux_arm64%2Etar%2Egz"
+
+[tools.glab."platforms.linux-x64"]
+checksum = "sha256:e8bff003b36da2478cb34e047af6343fa031ca3b19c040b48752bde1227bd921"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.90.0/downloads/glab_1.90.0_linux_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E90%2E0/glab_1%2E90%2E0_linux_amd64%2Etar%2Egz"
+
+[tools.glab."platforms.linux-x64-baseline"]
+checksum = "sha256:e8bff003b36da2478cb34e047af6343fa031ca3b19c040b48752bde1227bd921"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.90.0/downloads/glab_1.90.0_linux_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E90%2E0/glab_1%2E90%2E0_linux_amd64%2Etar%2Egz"
+
+[tools.glab."platforms.linux-x64-musl"]
+checksum = "sha256:e8bff003b36da2478cb34e047af6343fa031ca3b19c040b48752bde1227bd921"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.90.0/downloads/glab_1.90.0_linux_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E90%2E0/glab_1%2E90%2E0_linux_amd64%2Etar%2Egz"
+
+[tools.glab."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:e8bff003b36da2478cb34e047af6343fa031ca3b19c040b48752bde1227bd921"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.90.0/downloads/glab_1.90.0_linux_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E90%2E0/glab_1%2E90%2E0_linux_amd64%2Etar%2Egz"
+
+[tools.glab."platforms.macos-arm64"]
+checksum = "sha256:a61326e557ce767b60daea7874c0bbfb136c981b1f7cb5cc0c89d4caff91886a"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.90.0/downloads/glab_1.90.0_darwin_arm64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E90%2E0/glab_1%2E90%2E0_darwin_arm64%2Etar%2Egz"
+
+[tools.glab."platforms.macos-x64"]
+checksum = "sha256:7546661d5e60c5f563059ac28dd7089fab6bc132aa501d7ea216df88f99f8648"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.90.0/downloads/glab_1.90.0_darwin_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E90%2E0/glab_1%2E90%2E0_darwin_amd64%2Etar%2Egz"
+
+[tools.glab."platforms.macos-x64-baseline"]
+checksum = "sha256:7546661d5e60c5f563059ac28dd7089fab6bc132aa501d7ea216df88f99f8648"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.90.0/downloads/glab_1.90.0_darwin_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E90%2E0/glab_1%2E90%2E0_darwin_amd64%2Etar%2Egz"
+
+[tools.glab."platforms.windows-x64"]
+checksum = "sha256:4f7631760609fbe1b3f56307e573a49b561b3b04fa89758b106c6433c27fd1e4"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.90.0/downloads/glab_1.90.0_windows_amd64.zip"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E90%2E0/glab_1%2E90%2E0_windows_amd64%2Ezip"
+
+[tools.glab."platforms.windows-x64-baseline"]
+checksum = "sha256:4f7631760609fbe1b3f56307e573a49b561b3b04fa89758b106c6433c27fd1e4"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.90.0/downloads/glab_1.90.0_windows_amd64.zip"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E90%2E0/glab_1%2E90%2E0_windows_amd64%2Ezip"
 
 [[tools.go]]
 version = "1.26.1"
@@ -645,7 +1032,15 @@ url = "https://dl.google.com/go/go1.26.1.linux-arm64.tar.gz"
 checksum = "sha256:031f088e5d955bab8657ede27ad4e3bc5b7c1ba281f05f245bcc304f327c987a"
 url = "https://dl.google.com/go/go1.26.1.linux-amd64.tar.gz"
 
+[tools.go."platforms.linux-x64-baseline"]
+checksum = "sha256:031f088e5d955bab8657ede27ad4e3bc5b7c1ba281f05f245bcc304f327c987a"
+url = "https://dl.google.com/go/go1.26.1.linux-amd64.tar.gz"
+
 [tools.go."platforms.linux-x64-musl"]
+checksum = "sha256:031f088e5d955bab8657ede27ad4e3bc5b7c1ba281f05f245bcc304f327c987a"
+url = "https://dl.google.com/go/go1.26.1.linux-amd64.tar.gz"
+
+[tools.go."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:031f088e5d955bab8657ede27ad4e3bc5b7c1ba281f05f245bcc304f327c987a"
 url = "https://dl.google.com/go/go1.26.1.linux-amd64.tar.gz"
 
@@ -657,7 +1052,15 @@ url = "https://dl.google.com/go/go1.26.1.darwin-arm64.tar.gz"
 checksum = "sha256:65773dab2f8cc4cd23d93ba6d0a805de150ca0b78378879292be0b903b8cdd08"
 url = "https://dl.google.com/go/go1.26.1.darwin-amd64.tar.gz"
 
+[tools.go."platforms.macos-x64-baseline"]
+checksum = "sha256:65773dab2f8cc4cd23d93ba6d0a805de150ca0b78378879292be0b903b8cdd08"
+url = "https://dl.google.com/go/go1.26.1.darwin-amd64.tar.gz"
+
 [tools.go."platforms.windows-x64"]
+checksum = "sha256:9b68112c913f45b7aebbf13c036721264bbba7e03a642f8f7490c561eebd1ecc"
+url = "https://dl.google.com/go/go1.26.1.windows-amd64.zip"
+
+[tools.go."platforms.windows-x64-baseline"]
 checksum = "sha256:9b68112c913f45b7aebbf13c036721264bbba7e03a642f8f7490c561eebd1ecc"
 url = "https://dl.google.com/go/go1.26.1.windows-amd64.zip"
 
@@ -685,7 +1088,15 @@ url = "https://github.com/casey/just/releases/download/1.47.1/just-1.47.1-aarch6
 checksum = "sha256:3cb931ae25860f261ee373f32ede3b772ac91f14f588e4071576d3ffcf1a16fd"
 url = "https://github.com/casey/just/releases/download/1.47.1/just-1.47.1-x86_64-unknown-linux-musl.tar.gz"
 
+[tools.just."platforms.linux-x64-baseline"]
+checksum = "sha256:3cb931ae25860f261ee373f32ede3b772ac91f14f588e4071576d3ffcf1a16fd"
+url = "https://github.com/casey/just/releases/download/1.47.1/just-1.47.1-x86_64-unknown-linux-musl.tar.gz"
+
 [tools.just."platforms.linux-x64-musl"]
+checksum = "sha256:3cb931ae25860f261ee373f32ede3b772ac91f14f588e4071576d3ffcf1a16fd"
+url = "https://github.com/casey/just/releases/download/1.47.1/just-1.47.1-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.just."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:3cb931ae25860f261ee373f32ede3b772ac91f14f588e4071576d3ffcf1a16fd"
 url = "https://github.com/casey/just/releases/download/1.47.1/just-1.47.1-x86_64-unknown-linux-musl.tar.gz"
 
@@ -697,34 +1108,65 @@ url = "https://github.com/casey/just/releases/download/1.47.1/just-1.47.1-aarch6
 checksum = "sha256:9e0bd11c96f4947d0b8c52240e0a0cdfd6c93728d5912bb903c01b9c24b9a9ed"
 url = "https://github.com/casey/just/releases/download/1.47.1/just-1.47.1-x86_64-apple-darwin.tar.gz"
 
+[tools.just."platforms.macos-x64-baseline"]
+checksum = "sha256:9e0bd11c96f4947d0b8c52240e0a0cdfd6c93728d5912bb903c01b9c24b9a9ed"
+url = "https://github.com/casey/just/releases/download/1.47.1/just-1.47.1-x86_64-apple-darwin.tar.gz"
+
 [tools.just."platforms.windows-x64"]
 checksum = "sha256:0f059a129049e4efaff5ff645182972edb07180248f769c5153a90765643bb7b"
 url = "https://github.com/casey/just/releases/download/1.47.1/just-1.47.1-x86_64-pc-windows-msvc.zip"
 
-[[tools.kotlin]]
-version = "2.3.20"
-backend = "vfox:kotlin"
+[tools.just."platforms.windows-x64-baseline"]
+checksum = "sha256:0f059a129049e4efaff5ff645182972edb07180248f769c5153a90765643bb7b"
+url = "https://github.com/casey/just/releases/download/1.47.1/just-1.47.1-x86_64-pc-windows-msvc.zip"
 
-[tools.kotlin."platforms.linux-arm64"]
-url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-compiler-2.3.20.zip"
+[[tools.just]]
+version = "1.48.0"
+backend = "aqua:casey/just"
 
-[tools.kotlin."platforms.linux-arm64-musl"]
-url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-compiler-2.3.20.zip"
+[tools.just."platforms.linux-arm64"]
+checksum = "sha256:3c28914f0059161bc263c41db0ed3f786866cfb9632d1ee7809f529c8f18835e"
+url = "https://github.com/casey/just/releases/download/1.48.0/just-1.48.0-aarch64-unknown-linux-musl.tar.gz"
 
-[tools.kotlin."platforms.linux-x64"]
-url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-compiler-2.3.20.zip"
+[tools.just."platforms.linux-arm64-musl"]
+checksum = "sha256:3c28914f0059161bc263c41db0ed3f786866cfb9632d1ee7809f529c8f18835e"
+url = "https://github.com/casey/just/releases/download/1.48.0/just-1.48.0-aarch64-unknown-linux-musl.tar.gz"
 
-[tools.kotlin."platforms.linux-x64-musl"]
-url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-compiler-2.3.20.zip"
+[tools.just."platforms.linux-x64"]
+checksum = "sha256:a62e100de2922519ff3d6128f580837b4c0e197aa61a6fb448f43e50e7dd9b9b"
+url = "https://github.com/casey/just/releases/download/1.48.0/just-1.48.0-x86_64-unknown-linux-musl.tar.gz"
 
-[tools.kotlin."platforms.macos-arm64"]
-url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-compiler-2.3.20.zip"
+[tools.just."platforms.linux-x64-baseline"]
+checksum = "sha256:a62e100de2922519ff3d6128f580837b4c0e197aa61a6fb448f43e50e7dd9b9b"
+url = "https://github.com/casey/just/releases/download/1.48.0/just-1.48.0-x86_64-unknown-linux-musl.tar.gz"
 
-[tools.kotlin."platforms.macos-x64"]
-url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-compiler-2.3.20.zip"
+[tools.just."platforms.linux-x64-musl"]
+checksum = "sha256:a62e100de2922519ff3d6128f580837b4c0e197aa61a6fb448f43e50e7dd9b9b"
+url = "https://github.com/casey/just/releases/download/1.48.0/just-1.48.0-x86_64-unknown-linux-musl.tar.gz"
 
-[tools.kotlin."platforms.windows-x64"]
-url = "https://github.com/JetBrains/kotlin/releases/download/v2.3.20/kotlin-compiler-2.3.20.zip"
+[tools.just."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:a62e100de2922519ff3d6128f580837b4c0e197aa61a6fb448f43e50e7dd9b9b"
+url = "https://github.com/casey/just/releases/download/1.48.0/just-1.48.0-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.just."platforms.macos-arm64"]
+checksum = "sha256:507edd5cbe97e13f048f650e52ae6cf3fd6c7464b18abe64fb01eca1bd65f8a2"
+url = "https://github.com/casey/just/releases/download/1.48.0/just-1.48.0-aarch64-apple-darwin.tar.gz"
+
+[tools.just."platforms.macos-x64"]
+checksum = "sha256:9c4a018665ede3167db8210a6c846e59b675ecce71a35d2f802035fbc9199627"
+url = "https://github.com/casey/just/releases/download/1.48.0/just-1.48.0-x86_64-apple-darwin.tar.gz"
+
+[tools.just."platforms.macos-x64-baseline"]
+checksum = "sha256:9c4a018665ede3167db8210a6c846e59b675ecce71a35d2f802035fbc9199627"
+url = "https://github.com/casey/just/releases/download/1.48.0/just-1.48.0-x86_64-apple-darwin.tar.gz"
+
+[tools.just."platforms.windows-x64"]
+checksum = "sha256:06000d1e1f97155c6dff316f20fad029aa70f69c4ecbe2fbe5b821d9bb79aef0"
+url = "https://github.com/casey/just/releases/download/1.48.0/just-1.48.0-x86_64-pc-windows-msvc.zip"
+
+[tools.just."platforms.windows-x64-baseline"]
+checksum = "sha256:06000d1e1f97155c6dff316f20fad029aa70f69c4ecbe2fbe5b821d9bb79aef0"
+url = "https://github.com/casey/just/releases/download/1.48.0/just-1.48.0-x86_64-pc-windows-msvc.zip"
 
 [[tools.lazygit]]
 version = "0.60.0"
@@ -742,7 +1184,15 @@ url = "https://github.com/jesseduffield/lazygit/releases/download/v0.60.0/lazygi
 checksum = "sha256:6252ca6cf98bc4fd3e0d927b54225910cfa57b065d0ad88263f14592f7f9ab15"
 url = "https://github.com/jesseduffield/lazygit/releases/download/v0.60.0/lazygit_0.60.0_linux_x86_64.tar.gz"
 
+[tools.lazygit."platforms.linux-x64-baseline"]
+checksum = "sha256:6252ca6cf98bc4fd3e0d927b54225910cfa57b065d0ad88263f14592f7f9ab15"
+url = "https://github.com/jesseduffield/lazygit/releases/download/v0.60.0/lazygit_0.60.0_linux_x86_64.tar.gz"
+
 [tools.lazygit."platforms.linux-x64-musl"]
+checksum = "sha256:6252ca6cf98bc4fd3e0d927b54225910cfa57b065d0ad88263f14592f7f9ab15"
+url = "https://github.com/jesseduffield/lazygit/releases/download/v0.60.0/lazygit_0.60.0_linux_x86_64.tar.gz"
+
+[tools.lazygit."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:6252ca6cf98bc4fd3e0d927b54225910cfa57b065d0ad88263f14592f7f9ab15"
 url = "https://github.com/jesseduffield/lazygit/releases/download/v0.60.0/lazygit_0.60.0_linux_x86_64.tar.gz"
 
@@ -754,7 +1204,15 @@ url = "https://github.com/jesseduffield/lazygit/releases/download/v0.60.0/lazygi
 checksum = "sha256:9210a8bd8bf18537f9d7747361c8eba62518e10e4d5fbfe915cf110635eaab78"
 url = "https://github.com/jesseduffield/lazygit/releases/download/v0.60.0/lazygit_0.60.0_darwin_x86_64.tar.gz"
 
+[tools.lazygit."platforms.macos-x64-baseline"]
+checksum = "sha256:9210a8bd8bf18537f9d7747361c8eba62518e10e4d5fbfe915cf110635eaab78"
+url = "https://github.com/jesseduffield/lazygit/releases/download/v0.60.0/lazygit_0.60.0_darwin_x86_64.tar.gz"
+
 [tools.lazygit."platforms.windows-x64"]
+checksum = "sha256:435b53165ff4604e201549b9317eb0b8bb5b3f6728be612656988e90c821a9b9"
+url = "https://github.com/jesseduffield/lazygit/releases/download/v0.60.0/lazygit_0.60.0_windows_x86_64.zip"
+
+[tools.lazygit."platforms.windows-x64-baseline"]
 checksum = "sha256:435b53165ff4604e201549b9317eb0b8bb5b3f6728be612656988e90c821a9b9"
 url = "https://github.com/jesseduffield/lazygit/releases/download/v0.60.0/lazygit_0.60.0_windows_x86_64.zip"
 
@@ -822,7 +1280,15 @@ url = "https://nodejs.org/dist/v24.14.0/node-v24.14.0-linux-arm64.tar.gz"
 checksum = "sha256:dbf5b8665dec15e59e6359a517fefb47b23fdb9152d8def975b9bca3dfc6d355"
 url = "https://nodejs.org/dist/v24.14.0/node-v24.14.0-linux-x64.tar.gz"
 
+[tools.node."platforms.linux-x64-baseline"]
+checksum = "sha256:dbf5b8665dec15e59e6359a517fefb47b23fdb9152d8def975b9bca3dfc6d355"
+url = "https://nodejs.org/dist/v24.14.0/node-v24.14.0-linux-x64.tar.gz"
+
 [tools.node."platforms.linux-x64-musl"]
+checksum = "sha256:dbf5b8665dec15e59e6359a517fefb47b23fdb9152d8def975b9bca3dfc6d355"
+url = "https://nodejs.org/dist/v24.14.0/node-v24.14.0-linux-x64.tar.gz"
+
+[tools.node."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:dbf5b8665dec15e59e6359a517fefb47b23fdb9152d8def975b9bca3dfc6d355"
 url = "https://nodejs.org/dist/v24.14.0/node-v24.14.0-linux-x64.tar.gz"
 
@@ -834,7 +1300,15 @@ url = "https://nodejs.org/dist/v24.14.0/node-v24.14.0-darwin-arm64.tar.gz"
 checksum = "sha256:f2879eb810e25993a0578e5d878930266fd2eafcffe9f2839b3d8db354d4879e"
 url = "https://nodejs.org/dist/v24.14.0/node-v24.14.0-darwin-x64.tar.gz"
 
+[tools.node."platforms.macos-x64-baseline"]
+checksum = "sha256:f2879eb810e25993a0578e5d878930266fd2eafcffe9f2839b3d8db354d4879e"
+url = "https://nodejs.org/dist/v24.14.0/node-v24.14.0-darwin-x64.tar.gz"
+
 [tools.node."platforms.windows-x64"]
+checksum = "sha256:313fa40c0d7b18575821de8cb17483031fe07d95de5994f6f435f3b345f85c66"
+url = "https://nodejs.org/dist/v24.14.0/node-v24.14.0-win-x64.zip"
+
+[tools.node."platforms.windows-x64-baseline"]
 checksum = "sha256:313fa40c0d7b18575821de8cb17483031fe07d95de5994f6f435f3b345f85c66"
 url = "https://nodejs.org/dist/v24.14.0/node-v24.14.0-win-x64.zip"
 
@@ -852,6 +1326,10 @@ backend = "npm:@mermaid-js/mermaid-cli"
 
 [[tools."npm:aws-cdk"]]
 version = "2.1112.0"
+backend = "npm:aws-cdk"
+
+[[tools."npm:aws-cdk"]]
+version = "2.1114.1"
 backend = "npm:aws-cdk"
 
 [[tools."npm:commitlint-format-json"]]
@@ -882,12 +1360,20 @@ backend = "npm:prettier"
 version = "17.5.0"
 backend = "npm:stylelint"
 
+[[tools."npm:stylelint"]]
+version = "17.6.0"
+backend = "npm:stylelint"
+
 [[tools."npm:stylelint-prettier"]]
 version = "5.0.3"
 backend = "npm:stylelint-prettier"
 
 [[tools."npm:typescript"]]
 version = "5.9.3"
+backend = "npm:typescript"
+
+[[tools."npm:typescript"]]
+version = "6.0.2"
 backend = "npm:typescript"
 
 [[tools."npm:wsl-open"]]
@@ -913,7 +1399,17 @@ checksum = "sha256:e0688d2712a6f8b82881ab73420b098991e81aa6f8c20f3fb9e56822b61ce
 url = "https://github.com/openbao/openbao/releases/download/v2.5.1/bao-hsm_2.5.1_Linux_x86_64.tar.gz"
 url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/360923386"
 
+[tools.openbao."platforms.linux-x64-baseline"]
+checksum = "sha256:e0688d2712a6f8b82881ab73420b098991e81aa6f8c20f3fb9e56822b61ce958"
+url = "https://github.com/openbao/openbao/releases/download/v2.5.1/bao-hsm_2.5.1_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/360923386"
+
 [tools.openbao."platforms.linux-x64-musl"]
+checksum = "sha256:e0688d2712a6f8b82881ab73420b098991e81aa6f8c20f3fb9e56822b61ce958"
+url = "https://github.com/openbao/openbao/releases/download/v2.5.1/bao-hsm_2.5.1_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/360923386"
+
+[tools.openbao."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:e0688d2712a6f8b82881ab73420b098991e81aa6f8c20f3fb9e56822b61ce958"
 url = "https://github.com/openbao/openbao/releases/download/v2.5.1/bao-hsm_2.5.1_Linux_x86_64.tar.gz"
 url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/360923386"
@@ -928,10 +1424,79 @@ checksum = "sha256:1ade9fdad23892b94ff0155f79ce32399f63deed382b2dd3b9f7b81b43ab2
 url = "https://github.com/openbao/openbao/releases/download/v2.5.1/bao_2.5.1_Darwin_x86_64.tar.gz"
 url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/360919471"
 
+[tools.openbao."platforms.macos-x64-baseline"]
+checksum = "sha256:1ade9fdad23892b94ff0155f79ce32399f63deed382b2dd3b9f7b81b43ab2a21"
+url = "https://github.com/openbao/openbao/releases/download/v2.5.1/bao_2.5.1_Darwin_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/360919471"
+
 [tools.openbao."platforms.windows-x64"]
 checksum = "sha256:5cde813a8806772ffad73367e22020818cb5742b8f0cf421779a80bcca8e5313"
 url = "https://github.com/openbao/openbao/releases/download/v2.5.1/bao_2.5.1_Windows_x86_64.zip"
 url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/360920955"
+
+[tools.openbao."platforms.windows-x64-baseline"]
+checksum = "sha256:5cde813a8806772ffad73367e22020818cb5742b8f0cf421779a80bcca8e5313"
+url = "https://github.com/openbao/openbao/releases/download/v2.5.1/bao_2.5.1_Windows_x86_64.zip"
+url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/360920955"
+
+[[tools.openbao]]
+version = "2.5.2"
+backend = "github:openbao/openbao"
+
+[tools.openbao."platforms.linux-arm64"]
+checksum = "sha256:6dd1be58c2249f1e4fff25fcdbcbae578fd9f0fb0fa1bc7cf6813de386d07e49"
+url = "https://github.com/openbao/openbao/releases/download/v2.5.2/bao-hsm_2.5.2_Linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/381398598"
+
+[tools.openbao."platforms.linux-arm64-musl"]
+checksum = "sha256:6dd1be58c2249f1e4fff25fcdbcbae578fd9f0fb0fa1bc7cf6813de386d07e49"
+url = "https://github.com/openbao/openbao/releases/download/v2.5.2/bao-hsm_2.5.2_Linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/381398598"
+
+[tools.openbao."platforms.linux-x64"]
+checksum = "sha256:abc07696f35b57b5246dffcfcbbdd6adcfef896562b6290df76f1fe13c4944fb"
+url = "https://github.com/openbao/openbao/releases/download/v2.5.2/bao-hsm_2.5.2_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/381398597"
+
+[tools.openbao."platforms.linux-x64-baseline"]
+checksum = "sha256:abc07696f35b57b5246dffcfcbbdd6adcfef896562b6290df76f1fe13c4944fb"
+url = "https://github.com/openbao/openbao/releases/download/v2.5.2/bao-hsm_2.5.2_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/381398597"
+
+[tools.openbao."platforms.linux-x64-musl"]
+checksum = "sha256:abc07696f35b57b5246dffcfcbbdd6adcfef896562b6290df76f1fe13c4944fb"
+url = "https://github.com/openbao/openbao/releases/download/v2.5.2/bao-hsm_2.5.2_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/381398597"
+
+[tools.openbao."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:abc07696f35b57b5246dffcfcbbdd6adcfef896562b6290df76f1fe13c4944fb"
+url = "https://github.com/openbao/openbao/releases/download/v2.5.2/bao-hsm_2.5.2_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/381398597"
+
+[tools.openbao."platforms.macos-arm64"]
+checksum = "sha256:dd781e4e356681c85a4db96bb3a7f7c6310aa14dcec85b05f9533715429826e8"
+url = "https://github.com/openbao/openbao/releases/download/v2.5.2/bao_2.5.2_Darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/381395114"
+
+[tools.openbao."platforms.macos-x64"]
+checksum = "sha256:e89b39e488c61cdb027865b9060859972f83fc99d3dea39b56e0adc68e94ee68"
+url = "https://github.com/openbao/openbao/releases/download/v2.5.2/bao_2.5.2_Darwin_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/381395113"
+
+[tools.openbao."platforms.macos-x64-baseline"]
+checksum = "sha256:e89b39e488c61cdb027865b9060859972f83fc99d3dea39b56e0adc68e94ee68"
+url = "https://github.com/openbao/openbao/releases/download/v2.5.2/bao_2.5.2_Darwin_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/381395113"
+
+[tools.openbao."platforms.windows-x64"]
+checksum = "sha256:4c4755ee10cb8150137bccccd13df2c38075cb20cd89b4b9e92e01e69ede79f8"
+url = "https://github.com/openbao/openbao/releases/download/v2.5.2/bao_2.5.2_Windows_x86_64.zip"
+url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/381396150"
+
+[tools.openbao."platforms.windows-x64-baseline"]
+checksum = "sha256:4c4755ee10cb8150137bccccd13df2c38075cb20cd89b4b9e92e01e69ede79f8"
+url = "https://github.com/openbao/openbao/releases/download/v2.5.2/bao_2.5.2_Windows_x86_64.zip"
+url_api = "https://api.github.com/repos/openbao/openbao/releases/assets/381396150"
 
 [[tools.opentofu]]
 version = "1.11.5"
@@ -949,7 +1514,15 @@ url = "https://github.com/opentofu/opentofu/releases/download/v1.11.5/tofu_1.11.
 checksum = "sha256:e73868ab8abaca15d3c974dcf6a5e878860d6f2212867433aa3d8f2b43a492d9"
 url = "https://github.com/opentofu/opentofu/releases/download/v1.11.5/tofu_1.11.5_linux_amd64.tar.gz"
 
+[tools.opentofu."platforms.linux-x64-baseline"]
+checksum = "sha256:e73868ab8abaca15d3c974dcf6a5e878860d6f2212867433aa3d8f2b43a492d9"
+url = "https://github.com/opentofu/opentofu/releases/download/v1.11.5/tofu_1.11.5_linux_amd64.tar.gz"
+
 [tools.opentofu."platforms.linux-x64-musl"]
+checksum = "sha256:e73868ab8abaca15d3c974dcf6a5e878860d6f2212867433aa3d8f2b43a492d9"
+url = "https://github.com/opentofu/opentofu/releases/download/v1.11.5/tofu_1.11.5_linux_amd64.tar.gz"
+
+[tools.opentofu."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:e73868ab8abaca15d3c974dcf6a5e878860d6f2212867433aa3d8f2b43a492d9"
 url = "https://github.com/opentofu/opentofu/releases/download/v1.11.5/tofu_1.11.5_linux_amd64.tar.gz"
 
@@ -961,7 +1534,15 @@ url = "https://github.com/opentofu/opentofu/releases/download/v1.11.5/tofu_1.11.
 checksum = "sha256:f514761be893f49b6ca12c2df672c010fad6c88f92588dcfc95db750211c2594"
 url = "https://github.com/opentofu/opentofu/releases/download/v1.11.5/tofu_1.11.5_darwin_amd64.tar.gz"
 
+[tools.opentofu."platforms.macos-x64-baseline"]
+checksum = "sha256:f514761be893f49b6ca12c2df672c010fad6c88f92588dcfc95db750211c2594"
+url = "https://github.com/opentofu/opentofu/releases/download/v1.11.5/tofu_1.11.5_darwin_amd64.tar.gz"
+
 [tools.opentofu."platforms.windows-x64"]
+checksum = "sha256:69be358054afcc6a84c0ffb917056d21afc3ec5a0e0f66ffd4f498a1763a0fb8"
+url = "https://github.com/opentofu/opentofu/releases/download/v1.11.5/tofu_1.11.5_windows_amd64.tar.gz"
+
+[tools.opentofu."platforms.windows-x64-baseline"]
 checksum = "sha256:69be358054afcc6a84c0ffb917056d21afc3ec5a0e0f66ffd4f498a1763a0fb8"
 url = "https://github.com/opentofu/opentofu/releases/download/v1.11.5/tofu_1.11.5_windows_amd64.tar.gz"
 
@@ -981,7 +1562,15 @@ url = "https://releases.hashicorp.com/packer/1.15.0/packer_1.15.0_linux_arm64.zi
 checksum = "sha256:2fd1149c5c6c7604ced64d7b56638af05f6b7ed3f6835182bc913ddaba1f16b8"
 url = "https://releases.hashicorp.com/packer/1.15.0/packer_1.15.0_linux_amd64.zip"
 
+[tools.packer."platforms.linux-x64-baseline"]
+checksum = "sha256:2fd1149c5c6c7604ced64d7b56638af05f6b7ed3f6835182bc913ddaba1f16b8"
+url = "https://releases.hashicorp.com/packer/1.15.0/packer_1.15.0_linux_amd64.zip"
+
 [tools.packer."platforms.linux-x64-musl"]
+checksum = "sha256:2fd1149c5c6c7604ced64d7b56638af05f6b7ed3f6835182bc913ddaba1f16b8"
+url = "https://releases.hashicorp.com/packer/1.15.0/packer_1.15.0_linux_amd64.zip"
+
+[tools.packer."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:2fd1149c5c6c7604ced64d7b56638af05f6b7ed3f6835182bc913ddaba1f16b8"
 url = "https://releases.hashicorp.com/packer/1.15.0/packer_1.15.0_linux_amd64.zip"
 
@@ -993,41 +1582,113 @@ url = "https://releases.hashicorp.com/packer/1.15.0/packer_1.15.0_darwin_arm64.z
 checksum = "sha256:a565b825aed17ac9a7c422b5ed22e6598dd42b9f705de161695853b1f5c6bd80"
 url = "https://releases.hashicorp.com/packer/1.15.0/packer_1.15.0_darwin_amd64.zip"
 
+[tools.packer."platforms.macos-x64-baseline"]
+checksum = "sha256:a565b825aed17ac9a7c422b5ed22e6598dd42b9f705de161695853b1f5c6bd80"
+url = "https://releases.hashicorp.com/packer/1.15.0/packer_1.15.0_darwin_amd64.zip"
+
 [tools.packer."platforms.windows-x64"]
 checksum = "sha256:5cf875e39b5d4ad552dd0e6f52a6e46c6d0b6b0ee1f8104824445892febe58c6"
 url = "https://releases.hashicorp.com/packer/1.15.0/packer_1.15.0_windows_amd64.zip"
+
+[tools.packer."platforms.windows-x64-baseline"]
+checksum = "sha256:5cf875e39b5d4ad552dd0e6f52a6e46c6d0b6b0ee1f8104824445892febe58c6"
+url = "https://releases.hashicorp.com/packer/1.15.0/packer_1.15.0_windows_amd64.zip"
+
+[[tools.packer]]
+version = "1.15.1"
+backend = "aqua:hashicorp/packer"
+
+[tools.packer."platforms.linux-arm64"]
+checksum = "sha256:a8d68f1746ecacaf8fa9d364aa086249958a0a1f67c90b8a4f165ff024c0e58e"
+url = "https://releases.hashicorp.com/packer/1.15.1/packer_1.15.1_linux_arm64.zip"
+
+[tools.packer."platforms.linux-arm64-musl"]
+checksum = "sha256:a8d68f1746ecacaf8fa9d364aa086249958a0a1f67c90b8a4f165ff024c0e58e"
+url = "https://releases.hashicorp.com/packer/1.15.1/packer_1.15.1_linux_arm64.zip"
+
+[tools.packer."platforms.linux-x64"]
+checksum = "sha256:648d704bec73805a5508ed612185a9e5858ca7d57b730b88b1a54c3af3a91f5f"
+url = "https://releases.hashicorp.com/packer/1.15.1/packer_1.15.1_linux_amd64.zip"
+
+[tools.packer."platforms.linux-x64-baseline"]
+checksum = "sha256:648d704bec73805a5508ed612185a9e5858ca7d57b730b88b1a54c3af3a91f5f"
+url = "https://releases.hashicorp.com/packer/1.15.1/packer_1.15.1_linux_amd64.zip"
+
+[tools.packer."platforms.linux-x64-musl"]
+checksum = "sha256:648d704bec73805a5508ed612185a9e5858ca7d57b730b88b1a54c3af3a91f5f"
+url = "https://releases.hashicorp.com/packer/1.15.1/packer_1.15.1_linux_amd64.zip"
+
+[tools.packer."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:648d704bec73805a5508ed612185a9e5858ca7d57b730b88b1a54c3af3a91f5f"
+url = "https://releases.hashicorp.com/packer/1.15.1/packer_1.15.1_linux_amd64.zip"
+
+[tools.packer."platforms.macos-arm64"]
+checksum = "sha256:dc7101854964dce31d379f9a66a1b3256381242dd670dcad25add6f2f299d934"
+url = "https://releases.hashicorp.com/packer/1.15.1/packer_1.15.1_darwin_arm64.zip"
+
+[tools.packer."platforms.macos-x64"]
+checksum = "sha256:b574a86fae94f097cfce1b49830efa35071125496b6ca6f4f4665c5a7717d55d"
+url = "https://releases.hashicorp.com/packer/1.15.1/packer_1.15.1_darwin_amd64.zip"
+
+[tools.packer."platforms.macos-x64-baseline"]
+checksum = "sha256:b574a86fae94f097cfce1b49830efa35071125496b6ca6f4f4665c5a7717d55d"
+url = "https://releases.hashicorp.com/packer/1.15.1/packer_1.15.1_darwin_amd64.zip"
+
+[tools.packer."platforms.windows-x64"]
+checksum = "sha256:4719757854efcd0a956a5b653002bf994b7448d589771b111eb9b2393bf07ed1"
+url = "https://releases.hashicorp.com/packer/1.15.1/packer_1.15.1_windows_amd64.zip"
+
+[tools.packer."platforms.windows-x64-baseline"]
+checksum = "sha256:4719757854efcd0a956a5b653002bf994b7448d589771b111eb9b2393bf07ed1"
+url = "https://releases.hashicorp.com/packer/1.15.1/packer_1.15.1_windows_amd64.zip"
 
 [[tools.python]]
 version = "3.14.3"
 backend = "core:python"
 
 [tools.python."platforms.linux-arm64"]
-checksum = "sha256:c4a5cc7681da3ed2066194f6fac24207a764db38f23fc5a2b1b56671ee3142d6"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260320/cpython-3.14.3+20260320-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:53700338695e402a1a1fe22be4a41fbdacc70e22bb308a48eca8ed67cb7992be"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz"
 
 [tools.python."platforms.linux-arm64-musl"]
-checksum = "sha256:c4a5cc7681da3ed2066194f6fac24207a764db38f23fc5a2b1b56671ee3142d6"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260320/cpython-3.14.3+20260320-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:53700338695e402a1a1fe22be4a41fbdacc70e22bb308a48eca8ed67cb7992be"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz"
 
 [tools.python."platforms.linux-x64"]
-checksum = "sha256:bc35984c271adb7b0d2f730eced89fbbb96246c4d716c415e4af7ed686627831"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260320/cpython-3.14.3+20260320-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:d7a9f970914bb4c88756fe3bdcc186d4feb90e9500e54f1db47dae4dc9687e39"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+
+[tools.python."platforms.linux-x64-baseline"]
+checksum = "sha256:d7a9f970914bb4c88756fe3bdcc186d4feb90e9500e54f1db47dae4dc9687e39"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 
 [tools.python."platforms.linux-x64-musl"]
-checksum = "sha256:bc35984c271adb7b0d2f730eced89fbbb96246c4d716c415e4af7ed686627831"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260320/cpython-3.14.3+20260320-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:d7a9f970914bb4c88756fe3bdcc186d4feb90e9500e54f1db47dae4dc9687e39"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+
+[tools.python."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:d7a9f970914bb4c88756fe3bdcc186d4feb90e9500e54f1db47dae4dc9687e39"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 
 [tools.python."platforms.macos-arm64"]
-checksum = "sha256:f9b4a94d2d62ca77e08873b861b8cd989eda922ad3c3eafd2dfad57375e6ae61"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260320/cpython-3.14.3+20260320-aarch64-apple-darwin-install_only_stripped.tar.gz"
+checksum = "sha256:c43aecde4a663aebff99b9b83da0efec506479f1c3f98331442f33d2c43501f9"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-aarch64-apple-darwin-install_only_stripped.tar.gz"
 
 [tools.python."platforms.macos-x64"]
-checksum = "sha256:cb8d27660e0575d33c6828c4f73c891a005d8cfade8941d889fd0efd0ff031dc"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260320/cpython-3.14.3+20260320-x86_64-apple-darwin-install_only_stripped.tar.gz"
+checksum = "sha256:9ab41dbc2f100a2a45d1833b9c11165f51051c558b5213eda9a9731d5948a0c0"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-x86_64-apple-darwin-install_only_stripped.tar.gz"
+
+[tools.python."platforms.macos-x64-baseline"]
+checksum = "sha256:9ab41dbc2f100a2a45d1833b9c11165f51051c558b5213eda9a9731d5948a0c0"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-x86_64-apple-darwin-install_only_stripped.tar.gz"
 
 [tools.python."platforms.windows-x64"]
-checksum = "sha256:2223000d2dcce0f50a8feddb8a8391ec6e5534f6f7169e10004a11ce9b438ed3"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260320/cpython-3.14.3+20260320-x86_64-pc-windows-msvc-install_only_stripped.tar.gz"
+checksum = "sha256:bbe19034b35b0267176a7442575ae7dc6343480fd4d35598cb7700173d431e09"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-x86_64-pc-windows-msvc-install_only_stripped.tar.gz"
+
+[tools.python."platforms.windows-x64-baseline"]
+checksum = "sha256:bbe19034b35b0267176a7442575ae7dc6343480fd4d35598cb7700173d431e09"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260324/cpython-3.14.3+20260324-x86_64-pc-windows-msvc-install_only_stripped.tar.gz"
 
 [[tools.ripgrep]]
 version = "15.1.0"
@@ -1045,7 +1706,15 @@ url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15
 checksum = "sha256:1c9297be4a084eea7ecaedf93eb03d058d6faae29bbc57ecdaf5063921491599"
 url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-x86_64-unknown-linux-musl.tar.gz"
 
+[tools.ripgrep."platforms.linux-x64-baseline"]
+checksum = "sha256:1c9297be4a084eea7ecaedf93eb03d058d6faae29bbc57ecdaf5063921491599"
+url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-x86_64-unknown-linux-musl.tar.gz"
+
 [tools.ripgrep."platforms.linux-x64-musl"]
+checksum = "sha256:1c9297be4a084eea7ecaedf93eb03d058d6faae29bbc57ecdaf5063921491599"
+url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.ripgrep."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:1c9297be4a084eea7ecaedf93eb03d058d6faae29bbc57ecdaf5063921491599"
 url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-x86_64-unknown-linux-musl.tar.gz"
 
@@ -1057,7 +1726,15 @@ url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15
 checksum = "sha256:64811cb24e77cac3057d6c40b63ac9becf9082eedd54ca411b475b755d334882"
 url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-x86_64-apple-darwin.tar.gz"
 
+[tools.ripgrep."platforms.macos-x64-baseline"]
+checksum = "sha256:64811cb24e77cac3057d6c40b63ac9becf9082eedd54ca411b475b755d334882"
+url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-x86_64-apple-darwin.tar.gz"
+
 [tools.ripgrep."platforms.windows-x64"]
+checksum = "sha256:124510b94b6baa3380d051fdf4650eaa80a302c876d611e9dba0b2e18d87493a"
+url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-x86_64-pc-windows-msvc.zip"
+
+[tools.ripgrep."platforms.windows-x64-baseline"]
 checksum = "sha256:124510b94b6baa3380d051fdf4650eaa80a302c876d611e9dba0b2e18d87493a"
 url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-x86_64-pc-windows-msvc.zip"
 
@@ -1066,26 +1743,45 @@ version = "4.0.2"
 backend = "core:ruby"
 
 [tools.ruby."platforms.linux-arm64"]
-checksum = "sha256:51502b26b50b68df4963336ca41e368cde92c928faf91654de4c4c1791f82aac"
-url = "https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.2.tar.gz"
+checksum = "sha256:f4bae6aba123a65817cb005d35f994781935f58d6388dd6bd3d5cd27f793a463"
+url = "https://github.com/jdx/ruby/releases/download/4.0.2/ruby-4.0.2.arm64_linux.tar.gz"
+provenance = "github-attestations"
 
 [tools.ruby."platforms.linux-arm64-musl"]
-checksum = "sha256:51502b26b50b68df4963336ca41e368cde92c928faf91654de4c4c1791f82aac"
-url = "https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.2.tar.gz"
+checksum = "sha256:f4bae6aba123a65817cb005d35f994781935f58d6388dd6bd3d5cd27f793a463"
+url = "https://github.com/jdx/ruby/releases/download/4.0.2/ruby-4.0.2.arm64_linux.tar.gz"
+provenance = "github-attestations"
 
 [tools.ruby."platforms.linux-x64"]
-checksum = "sha256:51502b26b50b68df4963336ca41e368cde92c928faf91654de4c4c1791f82aac"
-url = "https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.2.tar.gz"
+checksum = "sha256:4564603d7f314912091b01978627be183a16b057e3c98309eed0137c3b74601a"
+url = "https://github.com/jdx/ruby/releases/download/4.0.2/ruby-4.0.2.x86_64_linux.tar.gz"
+provenance = "github-attestations"
+
+[tools.ruby."platforms.linux-x64-baseline"]
+checksum = "sha256:4564603d7f314912091b01978627be183a16b057e3c98309eed0137c3b74601a"
+url = "https://github.com/jdx/ruby/releases/download/4.0.2/ruby-4.0.2.x86_64_linux.tar.gz"
+provenance = "github-attestations"
 
 [tools.ruby."platforms.linux-x64-musl"]
-checksum = "sha256:51502b26b50b68df4963336ca41e368cde92c928faf91654de4c4c1791f82aac"
-url = "https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.2.tar.gz"
+checksum = "sha256:4564603d7f314912091b01978627be183a16b057e3c98309eed0137c3b74601a"
+url = "https://github.com/jdx/ruby/releases/download/4.0.2/ruby-4.0.2.x86_64_linux.tar.gz"
+provenance = "github-attestations"
+
+[tools.ruby."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:4564603d7f314912091b01978627be183a16b057e3c98309eed0137c3b74601a"
+url = "https://github.com/jdx/ruby/releases/download/4.0.2/ruby-4.0.2.x86_64_linux.tar.gz"
+provenance = "github-attestations"
 
 [tools.ruby."platforms.macos-arm64"]
+checksum = "sha256:3719af6ceff6c1b977eecf5b48e398827ea82872377480684b75db5925b78493"
+url = "https://github.com/jdx/ruby/releases/download/4.0.2/ruby-4.0.2.macos.tar.gz"
+provenance = "github-attestations"
+
+[tools.ruby."platforms.macos-x64"]
 checksum = "sha256:51502b26b50b68df4963336ca41e368cde92c928faf91654de4c4c1791f82aac"
 url = "https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.2.tar.gz"
 
-[tools.ruby."platforms.macos-x64"]
+[tools.ruby."platforms.macos-x64-baseline"]
 checksum = "sha256:51502b26b50b68df4963336ca41e368cde92c928faf91654de4c4c1791f82aac"
 url = "https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.2.tar.gz"
 
@@ -1093,8 +1789,16 @@ url = "https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.2.tar.gz"
 checksum = "sha256:f6c562d507b272b892055f35ece3cbc65de5f3f2f63d18b7345a602af8c1e655"
 url = "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-4.0.2-1/rubyinstaller-4.0.2-1-x64.7z"
 
+[tools.ruby."platforms.windows-x64-baseline"]
+checksum = "sha256:f6c562d507b272b892055f35ece3cbc65de5f3f2f63d18b7345a602af8c1e655"
+url = "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-4.0.2-1/rubyinstaller-4.0.2-1-x64.7z"
+
 [[tools.rust]]
 version = "1.94.0"
+backend = "core:rust"
+
+[[tools.rust]]
+version = "1.94.1"
 backend = "core:rust"
 
 [[tools.sops]]
@@ -1116,7 +1820,17 @@ checksum = "sha256:14e2e1ba3bef31e74b70cf0b674f6443c80f6c5f3df15d05ffc57c34851b4
 url = "https://github.com/getsops/sops/releases/download/v3.12.2/sops-v3.12.2.linux.amd64"
 provenance = "slsa"
 
+[tools.sops."platforms.linux-x64-baseline"]
+checksum = "sha256:14e2e1ba3bef31e74b70cf0b674f6443c80f6c5f3df15d05ffc57c34851b4998"
+url = "https://github.com/getsops/sops/releases/download/v3.12.2/sops-v3.12.2.linux.amd64"
+provenance = "slsa"
+
 [tools.sops."platforms.linux-x64-musl"]
+checksum = "sha256:14e2e1ba3bef31e74b70cf0b674f6443c80f6c5f3df15d05ffc57c34851b4998"
+url = "https://github.com/getsops/sops/releases/download/v3.12.2/sops-v3.12.2.linux.amd64"
+provenance = "slsa"
+
+[tools.sops."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:14e2e1ba3bef31e74b70cf0b674f6443c80f6c5f3df15d05ffc57c34851b4998"
 url = "https://github.com/getsops/sops/releases/download/v3.12.2/sops-v3.12.2.linux.amd64"
 provenance = "slsa"
@@ -1131,7 +1845,17 @@ checksum = "sha256:767c0dcb42e052fd6f2ac17d4473eca6f5fc4910e2b70127f1308d86c606c
 url = "https://github.com/getsops/sops/releases/download/v3.12.2/sops-v3.12.2.darwin.amd64"
 provenance = "slsa"
 
+[tools.sops."platforms.macos-x64-baseline"]
+checksum = "sha256:767c0dcb42e052fd6f2ac17d4473eca6f5fc4910e2b70127f1308d86c606c022"
+url = "https://github.com/getsops/sops/releases/download/v3.12.2/sops-v3.12.2.darwin.amd64"
+provenance = "slsa"
+
 [tools.sops."platforms.windows-x64"]
+checksum = "sha256:5e777b1854ab2a6271d8f66375970e1fe3eea838251c309de151d16a2bdf13a2"
+url = "https://github.com/getsops/sops/releases/download/v3.12.2/sops-v3.12.2.amd64.exe"
+provenance = "slsa"
+
+[tools.sops."platforms.windows-x64-baseline"]
 checksum = "sha256:5e777b1854ab2a6271d8f66375970e1fe3eea838251c309de151d16a2bdf13a2"
 url = "https://github.com/getsops/sops/releases/download/v3.12.2/sops-v3.12.2.amd64.exe"
 provenance = "slsa"
@@ -1184,6 +1908,54 @@ url = "https://github.com/starship/starship/releases/download/v1.24.2/starship-x
 checksum = "sha256:d38424c595320e9639a276666347d5e44cb004de3972f40b9a5a1a6b88537f29"
 url = "https://github.com/starship/starship/releases/download/v1.24.2/starship-x86_64-pc-windows-msvc.zip"
 
+[[tools.television]]
+version = "0.15.4"
+backend = "aqua:alexpasmantier/television"
+
+[tools.television."platforms.linux-arm64"]
+checksum = "sha256:5ee2e051378cba739b4e308d6452701ad9a855042fe497cde24a0463a114ac06"
+url = "https://github.com/alexpasmantier/television/releases/download/0.15.4/tv-0.15.4-aarch64-unknown-linux-gnu.tar.gz"
+
+[tools.television."platforms.linux-arm64-musl"]
+checksum = "sha256:5ee2e051378cba739b4e308d6452701ad9a855042fe497cde24a0463a114ac06"
+url = "https://github.com/alexpasmantier/television/releases/download/0.15.4/tv-0.15.4-aarch64-unknown-linux-gnu.tar.gz"
+
+[tools.television."platforms.linux-x64"]
+checksum = "sha256:9cacf6baa4524db5ddab15695e41a09c105015fcf9f45aedbac26cdb10e3c946"
+url = "https://github.com/alexpasmantier/television/releases/download/0.15.4/tv-0.15.4-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.television."platforms.linux-x64-baseline"]
+checksum = "sha256:9cacf6baa4524db5ddab15695e41a09c105015fcf9f45aedbac26cdb10e3c946"
+url = "https://github.com/alexpasmantier/television/releases/download/0.15.4/tv-0.15.4-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.television."platforms.linux-x64-musl"]
+checksum = "sha256:9cacf6baa4524db5ddab15695e41a09c105015fcf9f45aedbac26cdb10e3c946"
+url = "https://github.com/alexpasmantier/television/releases/download/0.15.4/tv-0.15.4-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.television."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:9cacf6baa4524db5ddab15695e41a09c105015fcf9f45aedbac26cdb10e3c946"
+url = "https://github.com/alexpasmantier/television/releases/download/0.15.4/tv-0.15.4-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.television."platforms.macos-arm64"]
+checksum = "sha256:d097ec1e6cba73426b53e6e402febf8db1c908097ca4180584a44386c944352f"
+url = "https://github.com/alexpasmantier/television/releases/download/0.15.4/tv-0.15.4-aarch64-apple-darwin.tar.gz"
+
+[tools.television."platforms.macos-x64"]
+checksum = "sha256:b9e854930d5ae8bbcf10bac1d4c3b8210600cf713e0e0c4c8b7b2eaedb29dce9"
+url = "https://github.com/alexpasmantier/television/releases/download/0.15.4/tv-0.15.4-x86_64-apple-darwin.tar.gz"
+
+[tools.television."platforms.macos-x64-baseline"]
+checksum = "sha256:b9e854930d5ae8bbcf10bac1d4c3b8210600cf713e0e0c4c8b7b2eaedb29dce9"
+url = "https://github.com/alexpasmantier/television/releases/download/0.15.4/tv-0.15.4-x86_64-apple-darwin.tar.gz"
+
+[tools.television."platforms.windows-x64"]
+checksum = "sha256:4991ffe73aa91dfc720155416e0a27fd71cf1bc2c3507979cad3ec3e92dc36b0"
+url = "https://github.com/alexpasmantier/television/releases/download/0.15.4/tv-0.15.4-x86_64-pc-windows-msvc.tar.gz"
+
+[tools.television."platforms.windows-x64-baseline"]
+checksum = "sha256:4991ffe73aa91dfc720155416e0a27fd71cf1bc2c3507979cad3ec3e92dc36b0"
+url = "https://github.com/alexpasmantier/television/releases/download/0.15.4/tv-0.15.4-x86_64-pc-windows-msvc.tar.gz"
+
 [[tools.terraform]]
 version = "1.14.7"
 backend = "aqua:hashicorp/terraform"
@@ -1200,7 +1972,15 @@ url = "https://releases.hashicorp.com/terraform/1.14.7/terraform_1.14.7_linux_ar
 checksum = "sha256:e8bbcefea8015156e04e2a325cde37a0b2fb761728bda548e2fe3b8ad7c18c96"
 url = "https://releases.hashicorp.com/terraform/1.14.7/terraform_1.14.7_linux_amd64.zip"
 
+[tools.terraform."platforms.linux-x64-baseline"]
+checksum = "sha256:e8bbcefea8015156e04e2a325cde37a0b2fb761728bda548e2fe3b8ad7c18c96"
+url = "https://releases.hashicorp.com/terraform/1.14.7/terraform_1.14.7_linux_amd64.zip"
+
 [tools.terraform."platforms.linux-x64-musl"]
+checksum = "sha256:e8bbcefea8015156e04e2a325cde37a0b2fb761728bda548e2fe3b8ad7c18c96"
+url = "https://releases.hashicorp.com/terraform/1.14.7/terraform_1.14.7_linux_amd64.zip"
+
+[tools.terraform."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:e8bbcefea8015156e04e2a325cde37a0b2fb761728bda548e2fe3b8ad7c18c96"
 url = "https://releases.hashicorp.com/terraform/1.14.7/terraform_1.14.7_linux_amd64.zip"
 
@@ -1212,9 +1992,65 @@ url = "https://releases.hashicorp.com/terraform/1.14.7/terraform_1.14.7_darwin_a
 checksum = "sha256:469f19fb58ed6f67abc858f1d1a20a2fdb1fadda8eaa0f766da1c8acd1518cb0"
 url = "https://releases.hashicorp.com/terraform/1.14.7/terraform_1.14.7_darwin_amd64.zip"
 
+[tools.terraform."platforms.macos-x64-baseline"]
+checksum = "sha256:469f19fb58ed6f67abc858f1d1a20a2fdb1fadda8eaa0f766da1c8acd1518cb0"
+url = "https://releases.hashicorp.com/terraform/1.14.7/terraform_1.14.7_darwin_amd64.zip"
+
 [tools.terraform."platforms.windows-x64"]
 checksum = "sha256:e81958c47acde7bb64e0126c5c45c3919da1ecd51042d84e79030835cbbfdd0c"
 url = "https://releases.hashicorp.com/terraform/1.14.7/terraform_1.14.7_windows_amd64.zip"
+
+[tools.terraform."platforms.windows-x64-baseline"]
+checksum = "sha256:e81958c47acde7bb64e0126c5c45c3919da1ecd51042d84e79030835cbbfdd0c"
+url = "https://releases.hashicorp.com/terraform/1.14.7/terraform_1.14.7_windows_amd64.zip"
+
+[[tools.terraform]]
+version = "1.14.8"
+backend = "aqua:hashicorp/terraform"
+
+[tools.terraform."platforms.linux-arm64"]
+checksum = "sha256:c953171cde6b25ca0448c3b29a90d2f46c0310121e18742ec8f89631768e770c"
+url = "https://releases.hashicorp.com/terraform/1.14.8/terraform_1.14.8_linux_arm64.zip"
+
+[tools.terraform."platforms.linux-arm64-musl"]
+checksum = "sha256:c953171cde6b25ca0448c3b29a90d2f46c0310121e18742ec8f89631768e770c"
+url = "https://releases.hashicorp.com/terraform/1.14.8/terraform_1.14.8_linux_arm64.zip"
+
+[tools.terraform."platforms.linux-x64"]
+checksum = "sha256:56a5d12f47cbc1c6bedb8f5426ae7d5df984d1929572c24b56f4c82e9f9bf709"
+url = "https://releases.hashicorp.com/terraform/1.14.8/terraform_1.14.8_linux_amd64.zip"
+
+[tools.terraform."platforms.linux-x64-baseline"]
+checksum = "sha256:56a5d12f47cbc1c6bedb8f5426ae7d5df984d1929572c24b56f4c82e9f9bf709"
+url = "https://releases.hashicorp.com/terraform/1.14.8/terraform_1.14.8_linux_amd64.zip"
+
+[tools.terraform."platforms.linux-x64-musl"]
+checksum = "sha256:56a5d12f47cbc1c6bedb8f5426ae7d5df984d1929572c24b56f4c82e9f9bf709"
+url = "https://releases.hashicorp.com/terraform/1.14.8/terraform_1.14.8_linux_amd64.zip"
+
+[tools.terraform."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:56a5d12f47cbc1c6bedb8f5426ae7d5df984d1929572c24b56f4c82e9f9bf709"
+url = "https://releases.hashicorp.com/terraform/1.14.8/terraform_1.14.8_linux_amd64.zip"
+
+[tools.terraform."platforms.macos-arm64"]
+checksum = "sha256:5593670a2d42323847bfb216db17c73a44df201a62f7587928bae16adeabba23"
+url = "https://releases.hashicorp.com/terraform/1.14.8/terraform_1.14.8_darwin_arm64.zip"
+
+[tools.terraform."platforms.macos-x64"]
+checksum = "sha256:26dd7593d22e9d99ec09380f0869718f649be7b7f954d888611335e6a84961f8"
+url = "https://releases.hashicorp.com/terraform/1.14.8/terraform_1.14.8_darwin_amd64.zip"
+
+[tools.terraform."platforms.macos-x64-baseline"]
+checksum = "sha256:26dd7593d22e9d99ec09380f0869718f649be7b7f954d888611335e6a84961f8"
+url = "https://releases.hashicorp.com/terraform/1.14.8/terraform_1.14.8_darwin_amd64.zip"
+
+[tools.terraform."platforms.windows-x64"]
+checksum = "sha256:a237008008019589c600ecb0ae0842c9ea4ca5601f7c54ddbc64d274037b0abb"
+url = "https://releases.hashicorp.com/terraform/1.14.8/terraform_1.14.8_windows_amd64.zip"
+
+[tools.terraform."platforms.windows-x64-baseline"]
+checksum = "sha256:a237008008019589c600ecb0ae0842c9ea4ca5601f7c54ddbc64d274037b0abb"
+url = "https://releases.hashicorp.com/terraform/1.14.8/terraform_1.14.8_windows_amd64.zip"
 
 [[tools.tmux]]
 version = "3.6a"
@@ -1283,7 +2119,15 @@ url = "https://github.com/tree-sitter/tree-sitter/releases/download/v0.26.7/tree
 checksum = "sha256:4367a46bc8abbb8328d6efbeb26e86807af0a3a7e462548a3924f87289ee1e9c"
 url = "https://github.com/tree-sitter/tree-sitter/releases/download/v0.26.7/tree-sitter-linux-x64.gz"
 
+[tools.tree-sitter."platforms.linux-x64-baseline"]
+checksum = "sha256:4367a46bc8abbb8328d6efbeb26e86807af0a3a7e462548a3924f87289ee1e9c"
+url = "https://github.com/tree-sitter/tree-sitter/releases/download/v0.26.7/tree-sitter-linux-x64.gz"
+
 [tools.tree-sitter."platforms.linux-x64-musl"]
+checksum = "sha256:4367a46bc8abbb8328d6efbeb26e86807af0a3a7e462548a3924f87289ee1e9c"
+url = "https://github.com/tree-sitter/tree-sitter/releases/download/v0.26.7/tree-sitter-linux-x64.gz"
+
+[tools.tree-sitter."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:4367a46bc8abbb8328d6efbeb26e86807af0a3a7e462548a3924f87289ee1e9c"
 url = "https://github.com/tree-sitter/tree-sitter/releases/download/v0.26.7/tree-sitter-linux-x64.gz"
 
@@ -1295,7 +2139,15 @@ url = "https://github.com/tree-sitter/tree-sitter/releases/download/v0.26.7/tree
 checksum = "sha256:bbb1df269cd462393e8826bee55f2b09ccbc0d7b8b914c9827bebd6c467087ca"
 url = "https://github.com/tree-sitter/tree-sitter/releases/download/v0.26.7/tree-sitter-macos-x64.gz"
 
+[tools.tree-sitter."platforms.macos-x64-baseline"]
+checksum = "sha256:bbb1df269cd462393e8826bee55f2b09ccbc0d7b8b914c9827bebd6c467087ca"
+url = "https://github.com/tree-sitter/tree-sitter/releases/download/v0.26.7/tree-sitter-macos-x64.gz"
+
 [tools.tree-sitter."platforms.windows-x64"]
+checksum = "sha256:5cea52c5e8000fbe56c41148dd3124fded2fe7cd0f66e4194bf92532905c55ff"
+url = "https://github.com/tree-sitter/tree-sitter/releases/download/v0.26.7/tree-sitter-windows-x64.gz"
+
+[tools.tree-sitter."platforms.windows-x64-baseline"]
 checksum = "sha256:5cea52c5e8000fbe56c41148dd3124fded2fe7cd0f66e4194bf92532905c55ff"
 url = "https://github.com/tree-sitter/tree-sitter/releases/download/v0.26.7/tree-sitter-windows-x64.gz"
 
@@ -1315,7 +2167,15 @@ url = "https://github.com/typst/typst/releases/download/v0.14.2/typst-aarch64-un
 checksum = "sha256:a6044cbad2a954deb921167e257e120ac0a16b20339ec01121194ff9d394996d"
 url = "https://github.com/typst/typst/releases/download/v0.14.2/typst-x86_64-unknown-linux-musl.tar.xz"
 
+[tools.typst."platforms.linux-x64-baseline"]
+checksum = "sha256:a6044cbad2a954deb921167e257e120ac0a16b20339ec01121194ff9d394996d"
+url = "https://github.com/typst/typst/releases/download/v0.14.2/typst-x86_64-unknown-linux-musl.tar.xz"
+
 [tools.typst."platforms.linux-x64-musl"]
+checksum = "sha256:a6044cbad2a954deb921167e257e120ac0a16b20339ec01121194ff9d394996d"
+url = "https://github.com/typst/typst/releases/download/v0.14.2/typst-x86_64-unknown-linux-musl.tar.xz"
+
+[tools.typst."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:a6044cbad2a954deb921167e257e120ac0a16b20339ec01121194ff9d394996d"
 url = "https://github.com/typst/typst/releases/download/v0.14.2/typst-x86_64-unknown-linux-musl.tar.xz"
 
@@ -1327,7 +2187,15 @@ url = "https://github.com/typst/typst/releases/download/v0.14.2/typst-aarch64-ap
 checksum = "sha256:4e91d8e1e33ab164f949c5762e01ee3faa585c8615a2a6bd5e3677fa8506b249"
 url = "https://github.com/typst/typst/releases/download/v0.14.2/typst-x86_64-apple-darwin.tar.xz"
 
+[tools.typst."platforms.macos-x64-baseline"]
+checksum = "sha256:4e91d8e1e33ab164f949c5762e01ee3faa585c8615a2a6bd5e3677fa8506b249"
+url = "https://github.com/typst/typst/releases/download/v0.14.2/typst-x86_64-apple-darwin.tar.xz"
+
 [tools.typst."platforms.windows-x64"]
+checksum = "sha256:51353994ac83218c3497052e89b2c432c53b9d4439cdc1b361e2ea4798ebfc13"
+url = "https://github.com/typst/typst/releases/download/v0.14.2/typst-x86_64-pc-windows-msvc.zip"
+
+[tools.typst."platforms.windows-x64-baseline"]
 checksum = "sha256:51353994ac83218c3497052e89b2c432c53b9d4439cdc1b361e2ea4798ebfc13"
 url = "https://github.com/typst/typst/releases/download/v0.14.2/typst-x86_64-pc-windows-msvc.zip"
 
@@ -1347,7 +2215,15 @@ url = "https://github.com/jdx/usage/releases/download/v3.0.0/usage-aarch64-unkno
 checksum = "sha256:e9d4c42cbc28668da0c1ee02eaea1948ab043ee1ef2637fa90737095da487e1c"
 url = "https://github.com/jdx/usage/releases/download/v3.0.0/usage-x86_64-unknown-linux-musl.tar.gz"
 
+[tools.usage."platforms.linux-x64-baseline"]
+checksum = "sha256:e9d4c42cbc28668da0c1ee02eaea1948ab043ee1ef2637fa90737095da487e1c"
+url = "https://github.com/jdx/usage/releases/download/v3.0.0/usage-x86_64-unknown-linux-musl.tar.gz"
+
 [tools.usage."platforms.linux-x64-musl"]
+checksum = "sha256:e9d4c42cbc28668da0c1ee02eaea1948ab043ee1ef2637fa90737095da487e1c"
+url = "https://github.com/jdx/usage/releases/download/v3.0.0/usage-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.usage."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:e9d4c42cbc28668da0c1ee02eaea1948ab043ee1ef2637fa90737095da487e1c"
 url = "https://github.com/jdx/usage/releases/download/v3.0.0/usage-x86_64-unknown-linux-musl.tar.gz"
 
@@ -1359,9 +2235,65 @@ url = "https://github.com/jdx/usage/releases/download/v3.0.0/usage-universal-app
 checksum = "sha256:4de86e95923dd57d8171a5ae40ca65492ef84b69175fefd7ab14442ab3ea0fc2"
 url = "https://github.com/jdx/usage/releases/download/v3.0.0/usage-universal-apple-darwin.tar.gz"
 
+[tools.usage."platforms.macos-x64-baseline"]
+checksum = "sha256:4de86e95923dd57d8171a5ae40ca65492ef84b69175fefd7ab14442ab3ea0fc2"
+url = "https://github.com/jdx/usage/releases/download/v3.0.0/usage-universal-apple-darwin.tar.gz"
+
 [tools.usage."platforms.windows-x64"]
 checksum = "sha256:b0a8cb81f4a259f8eaee134d9d427ed8284177141d615669dce2bde184ab06b3"
 url = "https://github.com/jdx/usage/releases/download/v3.0.0/usage-x86_64-pc-windows-msvc.zip"
+
+[tools.usage."platforms.windows-x64-baseline"]
+checksum = "sha256:b0a8cb81f4a259f8eaee134d9d427ed8284177141d615669dce2bde184ab06b3"
+url = "https://github.com/jdx/usage/releases/download/v3.0.0/usage-x86_64-pc-windows-msvc.zip"
+
+[[tools.usage]]
+version = "3.2.0"
+backend = "aqua:jdx/usage"
+
+[tools.usage."platforms.linux-arm64"]
+checksum = "sha256:9cc22814763948582a31b054e6aa3adfc7a820a3cafb82b317dd4a8931277c0f"
+url = "https://github.com/jdx/usage/releases/download/v3.2.0/usage-aarch64-unknown-linux-musl.tar.gz"
+
+[tools.usage."platforms.linux-arm64-musl"]
+checksum = "sha256:9cc22814763948582a31b054e6aa3adfc7a820a3cafb82b317dd4a8931277c0f"
+url = "https://github.com/jdx/usage/releases/download/v3.2.0/usage-aarch64-unknown-linux-musl.tar.gz"
+
+[tools.usage."platforms.linux-x64"]
+checksum = "sha256:7f48ee228ae95b07c193ec61def326575682b37032473c5af4b3b93a114aec81"
+url = "https://github.com/jdx/usage/releases/download/v3.2.0/usage-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.usage."platforms.linux-x64-baseline"]
+checksum = "sha256:7f48ee228ae95b07c193ec61def326575682b37032473c5af4b3b93a114aec81"
+url = "https://github.com/jdx/usage/releases/download/v3.2.0/usage-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.usage."platforms.linux-x64-musl"]
+checksum = "sha256:7f48ee228ae95b07c193ec61def326575682b37032473c5af4b3b93a114aec81"
+url = "https://github.com/jdx/usage/releases/download/v3.2.0/usage-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.usage."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:7f48ee228ae95b07c193ec61def326575682b37032473c5af4b3b93a114aec81"
+url = "https://github.com/jdx/usage/releases/download/v3.2.0/usage-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.usage."platforms.macos-arm64"]
+checksum = "sha256:f0a566bc05fc485b23a339abddbaef04225e7730574dbb603fdc021e084d26f9"
+url = "https://github.com/jdx/usage/releases/download/v3.2.0/usage-universal-apple-darwin.tar.gz"
+
+[tools.usage."platforms.macos-x64"]
+checksum = "sha256:f0a566bc05fc485b23a339abddbaef04225e7730574dbb603fdc021e084d26f9"
+url = "https://github.com/jdx/usage/releases/download/v3.2.0/usage-universal-apple-darwin.tar.gz"
+
+[tools.usage."platforms.macos-x64-baseline"]
+checksum = "sha256:f0a566bc05fc485b23a339abddbaef04225e7730574dbb603fdc021e084d26f9"
+url = "https://github.com/jdx/usage/releases/download/v3.2.0/usage-universal-apple-darwin.tar.gz"
+
+[tools.usage."platforms.windows-x64"]
+checksum = "sha256:9aba23a5d549695cfb5f034849e143205ccf972e5b5d42c24acd32e084d7a165"
+url = "https://github.com/jdx/usage/releases/download/v3.2.0/usage-x86_64-pc-windows-msvc.zip"
+
+[tools.usage."platforms.windows-x64-baseline"]
+checksum = "sha256:9aba23a5d549695cfb5f034849e143205ccf972e5b5d42c24acd32e084d7a165"
+url = "https://github.com/jdx/usage/releases/download/v3.2.0/usage-x86_64-pc-windows-msvc.zip"
 
 [[tools.uv]]
 version = "0.10.12"
@@ -1379,7 +2311,15 @@ url = "https://github.com/astral-sh/uv/releases/download/0.10.12/uv-aarch64-unkn
 checksum = "sha256:adccf40b5d1939a5e0093081ec2307ea24235adf7c2d96b122c561fa37711c46"
 url = "https://github.com/astral-sh/uv/releases/download/0.10.12/uv-x86_64-unknown-linux-musl.tar.gz"
 
+[tools.uv."platforms.linux-x64-baseline"]
+checksum = "sha256:adccf40b5d1939a5e0093081ec2307ea24235adf7c2d96b122c561fa37711c46"
+url = "https://github.com/astral-sh/uv/releases/download/0.10.12/uv-x86_64-unknown-linux-musl.tar.gz"
+
 [tools.uv."platforms.linux-x64-musl"]
+checksum = "sha256:adccf40b5d1939a5e0093081ec2307ea24235adf7c2d96b122c561fa37711c46"
+url = "https://github.com/astral-sh/uv/releases/download/0.10.12/uv-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.uv."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:adccf40b5d1939a5e0093081ec2307ea24235adf7c2d96b122c561fa37711c46"
 url = "https://github.com/astral-sh/uv/releases/download/0.10.12/uv-x86_64-unknown-linux-musl.tar.gz"
 
@@ -1391,9 +2331,65 @@ url = "https://github.com/astral-sh/uv/releases/download/0.10.12/uv-aarch64-appl
 checksum = "sha256:17443e293f2ae407bb2d8d34b875ebfe0ae01cf1296de5647e69e7b2e2b428f0"
 url = "https://github.com/astral-sh/uv/releases/download/0.10.12/uv-x86_64-apple-darwin.tar.gz"
 
+[tools.uv."platforms.macos-x64-baseline"]
+checksum = "sha256:17443e293f2ae407bb2d8d34b875ebfe0ae01cf1296de5647e69e7b2e2b428f0"
+url = "https://github.com/astral-sh/uv/releases/download/0.10.12/uv-x86_64-apple-darwin.tar.gz"
+
 [tools.uv."platforms.windows-x64"]
 checksum = "sha256:4c1d55501869b3330d4aabf45ad6024ce2367e0f3af83344395702d272c22e88"
 url = "https://github.com/astral-sh/uv/releases/download/0.10.12/uv-x86_64-pc-windows-msvc.zip"
+
+[tools.uv."platforms.windows-x64-baseline"]
+checksum = "sha256:4c1d55501869b3330d4aabf45ad6024ce2367e0f3af83344395702d272c22e88"
+url = "https://github.com/astral-sh/uv/releases/download/0.10.12/uv-x86_64-pc-windows-msvc.zip"
+
+[[tools.uv]]
+version = "0.11.1"
+backend = "aqua:astral-sh/uv"
+
+[tools.uv."platforms.linux-arm64"]
+checksum = "sha256:bd04ffce77ee8d77f39823c13606183581847c2f5dcd704f2ea0f15e376b1a27"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.1/uv-aarch64-unknown-linux-musl.tar.gz"
+
+[tools.uv."platforms.linux-arm64-musl"]
+checksum = "sha256:bd04ffce77ee8d77f39823c13606183581847c2f5dcd704f2ea0f15e376b1a27"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.1/uv-aarch64-unknown-linux-musl.tar.gz"
+
+[tools.uv."platforms.linux-x64"]
+checksum = "sha256:4e949471a95b37088a1ff1a585f69abed4d3cd3f921f50709a46b6ba62986d38"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.1/uv-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.uv."platforms.linux-x64-baseline"]
+checksum = "sha256:4e949471a95b37088a1ff1a585f69abed4d3cd3f921f50709a46b6ba62986d38"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.1/uv-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.uv."platforms.linux-x64-musl"]
+checksum = "sha256:4e949471a95b37088a1ff1a585f69abed4d3cd3f921f50709a46b6ba62986d38"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.1/uv-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.uv."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:4e949471a95b37088a1ff1a585f69abed4d3cd3f921f50709a46b6ba62986d38"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.1/uv-x86_64-unknown-linux-musl.tar.gz"
+
+[tools.uv."platforms.macos-arm64"]
+checksum = "sha256:f7815f739ed5d0e4202e6292acedb8659b9ae7de663d07188d8c6cbd7f96303f"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.1/uv-aarch64-apple-darwin.tar.gz"
+
+[tools.uv."platforms.macos-x64"]
+checksum = "sha256:2103670e8e949605e51926c7b953923ff6f6befbfb55aee928f5e760c9c910f8"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.1/uv-x86_64-apple-darwin.tar.gz"
+
+[tools.uv."platforms.macos-x64-baseline"]
+checksum = "sha256:2103670e8e949605e51926c7b953923ff6f6befbfb55aee928f5e760c9c910f8"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.1/uv-x86_64-apple-darwin.tar.gz"
+
+[tools.uv."platforms.windows-x64"]
+checksum = "sha256:6659250cebbd3bb6ee48bcb21a3f0c6656450d63fb97f0f069bcb532bdb688ed"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.1/uv-x86_64-pc-windows-msvc.zip"
+
+[tools.uv."platforms.windows-x64-baseline"]
+checksum = "sha256:6659250cebbd3bb6ee48bcb21a3f0c6656450d63fb97f0f069bcb532bdb688ed"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.1/uv-x86_64-pc-windows-msvc.zip"
 
 [[tools.zig]]
 version = "0.15.2"
@@ -1411,7 +2407,15 @@ url = "https://ziglang.org/download/0.15.2/zig-aarch64-linux-0.15.2.tar.xz"
 checksum = "sha256:02aa270f183da276e5b5920b1dac44a63f1a49e55050ebde3aecc9eb82f93239"
 url = "https://ziglang.org/download/0.15.2/zig-x86_64-linux-0.15.2.tar.xz"
 
+[tools.zig."platforms.linux-x64-baseline"]
+checksum = "sha256:02aa270f183da276e5b5920b1dac44a63f1a49e55050ebde3aecc9eb82f93239"
+url = "https://ziglang.org/download/0.15.2/zig-x86_64-linux-0.15.2.tar.xz"
+
 [tools.zig."platforms.linux-x64-musl"]
+checksum = "sha256:02aa270f183da276e5b5920b1dac44a63f1a49e55050ebde3aecc9eb82f93239"
+url = "https://ziglang.org/download/0.15.2/zig-x86_64-linux-0.15.2.tar.xz"
+
+[tools.zig."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:02aa270f183da276e5b5920b1dac44a63f1a49e55050ebde3aecc9eb82f93239"
 url = "https://ziglang.org/download/0.15.2/zig-x86_64-linux-0.15.2.tar.xz"
 
@@ -1423,6 +2427,14 @@ url = "https://ziglang.org/download/0.15.2/zig-aarch64-macos-0.15.2.tar.xz"
 checksum = "sha256:375b6909fc1495d16fc2c7db9538f707456bfc3373b14ee83fdd3e22b3d43f7f"
 url = "https://ziglang.org/download/0.15.2/zig-x86_64-macos-0.15.2.tar.xz"
 
+[tools.zig."platforms.macos-x64-baseline"]
+checksum = "sha256:375b6909fc1495d16fc2c7db9538f707456bfc3373b14ee83fdd3e22b3d43f7f"
+url = "https://ziglang.org/download/0.15.2/zig-x86_64-macos-0.15.2.tar.xz"
+
 [tools.zig."platforms.windows-x64"]
+checksum = "sha256:3a0ed1e8799a2f8ce2a6e6290a9ff22e6906f8227865911fb7ddedc3cc14cb0c"
+url = "https://ziglang.org/download/0.15.2/zig-x86_64-windows-0.15.2.zip"
+
+[tools.zig."platforms.windows-x64-baseline"]
 checksum = "sha256:3a0ed1e8799a2f8ce2a6e6290a9ff22e6906f8227865911fb7ddedc3cc14cb0c"
 url = "https://ziglang.org/download/0.15.2/zig-x86_64-windows-0.15.2.zip"
