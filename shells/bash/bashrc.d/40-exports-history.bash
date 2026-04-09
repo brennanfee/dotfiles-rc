@@ -43,7 +43,7 @@ HISTIGNORE+=":cdm:cdmp:cdv:cdb:cdc:cdx:cdh:cdr:cdw:* --help:* -h:history:history
 # HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S  "
 HISTFILESIZE=20000
 HISTSIZE=10000
-HISTFILE="${XDG_STATE_HOME:-$(user_dirs STATE)}/bash_history"
+HISTFILE="${XDG_STATE_HOME:-$(user_dirs STATE)}/bash/history"
 
 # function historyclean {
 #   local previous_exit_status=$?
