@@ -280,6 +280,10 @@ backend = "cargo:rmpc"
 version = "0.8.5"
 backend = "cargo:sheldon"
 
+[[tools."cargo:tree-sitter-cli"]]
+version = "0.26.8"
+backend = "cargo:tree-sitter-cli"
+
 [[tools.cmake]]
 version = "4.3.0"
 backend = "aqua:Kitware/CMake"
