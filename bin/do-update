@@ -30,7 +30,7 @@ unset sourced
 
 function initialize() {
   g_script_name=$(basename "${BASH_SOURCE[0]}")
-  g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
+  # g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   g_short_options=""
   g_long_options=""
@@ -228,7 +228,7 @@ function print_help() {
   print_out "Optionally you can request a single or a space separated list"
   print_out "of items to update.  The individual options are:"
   print_blank_line
-  print_out "all, apt, flatpak, snaps, mise, appman, tmux, vim, nvim"
+  print_out "all, apt, flatpak, snaps, mise, appimages, tmux, vim, nvim"
   print_blank_line
   print_out "Note that the order of the parameters can change the order in"
   print_out "in which the steps are run.  Passing in 'all' halts processing of"
@@ -306,16 +306,14 @@ function updateMise() {
   fi
 }
 
-function updateAppman() {
+function updateAppImages() {
   if command_exists appman; then
     # sync
     appman -s
     # update
     appman -u
   fi
-}
 
-function updateAm() {
   if command_exists am; then
     # sync
     sudo am -s
@@ -327,7 +325,9 @@ function updateAm() {
 function updateTmux() {
   if command_exists tmux; then
     print_info "Updating tmux plugins"
-    local tmux_plugin_manager_path="$(tmux start-server\; show-environment -g TMUX_PLUGIN_MANAGER_PATH | cut -f2 -d=)"
+
+    local tmux_plugin_manager_path
+    tmux_plugin_manager_path="$(tmux start-server\; show-environment -g TMUX_PLUGIN_MANAGER_PATH | cut -f2 -d=)"
 
     # Download the tmux plugin manager if it isn't already there
     if [[ ! -d "${tmux_plugin_manager_path}/tpm" ]]; then
@@ -379,8 +379,7 @@ function updateAll() {
   updateApt
   updateFlatpak
   updateSnaps
-  updateAppman
-  updateAm
+  updateAppImages
 
   # Shell installs
   updateMise
@@ -415,14 +414,7 @@ function updateSelected() {
       updateMise
       ;;
     'appimages')
-      updateAppman
-      updateAm
-      ;;
-    'appman')
-      updateAppman
-      ;;
-    'am')
-      updateAm
+      updateAppImages
       ;;
     'tmux')
       updateTmux
@@ -451,7 +443,7 @@ function main() {
     exit 0
   fi
 
-  local options=("$@")
+  # local options=("$@")
   local selected=()
 
   while [[ -n "${1:-}" ]]; do
@@ -483,14 +475,8 @@ function main() {
     'mise')
       selected+=("mise")
       ;;
-    'appimages' | 'appimage')
+    'appimages' | 'appimage' | 'appman' | 'am' | 'ai' )
       selected+=("appimages")
-      ;;
-    'appman')
-      selected+=("appman")
-      ;;
-    'am')
-      selected+=("am")
       ;;
     'tmux')
       selected+=("tmux")
