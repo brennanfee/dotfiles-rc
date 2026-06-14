@@ -1,0 +1,65 @@
+-- Strongly considering scaling back the "IDE" like setup for NeoVim.  Would prefer all plugins are about
+-- helping in editing text (and in-place lsp/diagnostics).  All "git" handling, building, testing, possibly even
+-- debugging should be done OUTSIDE the editor.
+--
+-- local now_if_args = Config.now_if_args
+--
+-- now_if_args(function()
+--   vim.pack.add {
+--     -- "https://github.com/nvim-tree/nvim-web-devicons", -- Shouldn't be needed with Mini.icon integration
+--     "https://github.com/folke/trouble.nvim",
+--   }
+--
+--   require("trouble").setup({
+--     height = 12,
+--     use_diagnostic_signs = true,
+--   })
+--
+--   -- TODO: Make just regular mappings, move group creation to keymaps
+--   -- Mappings
+--   local wkInstalled, wk = pcall(require, "which-key")
+--   if wkInstalled then
+--     wk.add({
+--       { "<leader>x", group = "Diagnostics" },
+--       { "<leader>xx", "<cmd>lua require('trouble').toggle()<cr>", desc = "Dialog" },
+--       {
+--         "<leader>xw",
+--         "<cmd>lua require('trouble').toggle('workspace_diagnostics')<cr>",
+--         desc = "Workspace Diagnostics",
+--       },
+--       {
+--         "<leader>xd",
+--         "<cmd>lua require('trouble').toggle('document_diagnostics')<cr>",
+--         desc = "Document Diagnostics",
+--       },
+--       { "<leader>xq", "<cmd>lua require('trouble').toggle('quickfix')<cr>", desc = "Quickfix" },
+--       { "<leader>xl", "<cmd>lua require('trouble').toggle('loclist')<cr>", desc = "Loclist" },
+--       {
+--         "<leader>gR",
+--         "<cmd>lua require('trouble').toggle('lsp_references')<cr>",
+--         desc = "LSP References",
+--       },
+--       {
+--         "<leader>lR",
+--         "<cmd>lua require('trouble').toggle('lsp_references')<cr>",
+--         desc = "LSP References",
+--       },
+--     })
+--   end
+--
+--   -- TODO: Figure out an alternative, I'm not using Telescope anymore
+--   -- -- Custom action for Telescope
+--   -- local trouble = require("trouble.sources.telescope")
+--   -- local ok, telescope = pcall(require, "telescope")
+--   -- if ok then
+--   --   telescope.setup({
+--   --     defaults = {
+--   --       mappings = {
+--   --         i = { ["<c-t>"] = trouble.open },
+--   --         n = { ["<c-t>"] = trouble.open },
+--   --       },
+--   --     },
+--   --   })
+--   -- end
+-- end)
+

@@ -1,0 +1,30 @@
+-- Strongly considering scaling back the "IDE" like setup for NeoVim.  Would prefer all plugins are about
+-- helping in editing text (and in-place lsp/diagnostics).  All "git" handling, building, testing, possibly even
+-- debugging should be done OUTSIDE the editor.
+--
+-- local now_if_args = Config.now_if_args
+--
+-- now_if_args(function()
+--   vim.pack.add {
+--     "https://github.com/ahmedkhalf/project.nvim",
+--   }
+--
+--   require("project_nvim").setup({
+--     active = true,
+--     on_config_done = nil,
+--     manual_mode = false,
+--     detection_methods = { "pattern" },
+--     patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json", "pom.xml" },
+--     ignore_lsp = {},
+--     exclude_dirs = {},
+--     show_hidden = false,
+--     silent_chdir = true,
+--     scope_chdir = "global",
+--   })
+--
+--   local opts = { noremap = true, silent = true }
+--
+--   -- TODO: Convert to new keymap function
+--   vim.api.nvim_set_keymap("n", "<c-p>", ":lua require('telescope').extensions.projects.projects()<CR>", opts)
+-- end)
+--
