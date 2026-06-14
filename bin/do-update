@@ -363,13 +363,23 @@ function updateVim() {
 }
 
 function updateNvim() {
+  ## Old version using lazy package manager (keep for just a while longer)
+  # if command_exists nvim; then
+  #   print_info "Updating nvim plugins"
+  #   nvim --headless "+Lazy! sync" +qa
+  # fi
+  # if command_exists nvim-nightly; then
+  #   print_info "Updating nvim plugins"
+  #   nvim-nightly --headless "+Lazy! sync" +qa
+  # fi
+  ## New version using native vim.pack package manager
   if command_exists nvim; then
     print_info "Updating nvim plugins"
-    nvim --headless "+Lazy! sync" +qa
+    nvim --headless "+lua vim.pack.update(nil, { force = true })" +qa
   fi
   if command_exists nvim-nightly; then
     print_info "Updating nvim plugins"
-    nvim-nightly --headless "+Lazy! sync" +qa
+    nvim-nightly --headless "+lua vim.pack.update(nil, { force = true })" +qa
   fi
 }
 
