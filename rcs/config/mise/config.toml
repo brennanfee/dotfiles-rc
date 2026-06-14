@@ -20,11 +20,11 @@ lts-krypton = "24"
 lts-jod = "22"
 lts-iron = "20"
 lts-hydrogen = "18"
-rolling = "25"
+rolling = "26"
 
 [tool_alias.java.versions]
 lts = "corretto-25"
-rolling = "corretto-25"
+rolling = "corretto-26"
 
 [tools]
 # Pre-reqs
