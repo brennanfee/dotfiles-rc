@@ -1,0 +1,58 @@
+-- Strongly considering scaling back the "IDE" like setup for NeoVim.  Would prefer all plugins are about
+-- helping in editing text (and in-place lsp/diagnostics).  All "git" handling, building, testing, possibly even
+-- debugging should be done OUTSIDE the editor.
+--
+-- local now_if_args = Config.now_if_args
+--
+-- now_if_args(function()
+--   vim.pack.add {
+--     "https://github.com/nvim-lua/plenary.nvim",
+--     "https://github.com/nvim-neotest/neotest",
+--     -- General dependencies
+--     "https://github.com/nvim-neotest/nvim-nio",
+--     "https://github.com/vim-test/vim-test",
+--     "https://github.com/nvim-neotest/neotest-vim-test",
+--     -- Language Specific Tests
+--     "https://github.com/marilari88/neotest-vitest",
+--     "https://github.com/nvim-neotest/neotest-python",
+--     "https://github.com/nvim-neotest/neotest-plenary",
+--     "https://github.com/lawrence-laz/neotest-zig",
+--     "https://github.com/rouge8/neotest-rust",
+--     "https://github.com/rcasia/neotest-bash",
+--     "https://github.com/akinsho/neotest-go",
+--   }
+--
+--   -- TODO: Conver to traditional keymaps not using wk.  Move wk group to mappings script.
+--   local wk = require("which-key")
+--   wk.add({
+--     { "<leader>t", group = "Test" },
+--     { "<leader>tt", "<cmd>lua require('neotest').run.run()<cr>", desc = "Test Nearest" },
+--     {
+--       "<leader>tf",
+--       "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>",
+--       desc = "Test File",
+--     },
+--     {
+--       "<leader>td",
+--       "<cmd>lua require('neotest').run.run({strategy = 'dap'})<cr>",
+--       desc = "Debug Test",
+--     },
+--     { "<leader>ts", "<cmd>lua require('neotest').run.stop()<cr>", desc = "Test Stop" },
+--     { "<leader>ta", "<cmd>lua require('neotest').run.attach()<cr>", desc = "Attach Test" },
+--   })
+--
+--   ---@diagnostic disable: missing-fields
+--   require("neotest").setup({
+--     adapters = {
+--       require("neotest-python")({
+--         dap = { justMyCode = false },
+--       }),
+--       require("neotest-vitest"),
+--       require("neotest-zig"),
+--       require("neotest-vim-test")({
+--         ignore_file_types = { "python", "vim", "lua", "javascript", "typescript" },
+--       }),
+--     },
+--   })
+-- end)
+--

@@ -1,0 +1,17 @@
+-- Strongly considering scaling back the "IDE" like setup for NeoVim.  Would prefer all plugins are about
+-- helping in editing text (and in-place lsp/diagnostics).  All "git" handling, building, testing, possibly even
+-- debugging should be done OUTSIDE the editor.
+--
+-- For git "sign"/gutter integration, currently exploring Mini.git and Mini.diff
+-- If those aren't giving me what I want, this can be re-enabled.
+--
+-- local now_if_args = Config.now_if_args
+--
+-- now_if_args(function()
+--   vim.pack.add {
+--     "https://github.com/lewis6991/gitsigns.nvim",
+--   }
+--
+--   require("gitsigns").setup({})
+-- end)
+--

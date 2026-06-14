@@ -1,0 +1,29 @@
+-- local now_if_args = Config.now_if_args
+--
+-- now_if_args(function()
+--   vim.pack.add {
+--     "https://github.com/kylechui/nvim-surround",
+--   }
+--
+--   require("nvim-surround").setup()
+--
+--   vim.keymap.set("n", "sa", "<Plug>(nvim-surround-normal)", {
+--     desc = "Add a surrounding pair around a motion (normal mode)",
+--   })
+--   vim.keymap.set("n", "saa", "<Plug>(nvim-surround-normal-cur)", {
+--     desc = "Add a surrounding pair around the current line (normal mode)",
+--   })
+--   vim.keymap.set("n", "SA", "<Plug>(nvim-surround-normal-line)", {
+--     desc = "Add a surrounding pair around a motion, on new lines (normal mode)",
+--   })
+--   vim.keymap.set("n", "Sa", "<Plug>(nvim-surround-normal-line)", {
+--     desc = "Add a surrounding pair around a motion, on new lines (normal mode)",
+--   })
+--   vim.keymap.set("n", "SAA", "<Plug>(nvim-surround-normal-cur-line)", {
+--     desc = "Add a surrounding pair around the current line, on new lines (normal mode)",
+--   })
+--   vim.keymap.set("n", "Saa", "<Plug>(nvim-surround-normal-cur-line)", {
+--     desc = "Add a surrounding pair around the current line, on new lines (normal mode)",
+--   })
+-- end)
+--

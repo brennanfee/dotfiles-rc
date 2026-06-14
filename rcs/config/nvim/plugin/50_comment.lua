@@ -1,0 +1,22 @@
+-- local now_if_args = Config.now_if_args
+--
+-- now_if_args(function()
+--   vim.pack.add {
+--     "https://github.com/JoosepAlviste/nvim-ts-context-commentstring",
+--     "https://github.com/numToStr/Comment.nvim",
+--   }
+--
+--   require("ts_context_commentstring").setup({
+--     enable_autocmd = false,
+--   })
+--
+--   require("Comment").setup({
+--     ignore = "^$",
+--     pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+--   })
+--
+--   -- TODO: Move these to the key mappings, I want these mappings whether I'm using the plugin or not, remap to gcc and gc
+--   vim.keymap.set("n", "<leader>/", "<Plug>(comment_toggle_linewise_current)", { desc = "Linewise Comment" })
+--   vim.keymap.set("v", "<leader>/", "<Plug>(comment_toggle_linewise_visual)", { desc = "Linewise Comment" })
+-- end)
+--

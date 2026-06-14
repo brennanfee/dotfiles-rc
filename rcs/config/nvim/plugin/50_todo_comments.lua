@@ -1,0 +1,35 @@
+-- Currently trying to see if I can do this highlighting with treesitter alone but am having
+-- trouble styling the treesitter items for these things (and extending them to include other words).
+--
+-- local now_if_args = Config.now_if_args
+--
+-- now_if_args(function()
+--   vim.pack.add {
+--     "https://github.com/nvim-lua/plenary.nvim",
+--     "https://github.com/folke/todo-comments.nvim",
+--   }
+--
+--   local colors = require("colors")
+--
+--   require("todo-comments").setup({
+--     -- list of named colors where we try to extract the guifg from the
+--     -- list of highlight groups or use the hex color if hl not found as a fallback
+--     colors = {
+--       error = { "DiagnosticError", "ErrorMsg", "@comment.error",  colors.theme().red },
+--       warning = { "DiagnosticWarn", "WarningMsg", colors.theme().yellow },
+--       info = { "DiagnosticInfo", colors.theme().blue },
+--       hint = { "DiagnosticHint", colors.theme().green },
+--       default = { "Identifier", colors.theme().dark_purple },
+--       test = { "Identifier", colors.theme().purple },
+--     },
+--     search = {
+--       command = "rg",
+--       args = {
+--         "-L",
+--         "--color=never",
+--         "--vimgrep",
+--         "--smart-case",
+--       },
+--     },
+--   })
+-- end)
