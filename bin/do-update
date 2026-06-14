@@ -171,13 +171,12 @@ function setup_script_vars() {
   g_script_date="2024-10-07"
 
   # Add others here
+  g_forced="false"
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
 function cleanup_script_vars() {
-  # unset abc
-
-  true
+  unset g_forced
 }
 
 ## USAGE: If you need to add any command-line flags or options, do it here.
@@ -185,10 +184,8 @@ function cleanup_script_vars() {
 ## set_long_options.  They accept a string with syntax that is the same for
 ## the getopt program.  See it's help for more information.
 function setup_options() {
-  # set_short_options "abc:"
-  # set_long_options "beta,charlie:"
-
-  true
+  set_short_options "f"
+  set_long_options "forced"
 }
 
 ## Usage: If you added command-line flags or options using setup_options,
@@ -196,27 +193,21 @@ function setup_options() {
 ## directly into this method so you can process them however you wish,
 ## including using 'shift' as you loop.
 function process_flags() {
-  # while [[ $# -gt 0 ]]; do
-  #   case "$1" in
-  #   '-a')
-  #     alpha=1 # or "yes"
-  #     shift
-  #     ;;
-  #   '-c' | '--charlie')
-  #     charlie="$2"
-  #     shift 2
-  #     ;;
-  #   '--')
-  #     shift
-  #     break
-  #     ;;
-  #   *)
-  #     throw_error_msg "Unknown option: $1"
-  #     ;;
-  #   esac
-  # done
-
-  true
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+    '-f' | '--forced')
+      g_forced="true"
+      shift
+      ;;
+    '--')
+      shift
+      break
+      ;;
+    *)
+      throw_error_msg "Unknown option: $1"
+      ;;
+    esac
+  done
 }
 
 ## USAGE: Construct your help screen text here.
@@ -233,6 +224,10 @@ function print_help() {
   print_out "Note that the order of the parameters can change the order in"
   print_out "in which the steps are run.  Passing in 'all' halts processing of"
   print_out "the rest of the arguments and updates all the things."
+  print_out
+  print_out "Options:"
+  print_out
+  print_out "    -f, --forced  Some commands support a forcing function"
   print_blank_line
 }
 
@@ -295,8 +290,12 @@ function updateMise() {
 
     # Install and upgrade tools
     mise -y install
-    # mise -y upgrade --bump --verbose
-    mise -y upgrade
+    if [[ "${g_forced}" == "true" ]]; then
+      mise -y -v upgrade --bump
+    else
+      mise -y -v upgrade
+    fi
+
     mise -y reshim # may not be necessary
     mise -y prune
     mise -y cache prune
