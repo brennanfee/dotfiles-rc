@@ -228,7 +228,7 @@ function print_help() {
   print_out "Optionally you can request a single or a space separated list"
   print_out "of items to update.  The individual options are:"
   print_blank_line
-  print_out "all, apt, flatpak, snaps, mise, pipx, asdf, appman, tmux, vim, nvim"
+  print_out "all, apt, flatpak, snaps, mise, appman, tmux, vim, nvim"
   print_blank_line
   print_out "Note that the order of the parameters can change the order in"
   print_out "in which the steps are run.  Passing in 'all' halts processing of"
@@ -264,13 +264,6 @@ function updateSnaps() {
   if command_exists snap; then
     print_info "Getting updates with snap"
     sudo snap refresh
-  fi
-}
-
-function updatePipx() {
-  if command_exists pipx; then
-    print_info "Getting updates with pipx"
-    pipx upgrade-all --include-injected
   fi
 }
 
@@ -310,17 +303,6 @@ function updateMise() {
 
     # Re-create any mise-related symlinks
     "${dotfiles}/scripts/link-coreutils"
-  fi
-}
-
-function updateAsdf() {
-  if command_exists asdf; then
-    print_info "Updating asdf"
-    asdf update
-    print_info "Updating plugins for asdf"
-    asdf plugin update --all
-    print_info "Updating asdf tools"
-    asdf install
   fi
 }
 
@@ -404,10 +386,6 @@ function updateAll() {
   updateMise
   updateUv
 
-  # Deprecated
-  updateAsdf
-  updatePipx
-
   # Specific applications
   updateTmux
   updateVim
@@ -430,14 +408,8 @@ function updateSelected() {
     'snap')
       updateSnaps
       ;;
-    'pipx')
-      updatePipx
-      ;;
     'uv')
       updateUv
-      ;;
-    'asdf')
-      updateAsdf
       ;;
     'mise')
       updateMise
@@ -505,14 +477,8 @@ function main() {
     'snap' | 'snaps')
       selected+=("snap")
       ;;
-    'pipx')
-      selected+=("pipx")
-      ;;
     'uv')
       selected+=("uv")
-      ;;
-    'asdf')
-      selected+=("asdf")
       ;;
     'mise')
       selected+=("mise")
