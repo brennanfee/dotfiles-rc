@@ -347,7 +347,7 @@ version = "0.8.5"
 backend = "cargo:sheldon"
 
 [[tools."cargo:tree-sitter-cli"]]
-version = "0.26.9"
+version = "0.25.10"
 backend = "cargo:tree-sitter-cli"
 
 [[tools.cmake]]
