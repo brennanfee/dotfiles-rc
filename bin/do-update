@@ -289,11 +289,12 @@ function updateMise() {
     mise -y self-update
 
     # Install and upgrade tools
-    mise -y install
+    mise -y -v install
     if [[ "${g_forced}" == "true" ]]; then
-      mise -y -v upgrade --bump
-    else
       mise -y -v upgrade
+    #   mise -y -v upgrade --bump
+    # else
+    #   mise -y -v upgrade
     fi
 
     mise -y reshim # may not be necessary
