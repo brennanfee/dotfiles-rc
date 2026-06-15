@@ -374,13 +374,22 @@ function updateNvim() {
   #   nvim-nightly --headless "+Lazy! sync" +qa
   # fi
   ## New version using native vim.pack package manager
+  local cmd
+  local msg
+  if [[ "${g_forced}" == "true" ]]; then
+    cmd="+lua vim.pack.update(nil, { force = true })"
+    msg="Updating"
+  else
+    cmd="+lua vim.pack.update(nil, { target = 'lockfile' })"
+    msg="Syncing"
+  fi
+
+  print_info "${msg} nvim plugins"
   if command_exists nvim; then
-    print_info "Updating nvim plugins"
-    nvim --headless "+lua vim.pack.update(nil, { force = true })" +qa
+    nvim --headless "${cmd}" +qa
   fi
   if command_exists nvim-nightly; then
-    print_info "Updating nvim plugins"
-    nvim-nightly --headless "+lua vim.pack.update(nil, { force = true })" +qa
+    nvim-nightly --headless "${cmd}" +qa
   fi
 }
 
