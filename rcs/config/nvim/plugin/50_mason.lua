@@ -37,7 +37,7 @@ now_if_args(function()
     },
   })
 
-  vim.api.nvim_create_user_command("MasonDoUpdate", function()
+  vim.api.nvim_create_user_command("DoMasonUpdate", function()
     vim.cmd("MasonToolsUpdateSync")
     vim.cmd("MasonUpdate")
     vim.cmd("MasonToolsClean")

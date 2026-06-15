@@ -28,6 +28,14 @@ now_if_args(function()
       ["<C-h>"] = { "snippet_forward", "fallback" },
       ["<C-l>"] = { "snippet_backward", "fallback" },
     },
+    cmdline = {
+      keymap = { preset = 'inherit' },
+      completion = {
+        menu = {
+          auto_show = false
+        },
+      },
+    },
   })
 end)
 
