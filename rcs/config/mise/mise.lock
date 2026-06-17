@@ -586,11 +586,11 @@ checksum = "sha256:4254ec12123cfcf88b87703d7acf092a1ea024bdf9be8dd3cd9d4474761cb
 url = "https://dl.deno.land/release/v2.8.3/deno-x86_64-apple-darwin.zip"
 
 [tools.deno."platforms.windows-x64"]
-checksum = "sha256:Algorithm"
+checksum = "sha256:7fdd1f42e6b0855421ecf27bb406e2492ade1087c85e30ebf0deab6280ea743c"
 url = "https://dl.deno.land/release/v2.8.3/deno-x86_64-pc-windows-msvc.zip"
 
 [tools.deno."platforms.windows-x64-baseline"]
-checksum = "sha256:Algorithm"
+checksum = "sha256:7fdd1f42e6b0855421ecf27bb406e2492ade1087c85e30ebf0deab6280ea743c"
 url = "https://dl.deno.land/release/v2.8.3/deno-x86_64-pc-windows-msvc.zip"
 
 [[tools.dotnet]]
@@ -1617,7 +1617,7 @@ checksum = "sha256:74e31613fc71e6e23431dfc4d8b6ec2818a4dc1fd16e0983b074144c16719
 url = "https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-4.0.5-1/rubyinstaller-4.0.5-1-x64.7z"
 
 [[tools.rust]]
-version = "1.96.0"
+version = "1.94.0"
 backend = "core:rust"
 
 [[tools.sops]]
@@ -1754,6 +1754,10 @@ version = "0.15.8"
 backend = "aqua:alexpasmantier/television"
 
 [tools.television."platforms.linux-arm64"]
+checksum = "sha256:c178173f1e0585e73f5a270ce597525e845c323ae1fa48edcdb9fb92825118e7"
+url = "https://github.com/alexpasmantier/television/releases/download/0.15.8/tv-0.15.8-aarch64-unknown-linux-gnu.tar.gz"
+
+[tools.television."platforms.linux-arm64-musl"]
 checksum = "sha256:c178173f1e0585e73f5a270ce597525e845c323ae1fa48edcdb9fb92825118e7"
 url = "https://github.com/alexpasmantier/television/releases/download/0.15.8/tv-0.15.8-aarch64-unknown-linux-gnu.tar.gz"
 
@@ -2048,49 +2052,49 @@ url = "https://github.com/astral-sh/uv/releases/download/0.11.21/uv-x86_64-pc-wi
 provenance = "github-attestations"
 
 [[tools.zig]]
-version = "0.16.0"
+version = "2024.11.0-mach"
 backend = "core:zig"
 
 [tools.zig."platforms.linux-arm64"]
-checksum = "sha256:ea4b09bfb22ec6f6c6ceac57ab63efb6b46e17ab08d21f69f3a48b38e1534f17"
-url = "https://ziglang.org/download/0.16.0/zig-aarch64-linux-0.16.0.tar.xz"
+checksum = "sha256:cafbc9b83e624d8e7e55c41991c2c8d33b52d25661d94c27f236fb622ce168e4"
+url = "https://pkg.hexops.org/zig/zig-linux-aarch64-0.14.0-dev.2577+271452d22.tar.xz"
 
 [tools.zig."platforms.linux-arm64-musl"]
-checksum = "sha256:ea4b09bfb22ec6f6c6ceac57ab63efb6b46e17ab08d21f69f3a48b38e1534f17"
-url = "https://ziglang.org/download/0.16.0/zig-aarch64-linux-0.16.0.tar.xz"
+checksum = "sha256:cafbc9b83e624d8e7e55c41991c2c8d33b52d25661d94c27f236fb622ce168e4"
+url = "https://pkg.hexops.org/zig/zig-linux-aarch64-0.14.0-dev.2577+271452d22.tar.xz"
 
 [tools.zig."platforms.linux-x64"]
-checksum = "sha256:70e49664a74374b48b51e6f3fdfbf437f6395d42509050588bd49abe52ba3d00"
-url = "https://ziglang.org/download/0.16.0/zig-x86_64-linux-0.16.0.tar.xz"
+checksum = "sha256:7be6abdebfa970c6138d165b348d0464e84f16f531e71cb20c0e052fae1d8c8d"
+url = "https://pkg.hexops.org/zig/zig-linux-x86_64-0.14.0-dev.2577+271452d22.tar.xz"
 
 [tools.zig."platforms.linux-x64-baseline"]
-checksum = "sha256:70e49664a74374b48b51e6f3fdfbf437f6395d42509050588bd49abe52ba3d00"
-url = "https://ziglang.org/download/0.16.0/zig-x86_64-linux-0.16.0.tar.xz"
+checksum = "sha256:7be6abdebfa970c6138d165b348d0464e84f16f531e71cb20c0e052fae1d8c8d"
+url = "https://pkg.hexops.org/zig/zig-linux-x86_64-0.14.0-dev.2577+271452d22.tar.xz"
 
 [tools.zig."platforms.linux-x64-musl"]
-checksum = "sha256:70e49664a74374b48b51e6f3fdfbf437f6395d42509050588bd49abe52ba3d00"
-url = "https://ziglang.org/download/0.16.0/zig-x86_64-linux-0.16.0.tar.xz"
+checksum = "sha256:7be6abdebfa970c6138d165b348d0464e84f16f531e71cb20c0e052fae1d8c8d"
+url = "https://pkg.hexops.org/zig/zig-linux-x86_64-0.14.0-dev.2577+271452d22.tar.xz"
 
 [tools.zig."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:70e49664a74374b48b51e6f3fdfbf437f6395d42509050588bd49abe52ba3d00"
-url = "https://ziglang.org/download/0.16.0/zig-x86_64-linux-0.16.0.tar.xz"
+checksum = "sha256:7be6abdebfa970c6138d165b348d0464e84f16f531e71cb20c0e052fae1d8c8d"
+url = "https://pkg.hexops.org/zig/zig-linux-x86_64-0.14.0-dev.2577+271452d22.tar.xz"
 
 [tools.zig."platforms.macos-arm64"]
-checksum = "sha256:b23d70deaa879b5c2d486ed3316f7eaa53e84acf6fc9cc747de152450d401489"
-url = "https://ziglang.org/download/0.16.0/zig-aarch64-macos-0.16.0.tar.xz"
+checksum = "sha256:034d395256d9f8b9f4e9fb07bc3428336b5138853dc2d518898fa0fa8fab434f"
+url = "https://pkg.hexops.org/zig/zig-macos-aarch64-0.14.0-dev.2577+271452d22.tar.xz"
 
 [tools.zig."platforms.macos-x64"]
-checksum = "sha256:0387557ed1877bc6a2e1802c8391953baddba76081876301c522f52977b52ba7"
-url = "https://ziglang.org/download/0.16.0/zig-x86_64-macos-0.16.0.tar.xz"
+checksum = "sha256:19e0b3673fd16609f7ce504faadb1c988270c2ed7cb250a7a9cb74beb22a4c23"
+url = "https://pkg.hexops.org/zig/zig-macos-x86_64-0.14.0-dev.2577+271452d22.tar.xz"
 
 [tools.zig."platforms.macos-x64-baseline"]
-checksum = "sha256:0387557ed1877bc6a2e1802c8391953baddba76081876301c522f52977b52ba7"
-url = "https://ziglang.org/download/0.16.0/zig-x86_64-macos-0.16.0.tar.xz"
+checksum = "sha256:19e0b3673fd16609f7ce504faadb1c988270c2ed7cb250a7a9cb74beb22a4c23"
+url = "https://pkg.hexops.org/zig/zig-macos-x86_64-0.14.0-dev.2577+271452d22.tar.xz"
 
 [tools.zig."platforms.windows-x64"]
-checksum = "sha256:68659eb5f1e4eb1437a722f1dd889c5a322c9954607f5edcf337bc3684a75a7e"
-url = "https://ziglang.org/download/0.16.0/zig-x86_64-windows-0.16.0.zip"
+checksum = "sha256:23f0c4a4f789b6e1a82861bc14ea80652ba1d75784fcca55e74d50be24cf60e9"
+url = "https://pkg.hexops.org/zig/zig-windows-x86_64-0.14.0-dev.2577+271452d22.zip"
 
 [tools.zig."platforms.windows-x64-baseline"]
-checksum = "sha256:68659eb5f1e4eb1437a722f1dd889c5a322c9954607f5edcf337bc3684a75a7e"
-url = "https://ziglang.org/download/0.16.0/zig-x86_64-windows-0.16.0.zip"
+checksum = "sha256:23f0c4a4f789b6e1a82861bc14ea80652ba1d75784fcca55e74d50be24cf60e9"
+url = "https://pkg.hexops.org/zig/zig-windows-x86_64-0.14.0-dev.2577+271452d22.zip"
