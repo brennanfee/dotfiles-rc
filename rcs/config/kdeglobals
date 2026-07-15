@@ -148,12 +148,12 @@ TerminalService=org.wezfurlong.wezterm.desktop
 XftAntialias=true
 XftHintStyle=hintslight
 XftSubPixel=rgb
-fixed=JetBrainsMono Nerd Font Mono,14,-1,5,50,0,0,0,0,0
-font=Noto Sans,14,-1,5,50,0,0,0,0,0
-menuFont=Noto Sans,14,-1,5,50,0,0,0,0,0
+fixed=JetBrainsMono Nerd Font Mono,12,-1,5,50,0,0,0,0,0
+font=Noto Sans,12,-1,5,50,0,0,0,0,0
+menuFont=Noto Sans,12,-1,5,50,0,0,0,0,0
 shadeSortColumn=true
-smallestReadableFont=Noto Sans,12,-1,5,50,0,0,0,0,0
-toolBarFont=Noto Sans,14,-1,5,50,0,0,0,0,0
+smallestReadableFont=Noto Sans,10,-1,5,50,0,0,0,0,0
+toolBarFont=Noto Sans,12,-1,5,50,0,0,0,0,0
 widgetStyle=Breeze
 
 [Icons]
@@ -188,8 +188,8 @@ Speedbar Width=301
 View Style=DetailTree
 
 [KScreen]
-ScaleFactor=1.25
-ScreenScaleFactors=HDMI-A-0=1.25;DisplayPort-0=1.25;DisplayPort-1=1.25;DisplayPort-2=1.25;
+ScaleFactor=1
+ScreenScaleFactors=HDMI-A-0=1;DisplayPort-0=1;DisplayPort-1=1;DisplayPort-2=1;
 
 [KShortcutsDialog Settings]
 Dialog Size=600,480
@@ -201,7 +201,7 @@ MaximumSize=3145728
 [WM]
 activeBackground=30,30,46
 activeBlend=205,214,244
-activeFont=Noto Sans,14,-1,5,50,0,0,0,0,0
+activeFont=Noto Sans,12,-1,5,50,0,0,0,0,0
 activeForeground=205,214,244
 inactiveBackground=17,17,27
 inactiveBlend=166,173,200
