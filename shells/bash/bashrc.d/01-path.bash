@@ -23,7 +23,7 @@ function set_path() {
 
   local base_data_dir base_bin_dir base_homebin_dir base_dotfiles_dir base_dotfilesprivate_dir
   local base_cloud_dir mise_shims_dir
-  local path_system_original path_core_additions the_path base
+  local path_system_original the_path base
 
   base_data_dir="${XDG_DATA_HOME:-$(user_dirs DATA)}"
   base_bin_dir="${USER_DIRS_LOCALBIN:-$(user_dirs LOCALBIN)}"
@@ -73,49 +73,14 @@ function set_path() {
   #    User packages
   path_append "${base_data_dir}/flatpak/exports/bin"
 
-  # Temporarily add the mise shims directory, just so we can detect mise installed commands
-  path_append "${mise_shims_dir}"
+  # Tack the original system path back on to the end
+  PATH="${PATH}:${path_system_original}"
 
-  log "Path befire mise check: ${PATH}"
+  log "Path before mise activate: ${PATH}"
 
-  if command_exists uv; then
-    path_append "${UV_TOOL_BIN_DIR:-}"
-    uv tool update-shell &> /dev/null || true
-  fi
-
-  if command_exists coreutils; then
-    if [[ -d "${base_bin_dir}/optional/coreutils" ]]; then
-      path_prepend "${base_bin_dir}/optional/coreutils"
-    fi
-  fi
-
-  if command_exists findutils; then
-    if [[ -d "${base_bin_dir}/optional/findutils" ]]; then
-      path_prepend "${base_bin_dir}/optional/findutils"
-    fi
-  fi
-
-  if command_exists diffutils; then
-    if [[ -d "${base_bin_dir}/optional/diffutils" ]]; then
-      path_prepend "${base_bin_dir}/optional/diffutils"
-    fi
-  fi
-
-  # Remove the temporarily added mise shim path
-  path_remove "${mise_shims_dir}"
-
-  path_core_additions="${PATH}"
-  log "Path core additions: ${path_core_additions}"
-
-  PATH="${path_core_additions}:${path_system_original}"
-
-  log "Path after customizations: ${PATH}"
-
-  # Now activate MISE "for real", this is the one that will stick around
   if command_exists mise; then
-    log "Mise found, calling CUSTOM activate."
-    source_or_error "${base_dotfiles_dir}/shells/bash/custom_mise_activate.bash"
-    eval "$(mise hook-env -s bash)"
+    log "Mise found, calling activate."
+    eval "$(mise activate bash)"
 
     # Some mise aliases
     alias ms="mise"
@@ -130,7 +95,12 @@ function set_path() {
     log "Mise not found, skipping activation."
   fi
 
-  log "Final after customizations and Mise activation: ${PATH}"
+  if command_exists uv; then
+    path_append "${UV_TOOL_BIN_DIR:-}"
+    uv tool update-shell &> /dev/null || true
+  fi
+
+  log "Final path after customizations and Mise activation: ${PATH}"
 }
 
 set_path

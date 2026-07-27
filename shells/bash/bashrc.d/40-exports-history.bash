@@ -45,62 +45,27 @@ HISTFILESIZE=20000
 HISTSIZE=10000
 HISTFILE="${XDG_STATE_HOME:-$(user_dirs STATE)}/bash/history"
 
-# function historyclean {
-#   local previous_exit_status=$?
-#   log "calling historyclean"
-#   if [[ -e "${HISTFILE}" ]]; then
-#     local history_lock
-#     exec {history_lock}< ${HISTFILE} && flock -s ${history_lock}
-#     # history -w "${HISTFILE}.current.tmp$$"
-#     # history -a
-#     # # Put current sessions history j
-#     # cat "${HISTFILE}" "${HISTFILE}.current.tmp$$" > "${HOSTFILE}.tmp$$"
-
-#     # tac "${HISTFILE}.tmp$$" | awk '! x[$0]++' | tac > "${HISTFILE}.tmp$$"
-#     # mv -f "${HISTFILE}.tmp$$" "${HISTFILE}"
-#     # history -c
-#     # history -r
-
-#     history -n
-#     history -w
-
-#     # dedupe
-#     tac "${HISTFILE}" | awk '! x[$0]++' | tac > "${HISTFILE}.tmp$$"
-#     mv -f "${HISTFILE}.tmp$$" "${HISTFILE}"
-
-#     history -c
-#     history -r
-
-#     flock -u ${history_lock}
-#   fi
-#   return $previous_exit_status
-# }
-
 function historyclean {
   local previous_exit_status=$?
   log "calling historyclean"
+  if [[ -e "${HISTFILE}" ]]; then
+    local history_lock
+    exec {history_lock}< "${HISTFILE}" && flock -s ${history_lock}
 
-  history -n
-  history -w
-  history -c
-  history -r
+    history -n
+    history -w
 
+    # dedupe
+    tac "${HISTFILE}" | awk '! x[$0]++' | tac > "${HISTFILE}.tmp$$"
+    mv -f "${HISTFILE}.tmp$$" "${HISTFILE}"
+
+    history -c
+    history -r
+
+    flock -u ${history_lock}
+  fi
   return $previous_exit_status
 }
 
 trap historyclean EXIT
 
-# log "Checking if we need to add historyclean to shell hook"
-# if declare -p precmd_functions >/dev/null 2>&1; then
-#  log "precmd_functions exists, adding historyclean, if needed"
-#  if [[ "${precmd_functions[*]:-}" != *"historyclean"* ]]; then
-#    log "Adding historyclean to precmd."
-#    precmd_functions+=(historyclean)
-#  fi
-# else
-#  log "precmd_functions does not exist, adding historyclean to PROMPT_COMMAND, if needed"
-#  if [[ "${PROMPT_COMMAND[*]:-}" != *"historyclean"* ]]; then
-#    log "Adding historyclean to PROMPT_COMMAND."
-#    PROMPT_COMMAND+=(historyclean)
-#  fi
-# fi

@@ -38,7 +38,9 @@ fi
 
 if [[ "${BAT_BIN}" == "bat" || "${BAT_BIN}" == "batcat" ]]; then
   # Completions
-  eval "$("${BAT_BIN}" --completion bash)"
+  if [[ "${BAT_BIN}" == "batcat" ]]; then
+    eval "$("${BAT_BIN}" --completion bash)"
+  fi
 
   export MANROFFOPT="-c"
 

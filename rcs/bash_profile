@@ -51,7 +51,7 @@ function profile_activate_mise_shims {
   local mise_exe="${USER_DIRS_LOCALBIN:-${HOME}/.local/bin}/mise"
   if [[ -x ${mise_exe} ]]; then
     log_profile "Activating mise shims"
-    eval "$(${mise_exe} activate bash --shims)"
+    eval "$(${mise_exe} activate --shims bash)"
   fi
 }
 

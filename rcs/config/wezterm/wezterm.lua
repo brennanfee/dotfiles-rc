@@ -4,68 +4,62 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
 -- Fonts
-config.font = wezterm.font_with_fallback({
-  {
-    family = "JetBrains Mono",
-    weight = "Regular",
-    assume_emoji_presentation = false,
-  },
-  { family = "Symbols Nerd Font" },
-  { family = "Noto Color Emoji" },
-})
-config.font_size = 18.0
+config.font = wezterm.font "JetBrains Mono"
+config.font_size = 12.0
 config.warn_about_missing_glyphs = false
 config.adjust_window_size_when_changing_font_size = false
 config.freetype_interpreter_version = 40
-config.freetype_load_target = "Light"
+config.freetype_load_target = "Normal"
 
-config.bold_brightens_ansi_colors = "No"
+config.bold_brightens_ansi_colors = false
 config.use_cap_height_to_scale_fallback_fonts = true
 config.strikethrough_position = "125%"
-config.underline_thickness = "2px"
-
-config.font_rules = {
-  {
-    intensity = "Bold",
-    italic = false,
-    font = wezterm.font_with_fallback({
-      { family = "JetBrains Mono", weight = "ExtraBold", italic = false },
-      { family = "Symbols Nerd Font" },
-      { family = "Noto Color Emoji" },
-    }),
-  },
-  {
-    intensity = "Bold",
-    italic = true,
-    font = wezterm.font_with_fallback({
-      { family = "JetBrains Mono", weight = "ExtraBold", italic = true },
-      { family = "Symbols Nerd Font" },
-      { family = "Noto Color Emoji" },
-    }),
-  },
-  {
-    intensity = "Half",
-    italic = false,
-    font = wezterm.font_with_fallback({
-      { family = "JetBrains Mono", weight = "Thin", italic = false },
-      { family = "Symbols Nerd Font" },
-      { family = "Noto Color Emoji" },
-    }),
-  },
-  {
-    intensity = "Half",
-    italic = true,
-    font = wezterm.font_with_fallback({
-      { family = "JetBrains Mono", weight = "Thin", italic = true },
-      { family = "Symbols Nerd Font" },
-      { family = "Noto Color Emoji" },
-    }),
-  },
-}
+config.underline_thickness = "1px"
 
 -- Color Scheme And Appearance
-config.color_scheme = "Catppuccin Mocha"
-config.window_background_opacity = 1.0
+local fix_mocha_brights = wezterm.color.get_builtin_schemes()["Catppuccin Mocha"]
+fix_mocha_brights.brights = {
+  -- "#45475a",
+  "#585b70",
+  "#eba0ac",
+  "#94e2d5",
+  "#fab387",
+  "#89dceb",
+  "#b4befe",
+  "#cba6f7",
+  "#f5e0dc",
+  -- "#a6adc8",
+}
+
+local fix_latte_brights = wezterm.color.get_builtin_schemes()["Catppuccin Latte"]
+fix_latte_brights.brights = {
+  -- "#6c6f85",
+  "#6c6f85",
+  "#eba0ac",
+  "#94e2d5",
+  "#fab387",
+  "#89dceb",
+  "#b4befe",
+  "#cba6f7",
+  "#bcc0cc",
+  -- "#bcc0cc",
+}
+
+config.color_schemes = {
+  ["Catppuccin Mocha-Extended"] = fix_mocha_brights,
+  ["Catppuccin Latte-Extended"] = fix_latte_brights,
+}
+
+local function scheme_for_appearance(appearance)
+  if appearance:find "Dark" then
+    return "Catppuccin Mocha-Extended"
+  else
+    return "Catppuccin Latte-Extended"
+  end
+end
+
+config.color_scheme = scheme_for_appearance(wezterm.gui.get_appearance())
+config.window_background_opacity = 0.95
 config.window_decorations = "RESIZE"
 config.force_reverse_video_cursor = true
 config.window_padding = { left = 10, right = 10, top = 10, bottom = 5 }
@@ -80,9 +74,9 @@ config.visual_bell = {
 }
 
 -- Initial state
-config.initial_rows = 36 -- Leaves a few lines of screen space above/below the window
-config.initial_cols = 140 -- Wide enough for 100 Neovim columns plus 30 for tree view
--- config.default_prog = { wezterm.home_dir .. "/.dotfiles-rc/bash/assets/init-tmux.bash" }
+config.initial_rows = 42 -- Leaves a few lines of screen space above/below the window
+config.initial_cols = 160 -- Wide enough for 100 Neovim columns plus "extra" for tree view
+config.default_prog = { "/bin/bash" }
 
 -- Turn off the tab bar, as I use tmux
 config.enable_tab_bar = false
