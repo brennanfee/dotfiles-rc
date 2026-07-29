@@ -215,3 +215,4 @@ EXEC 01;32 # green
 *stylua.toml 00;38;5;8
 *typos.toml 00;38;5;8
 *cbfmt.toml 00;38;5;8
+*codespellrc 00;38;5;8
