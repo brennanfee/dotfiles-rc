@@ -4,8 +4,21 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
 -- Fonts
-config.font = wezterm.font "JetBrains Mono"
-config.font_size = 12.0
+local function get_font_size()
+  local handle = assert(io.popen("hostnamectl chassis", "r"))
+  local output = assert(handle:read("*a"))
+  handle:close()
+  output = output:gsub("[\r\n]+$", "")
+
+  if output == "laptop" then
+    return 16.0
+  else
+    return 12.0
+  end
+end
+
+config.font = wezterm.font("JetBrains Mono")
+config.font_size = get_font_size()
 config.warn_about_missing_glyphs = false
 config.adjust_window_size_when_changing_font_size = false
 config.freetype_interpreter_version = 40
@@ -51,7 +64,7 @@ config.color_schemes = {
 }
 
 local function scheme_for_appearance(appearance)
-  if appearance:find "Dark" then
+  if appearance:find("Dark") then
     return "Catppuccin Mocha-Extended"
   else
     return "Catppuccin Latte-Extended"
