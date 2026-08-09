@@ -290,6 +290,16 @@ function yt_helper() {
     alternate_location="true"
   fi
 
+  local resolution_4k="false"
+  if [[ "${sub_command}" == *"h"* ]]; then
+    resolution_4k="true"
+  fi
+
+  local video_height="1080"
+  if [[ "${resolution_4k}" == "true" ]]; then
+    video_height="2160"
+  fi
+
   ## FOR DEBUGGING
   # print_diag "Type: ${type}"
   # print_diag "Playlist Flag: ${playlist_flag}"
@@ -316,12 +326,12 @@ function yt_helper() {
     # Prioritize http over other protocols (m3u8, for instance).  Prever h264 & h265 over anything
     # else.
     local format
-    format+="bestvideo[height<=?1080][vcodec~='^((he|a)vc1?|h26[45])'][protocol^=http]+bestaudio"
-    format+="/best[height<=?1080][vcodec~='^((he|a)vc1?|h26[45])'][protocol^=http]"
-    format+="/best[height<=?1080][protocol^=http]"
-    format+="/bestvideo[height<=?1080][vcodec~='^((he|a)vc1?|h26[45])']+bestaudio"
-    format+="/best[height<=?1080][vcodec~='^((he|a)vc1?|h26[45])']"
-    format+="/best[height<=?1080]"
+    format+="bestvideo[height<=?${video_height}][vcodec~='^(av01|(he|a)vc1?|h26[45])'][protocol^=http]+bestaudio"
+    format+="/best[height<=?${video_height}][vcodec~='^(av01|(he|a)vc1?|h26[45])'][protocol^=http]"
+    format+="/best[height<=?${video_height}][protocol^=http]"
+    format+="/bestvideo[height<=?${video_height}][vcodec~='^(av01|(he|a)vc1?|h26[45])']+bestaudio"
+    format+="/best[height<=?${video_height}][vcodec~='^(av01|(he|a)vc1?|h26[45])']"
+    format+="/best[height<=?${video_height}]"
 
     yt_dlp_params+=("--format" "${format}")
   else
@@ -335,7 +345,7 @@ function yt_helper() {
   fi
 
   # Format sort order
-  yt_dlp_params+=("--format-sort" "+codec:avc:m4a")
+  yt_dlp_params+=("--format-sort" "+vcodec:av01:avc,+acodec:m4a")
 
   # Output directory and filename
   local directory

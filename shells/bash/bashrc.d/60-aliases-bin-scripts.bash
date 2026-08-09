@@ -49,11 +49,15 @@ fi
 
 if [[ -x "${dotfiles}/bin/yt-dlp-helper" ]]; then
   alias yt='${USER_DIRS_DOTFILES:-$(user_dirs DOTFILES)}/bin/yt-dlp-helper yt'
+  alias yth='${USER_DIRS_DOTFILES:-$(user_dirs DOTFILES)}/bin/yt-dlp-helper yth'
   alias ytl='${USER_DIRS_DOTFILES:-$(user_dirs DOTFILES)}/bin/yt-dlp-helper ytl'
+  alias ytlh='${USER_DIRS_DOTFILES:-$(user_dirs DOTFILES)}/bin/yt-dlp-helper ytlh'
   alias ytm='${USER_DIRS_DOTFILES:-$(user_dirs DOTFILES)}/bin/yt-dlp-helper ytm'
   alias ytml='${USER_DIRS_DOTFILES:-$(user_dirs DOTFILES)}/bin/yt-dlp-helper ytml'
   alias ytp='${USER_DIRS_DOTFILES:-$(user_dirs DOTFILES)}/bin/yt-dlp-helper ytp'
+  alias ytph='${USER_DIRS_DOTFILES:-$(user_dirs DOTFILES)}/bin/yt-dlp-helper ytph'
   alias ytpl='${USER_DIRS_DOTFILES:-$(user_dirs DOTFILES)}/bin/yt-dlp-helper ytpl'
+  alias ytplh='${USER_DIRS_DOTFILES:-$(user_dirs DOTFILES)}/bin/yt-dlp-helper ytplh'
 fi
 
 if [[ -x "${dotfiles}/bin/ssh-tools" ]]; then
