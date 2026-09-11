@@ -1,4 +1,4 @@
-// CommitLint Configuration - .commitlintrc.js
+// CommitLint Configuration - .commitlintrc.mjs
 const Configuration = {
   extends: ["@commitlint/config-conventional"],
   rules: {

@@ -275,10 +275,11 @@ function install_prerequisites() {
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
   # Setup theme access
+  sudo flatpak override --system --filesystem=xdg-config/gtk-2.0:ro
   sudo flatpak override --system --filesystem=xdg-config/gtk-3.0:ro
   sudo flatpak override --system --filesystem=xdg-config/gtk-4.0:ro
-  sudo flatpak override --system --filesystem=xdg-config/gtkrc-2.0:ro
-  sudo flatpak override --system --filesystem=xdg-config/gtkrc:ro
+  sudo flatpak override --system --filesystem=home/gtkrc-2.0:ro
+  sudo flatpak override --system --filesystem=home/gtkrc:ro
 }
 
 function install_if_needed() {
@@ -300,7 +301,6 @@ function install_common_tools() {
   install_if_needed com.brave.Browser
   install_if_needed com.github.tchx84.Flatseal
   install_if_needed com.github.tenderowl.frog
-  install_if_needed com.google.Chrome
   install_if_needed com.jgraph.drawio.desktop
   install_if_needed com.plexamp.Plexamp
   install_if_needed com.rafaelmardojai.Blanket
@@ -313,7 +313,6 @@ function install_common_tools() {
   install_if_needed org.kde.okular
   install_if_needed org.libreoffice.LibreOffice
   install_if_needed org.localsend.localsend_app
-  install_if_needed org.mozilla.firefox
   install_if_needed org.musicbrainz.Picard
   install_if_needed org.nomacs.ImageLounge
   install_if_needed org.signal.Signal
@@ -322,12 +321,19 @@ function install_common_tools() {
   install_if_needed org.wezfurlong.wezterm
   install_if_needed tv.plex.PlexDesktop
   install_if_needed tv.plex.PlexHTPC
+
+  # Apps with required extra perms
+  install_if_needed org.mozilla.firefox
+  flatpak override --user --filesystem=home org.mozilla.firefox
+
+  install_if_needed com.google.Chrome
+  flatpak override --user --filesystem=home com.google.Chrome
 }
 
 function install_desktop_tools() {
   if [ "${g_desktop_environment}" == "none" ]; then
+    return
   fi
-
 }
 
 function install_dev_tools() {
