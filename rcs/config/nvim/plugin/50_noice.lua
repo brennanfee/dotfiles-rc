@@ -1,10 +1,10 @@
 local now_if_args = Config.now_if_args
 
 now_if_args(function()
-  vim.pack.add {
-    "https://github.com/folke/noice.nvim",
+  vim.pack.add({
+    "https://github.com/folke/noice.nvim", -- codespell:ignore noice
     "https://github.com/MunifTanjim/nui.nvim",
-  }
+  })
 
   require("noice").setup({ -- codespell:ignore noice
     lsp = {
@@ -25,10 +25,9 @@ now_if_args(function()
     },
   })
 
-  -- TOOD: Consider alternative, I'm no longer using Telescope
+  -- TODO: Consider alternative, I'm no longer using Telescope
   -- local ok, telescope = pcall(require, "telescope")
   -- if ok then
   --   telescope.load_extension("noice") -- codespell:ignore noice
   -- end
 end)
-

@@ -1,9 +1,9 @@
 local now_if_args = Config.now_if_args
 
 now_if_args(function()
-  vim.pack.add {
+  vim.pack.add({
     "https://github.com/h3pei/copy-file-path.nvim",
-  }
+  })
 
   vim.api.nvim_create_user_command("CopyDirectoryPath", function()
     -- Get the path
@@ -61,4 +61,3 @@ now_if_args(function()
     desc = "Copy absolute path without filename to the clipboard, includes the trailing path separator",
   })
 end)
-

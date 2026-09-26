@@ -1,7 +1,7 @@
 ---- Catppuccin
-vim.pack.add {
-  { src = "https://github.com/catppuccin/nvim", name = "catppuccin" }
-}
+vim.pack.add({
+  { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+})
 
 require("catppuccin").setup({
   flavour = "mocha",
@@ -14,7 +14,7 @@ require("catppuccin").setup({
   default_integrations = false,
   integrations = {
     blink_cmp = {
-      style = 'bordered',
+      style = "bordered",
     },
     cmp = false,
     gitsigns = true,
@@ -34,9 +34,9 @@ require("catppuccin").setup({
 })
 
 ---- Kanagawa
-vim.pack.add {
+vim.pack.add({
   "https://github.com/rebelot/kanagawa.nvim",
-}
+})
 
 require("kanagawa").setup({
   theme = "dragon",
@@ -47,9 +47,9 @@ require("kanagawa").setup({
 })
 
 ---- OneDarkPro
-vim.pack.add {
+vim.pack.add({
   "https://github.com/olimorris/onedarkpro.nvim",
-}
+})
 
 require("onedarkpro").setup({
   options = {
@@ -63,9 +63,9 @@ require("onedarkpro").setup({
 })
 
 ---- OnceDark
-vim.pack.add {
+vim.pack.add({
   "https://github.com/brennanfee/oncedark.nvim",
-}
+})
 
 require("oncedark").setup({
   options = {
@@ -80,8 +80,7 @@ require("oncedark").setup({
 
 ---- Theme Selection
 vim.o.background = "dark"
-vim.cmd.colorscheme "catppuccin-nvim"
+vim.cmd.colorscheme("catppuccin-nvim")
 -- vim.cmd.colorscheme "kanagawa"
 -- vim.cmd.colorscheme "oncedarkpro"
 -- vim.cmd.colorscheme "oncedark"
-

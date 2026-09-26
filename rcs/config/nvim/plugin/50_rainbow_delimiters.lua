@@ -1,9 +1,9 @@
 local now_if_args = Config.now_if_args
 
 now_if_args(function()
-  vim.pack.add {
+  vim.pack.add({
     "https://github.com/HiPhish/rainbow-delimiters.nvim",
-  }
+  })
 
   require("rainbow-delimiters.setup").setup({
     query = {
@@ -14,4 +14,3 @@ now_if_args(function()
     },
   })
 end)
-

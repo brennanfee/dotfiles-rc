@@ -2,9 +2,9 @@ local now_if_args = Config.now_if_args
 
 now_if_args(function()
   -- Consider looking at https://github.com/nvzone/floatterm as a lighter weight alternative
-  vim.pack.add {
+  vim.pack.add({
     "https://github.com/akinsho/toggleterm.nvim",
-  }
+  })
 
   local execs = {
     { nil, "<M-1>", "Horizontal Terminal", "horizontal", 0.3 },
@@ -123,9 +123,7 @@ now_if_args(function()
   end, "Setup buffer keymaps for terminal")
 
   Config.new_autocmd("TermEnter", nil, function()
-      _G.set_terminal_keymaps()
-      vim.cmd("startinsert")
-    end,
-    "Open Terminal In Insert Mode"
-  )
+    _G.set_terminal_keymaps()
+    vim.cmd("startinsert")
+  end, "Open Terminal In Insert Mode")
 end)

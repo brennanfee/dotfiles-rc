@@ -1,3 +1,3 @@
 [codespell]
-skip = */mise.lock
+skip = */mise.lock,*/nvim-pack-lock.json
 ignore-sic = true

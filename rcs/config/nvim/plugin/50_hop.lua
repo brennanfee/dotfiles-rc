@@ -1,9 +1,9 @@
 local now_if_args = Config.now_if_args
 
 now_if_args(function()
-  vim.pack.add {
+  vim.pack.add({
     "https://github.com/smoka7/hop.nvim",
-  }
+  })
 
   -- local hop = require("hop")
   -- hop.setup({})
@@ -47,11 +47,11 @@ now_if_args(function()
   --
   -- vim.keymap.set("n", "<leader>hl", function()
   --   hop.hint_lines_skip_whitespace()
-  -- end, { desc = "[H]op To [L]ine" })
+  -- end, { desc = "[H]op To [L]ine" }) -- codespell:ignore ine
   --
   -- vim.keymap.set("n", "<leader>hs", function()
   --   hop.hint_lines()
-  -- end, { desc = "[H]op To [L]ine [S]tart" })
+  -- end, { desc = "[H]op To [L]ine [S]tart" }) -- codespell:ignore ine
   --
   -- vim.keymap.set("n", "<leader>hp", function()
   --   hop.hint_patterns()
@@ -69,4 +69,3 @@ now_if_args(function()
   --   hop.hint_words({ current_line_only = true, hint_position = positions.END })
   -- end, { desc = "[J]ump To Word In Line (End Of Word)" })
 end)
-

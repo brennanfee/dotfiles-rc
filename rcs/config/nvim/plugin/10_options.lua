@@ -19,8 +19,10 @@ vim.o.autoread = true -- Auto-reload changes if changed outside neovim
 vim.o.autowrite = false -- Do not auto-save
 
 -- Enable all filetype plugins and syntax (if not enabled, for better startup)
-vim.cmd('filetype plugin indent on')
-if vim.fn.exists('syntax_on') ~= 1 then vim.cmd('syntax enable') end
+vim.cmd("filetype plugin indent on")
+if vim.fn.exists("syntax_on") ~= 1 then
+  vim.cmd("syntax enable")
+end
 
 -- Disable Netrw
 vim.g.loaded_netrw = 1
@@ -68,14 +70,14 @@ vim.o.tabstop = 2 -- How many columns a tab counts for
 vim.o.softtabstop = 2
 vim.o.shiftround = true -- Round indent
 vim.o.autoindent = true -- Copy indent from current line
-vim.o.breakindentopt = 'list:-1'  -- Add padding for lists (if 'wrap' is set)
+vim.o.breakindentopt = "list:-1" -- Add padding for lists (if 'wrap' is set)
 vim.o.virtualedit = "block" -- Allow going past end of line in blockwise mode
 
 -- Pattern for a start of numbered list (used in `gw`). This reads as
 -- "Start of list item is: at least one special character (digit, -, +, *)
 -- possibly followed by punctuation (. or `)`) followed by at least one space".
 vim.o.formatlistpat = [[^\s*[0-9\-\+\*]\+[\.\)]*\s\+]]
-vim.o.formatoptions = 'crqnl1j'-- Improve comment editing
+vim.o.formatoptions = "crqnl1j" -- Improve comment editing
 
 vim.o.showcmd = false
 
@@ -98,7 +100,7 @@ vim.o.foldmethod = "indent"
 vim.o.splitkeep = "screen" -- Reduce scroll during window split
 
 vim.o.list = true
-vim.o.fillchars = 'eob: ,fold:╌'
+vim.o.fillchars = "eob: ,fold:╌"
 vim.opt.listchars = { tab = " ", trail = "~", extends = "󰄾", precedes = "󰄽", nbsp = "␣", lead = "⋅" }
 
 vim.o.showbreak = "++ "
@@ -120,9 +122,9 @@ vim.o.spelloptions = "camel"
 vim.o.spell = false -- Off by default
 
 -- Built-in completion
-vim.o.complete        = '.,w,b,kspell,t,F,o'            -- Use less sources
-vim.o.completeopt     = 'menuone,noselect,fuzzy,nosort' -- Use custom behavior
-vim.o.completetimeout = 100                             -- Limit sources delay
+vim.o.complete = ".,w,b,kspell,t,F,o" -- Use less sources
+vim.o.completeopt = "menuone,noselect,fuzzy,nosort" -- Use custom behavior
+vim.o.completetimeout = 100 -- Limit sources delay
 
 -- vim.o.wildmenu = true -- tab completion
 -- vim.o.wildmode = "longest:full,full" -- Complete longest common match, full completion list, cycle through with Tab
@@ -168,13 +170,13 @@ local diagnostic_config = {
   },
 
   -- Show all diagnostics as underline (for their messages type `<Leader>ld`)
-  underline = { severity = { min = 'HINT', max = 'ERROR' } },
+  underline = { severity = { min = "HINT", max = "ERROR" } },
 
   -- Show more details immediately for errors on the current line
   virtual_lines = false,
   virtual_text = {
     current_line = true,
-    severity = { min = 'ERROR', max = 'ERROR' },
+    severity = { min = "ERROR", max = "ERROR" },
   },
 
   -- Don't update diagnostics when typing
@@ -182,7 +184,9 @@ local diagnostic_config = {
 }
 
 -- Use `later()` to avoid sourcing `vim.diagnostic` on startup
-Config.later(function() vim.diagnostic.config(diagnostic_config) end)
+Config.later(function()
+  vim.diagnostic.config(diagnostic_config)
+end)
 
 -- Prepend Mise Shim directory and mason bin directories, if needed (note, order is important,
 -- mason should override Mise
@@ -193,4 +197,3 @@ local is_windows = vim.loop.os_uname().sysname == "Windows_NT"
 if not string.find(vim.env.PATH, "/mason/bin", 1, true) then
   vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin" .. (is_windows and ";" or ":") .. vim.env.PATH
 end
-

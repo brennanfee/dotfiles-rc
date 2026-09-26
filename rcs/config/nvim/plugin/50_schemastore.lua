@@ -1,9 +1,9 @@
 local now_if_args = Config.now_if_args
 
 now_if_args(function()
-  vim.pack.add {
+  vim.pack.add({
     "https://github.com/b0o/schemastore.nvim",
-  }
+  })
 
   local schemastore = require("schemastore")
 
@@ -29,4 +29,3 @@ now_if_args(function()
     },
   })
 end)
-

@@ -6,10 +6,10 @@ now_if_args(function()
   -- excludes already mapped combinations to provide you with suggested keys for your commands.
   -- Commands -> :Hawtkeys, :HawtkeysAll, :HawtkeysDupes
 
-  vim.pack.add {
+  vim.pack.add({
     "https://github.com/nvim-lua/plenary.nvim",
     "https://github.com/tris203/hawtkeys.nvim",
-  }
+  })
 
   require("hawtkeys").setup({})
 
@@ -18,4 +18,3 @@ now_if_args(function()
   vim.keymap.set("n", "<leader>?s", "<cmd>Hawtkeys<cr>", { desc = "Search Keymaps" })
   vim.keymap.set("n", "<leader>?d", "<cmd>HawtkeysDupes<cr>", { desc = "Check For Duplicate Keymaps" })
 end)
-

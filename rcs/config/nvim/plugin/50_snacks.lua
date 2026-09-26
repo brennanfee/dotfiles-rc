@@ -1,9 +1,9 @@
 local now = Config.now
 
 now(function()
-  vim.pack.add {
+  vim.pack.add({
     "https://github.com/folke/snacks.nvim",
-  }
+  })
 
   ------- Start: Indent Settings
 

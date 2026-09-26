@@ -1,11 +1,11 @@
 local now_if_args = Config.now_if_args
 
 now_if_args(function()
-  vim.pack.add {
+  vim.pack.add({
     "https://github.com/mason-org/mason.nvim",
     "https://github.com/mason-org/mason-lspconfig.nvim",
     "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
-  }
+  })
 
   local lsps = require("tool_lists").mason_to_install
 
@@ -21,7 +21,7 @@ now_if_args(function()
         package_installed = "󰄳 ",
         package_uninstalled = " 󰚌",
       },
-    }
+    },
   })
 
   require("mason-lspconfig").setup()

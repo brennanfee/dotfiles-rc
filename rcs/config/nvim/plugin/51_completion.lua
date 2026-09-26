@@ -1,11 +1,11 @@
 local now_if_args = Config.now_if_args
 
 now_if_args(function()
-  vim.pack.add {
+  vim.pack.add({
     { src = "https://github.com/saghen/blink.cmp", version = "v1" },
     "https://github.com/L3MON4D3/LuaSnip",
     "https://github.com/rafamadriz/friendly-snippets",
-  }
+  })
 
   require("luasnip.loaders.from_vscode").lazy_load()
   require("blink.cmp").setup({
@@ -29,13 +29,12 @@ now_if_args(function()
       ["<C-l>"] = { "snippet_backward", "fallback" },
     },
     cmdline = {
-      keymap = { preset = 'inherit' },
+      keymap = { preset = "inherit" },
       completion = {
         menu = {
-          auto_show = false
+          auto_show = false,
         },
       },
     },
   })
 end)
-

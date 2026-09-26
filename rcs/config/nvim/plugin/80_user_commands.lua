@@ -1,7 +1,7 @@
 -- These are custom user commands that can be called from command mode
 
 vim.api.nvim_create_user_command("DoPackSync", function()
-  vim.pack.update(nil, { target = 'lockfile' })
+  vim.pack.update(nil, { target = "lockfile" })
 end, {})
 
 vim.api.nvim_create_user_command("DoPackUpdate", function()

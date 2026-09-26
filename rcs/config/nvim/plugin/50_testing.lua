@@ -22,7 +22,7 @@
 --     "https://github.com/akinsho/neotest-go",
 --   }
 --
---   -- TODO: Conver to traditional keymaps not using wk.  Move wk group to mappings script.
+--   -- TODO: Convert to traditional keymaps not using wk.  Move wk group to mappings script.
 --   local wk = require("which-key")
 --   wk.add({
 --     { "<leader>t", group = "Test" },

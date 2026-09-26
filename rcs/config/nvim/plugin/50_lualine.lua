@@ -1,9 +1,9 @@
 local now = Config.now
 
 now(function()
-  vim.pack.add {
+  vim.pack.add({
     "https://github.com/nvim-lualine/lualine.nvim",
-  }
+  })
 
   -- Mode indicators with Nerd Font icons
   -- TODO: Convert to use mini.icons
@@ -41,11 +41,11 @@ now(function()
       globalstatus = true,
     },
     sections = {
-      lualine_a = { { mode_icon }, },
-      lualine_b = { 'branch', 'diff', 'diagnostics' },
-      lualine_c = { { "filename", path = 4, }, },
+      lualine_a = { { mode_icon } },
+      lualine_b = { "branch", "diff", "diagnostics" },
+      lualine_c = { { "filename", path = 4 } },
       lualine_x = { "filesize", { "encoding", show_bomb = true }, "fileformat", "filetype" },
-      lualine_y = { { "lsp_status", ignore_lsp = { "efm", "harper_ls", "typos_lsp" }, }, },
+      lualine_y = { { "lsp_status", ignore_lsp = { "efm", "harper_ls", "typos_lsp" } } },
       lualine_z = { "progress", "location" },
     },
     -- tabline = {
@@ -53,5 +53,4 @@ now(function()
     -- },
     extensions = { "quickfix", "man", "nvim-tree", "oil", "mason" },
   })
-
 end)

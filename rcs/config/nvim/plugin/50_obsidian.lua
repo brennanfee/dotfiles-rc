@@ -1,10 +1,10 @@
 local now_if_args = Config.now_if_args
 
 now_if_args(function()
-  vim.pack.add {
+  vim.pack.add({
     "https://github.com/nvim-lua/plenary.nvim",
     "https://github.com/epwalsh/obsidian.nvim",
-  }
+  })
 
   require("obsidian").setup({
     workspaces = {
@@ -34,4 +34,3 @@ now_if_args(function()
     end,
   })
 end)
-

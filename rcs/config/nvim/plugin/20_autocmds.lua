@@ -14,11 +14,15 @@ Config.new_autocmd("BufReadPost", nil, bufPos, "Restore cursor position")
 
 -- Don't insert comment leader after hitting 'o'.
 -- Do on `FileType` to always override these changes from filetype plugins.
-local f = function() vim.cmd("setlocal formatoptions-=o") end
+local f = function()
+  vim.cmd("setlocal formatoptions-=o")
+end
 Config.new_autocmd("FileType", nil, f, "Proper 'formatoptions'")
 
 -- auto resize splits when the terminal's window is resized
-local r = function() vim.cmd("wincmd =") end
+local r = function()
+  vim.cmd("wincmd =")
+end
 Config.new_autocmd("VimResized", nil, r, "Resize splits on window resize")
 
 -- syntax highlighting for dotenv files
@@ -35,4 +39,3 @@ local cursorDisable = function()
 end
 Config.new_autocmd({ "WinEnter", "BufEnter" }, nil, cursorEnable, "Enable cursorline for active windows.")
 Config.new_autocmd({ "WinLeave", "BufLeave" }, nil, cursorDisable, "Disable cursorline for inactive windows.")
-

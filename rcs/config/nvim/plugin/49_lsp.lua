@@ -1,10 +1,10 @@
 local now_if_args = Config.now_if_args
 
 now_if_args(function()
-  vim.pack.add {
+  vim.pack.add({
     "https://github.com/neovim/nvim-lspconfig",
     "https://github.com/creativenull/efmls-configs-nvim",
-  }
+  })
 
   local utils = require("utils")
   local lsps = require("tool_lists").lsp_servers
@@ -19,4 +19,3 @@ now_if_args(function()
   -- Enable from that list
   vim.lsp.enable(lsps_to_enable)
 end)
-
