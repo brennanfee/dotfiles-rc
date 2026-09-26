@@ -20,8 +20,8 @@ repos:
       - id: check-illegal-windows-names
       - id: check-merge-conflict
       - id: check-symlinks
-      - id: pretty-format-json
-        args: [--autofix --indent 2 --no-sort-keys]
+      # - id: pretty-format-json
+      #   args: [--autofix --indent 2 --no-sort-keys]
       - id: destroyed-symlinks
       - id: fix-byte-order-marker
       - id: detect-private-key
