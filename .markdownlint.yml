@@ -1,7 +1,16 @@
 ---
 default: true
 
+# MD013/line-length - Line length
 MD013:
+  # Number of characters
   line_length: 120
+  # Number of characters for headings
   heading_line_length: 120
+  # Number of characters for code blocks
   code_block_line_length: 120
+  # Include tables
+  tables: false
+
+# MD034/no-bare-urls - Bare URL used
+MD034: false

@@ -14,8 +14,7 @@ rules:
     max-spaces-inside-empty: 0
   comments:
     level: error
-  comments-indentation:
-    level: error
+  comments-indentation: false
   empty-values: enable
   float-values:
     require-numeral-before-decimal: true

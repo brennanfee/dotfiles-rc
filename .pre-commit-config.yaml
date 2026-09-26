@@ -26,36 +26,36 @@ repos:
       - id: fix-byte-order-marker
       - id: detect-private-key
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
-    rev: v9.23.0
+    rev: v9.27.0
     hooks:
       - id: commitlint
         stages: [commit-msg]
         additional_dependencies: ["@commitlint/config-conventional"]
   - repo: https://github.com/google/yamlfmt
-    rev: v0.20.0
+    rev: v0.21.0
     hooks:
       - id: yamlfmt
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.37.1
+    rev: v1.38.0
     hooks:
       - id: yamllint
   - repo: https://github.com/DavidAnson/markdownlint-cli2
-    rev: v0.20.0
+    rev: v0.23.3
     hooks:
       - id: markdownlint-cli2
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.30.0
+    rev: v8.30.1
     hooks:
       - id: gitleaks
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.1
+    rev: v2.4.3
     hooks:
       - id: codespell
   - repo: https://github.com/JohnnyMorganz/StyLua
-    rev: v2.3.1
+    rev: v2.5.2
     hooks:
       - id: stylua-github
-        # - repo: https://github.com/shellcheck-py/shellcheck-py
-        #   rev: v0.10.0.1
-        #   hooks:
-        #     - id: shellcheck
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.11.0.1
+    hooks:
+      - id: shellcheck
