@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 # Octicons (310 icons)
 # Codepoints: 2665-F533 with gaps
 # Nerd Fonts Version: 3.3.0

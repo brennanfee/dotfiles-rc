@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 # Font Logos (Font Linux) 1.3.0 (130 icons)
 # Codepoints: F300-F381
 # Nerd Fonts Version: 3.3.0

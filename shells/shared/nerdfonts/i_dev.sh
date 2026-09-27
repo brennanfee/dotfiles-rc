@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 # Devicons (version v2.16.0, 496 icons, 12 aliases)
 # Does not include all icons of the release
 # Codepoints: E700-E8EF

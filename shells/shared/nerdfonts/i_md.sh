@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 # Material Design Icons (6,896 icons)
 # Codepoints: F0001-F1AF0
 # Nerd Fonts Version: 3.3.0

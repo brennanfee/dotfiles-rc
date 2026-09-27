@@ -98,7 +98,7 @@ _python_argcomplete_global() {
     if __python_argcomplete_scan_head_noerr "${SCRIPT_NAME}"; then
       ARGCOMPLETE=1
     elif __python_argcomplete_scan_head_noerr "${SCRIPT_NAME}" '^#!(.*)$' -n && [[ "${BASH_REMATCH[1]}" =~ ^.*(python|pypy)[0-9\.]*$ ]]; then
-      local interpreter="${BASH_REMATCH}"
+      local interpreter="${BASH_REMATCH[1]}"
       if (__python_argcomplete_scan_head_noerr "${SCRIPT_NAME}" "(PBR Generated)|(EASY-INSTALL-(SCRIPT|ENTRY-SCRIPT|DEV-SCRIPT))" \
         && "${interpreter}" "$(type -P python-argcomplete-check-easy-install-script || true)" "${SCRIPT_NAME}") > /dev/null 2>&1; then
         ARGCOMPLETE=1
@@ -112,14 +112,14 @@ _python_argcomplete_global() {
     local IFS
     IFS=$(echo -e '\v')
     # shellcheck disable=2207
-    COMPREPLY=($(_ARGCOMPLETE_IFS="${IFS}" \
+    COMPREPLY=("$(_ARGCOMPLETE_IFS="${IFS}" \
       COMP_LINE="${COMP_LINE}" \
       COMP_POINT="${COMP_POINT}" \
       COMP_TYPE="${COMP_TYPE}" \
       _ARGCOMPLETE_COMP_WORDBREAKS="${COMP_WORDBREAKS}" \
       _ARGCOMPLETE="${ARGCOMPLETE}" \
       _ARGCOMPLETE_SUPPRESS_SPACE=1 \
-      __python_argcomplete_run "${executable}" "${COMP_WORDS[@]:1:ARGCOMPLETE-1}"))
+      __python_argcomplete_run "${executable}" "${COMP_WORDS[@]:1:ARGCOMPLETE-1}")")
     if [[ $? != 0 ]]; then
       unset COMPREPLY
     elif [[ "${COMPREPLY-}" =~ [=/:]$ ]]; then

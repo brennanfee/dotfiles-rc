@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 # Codicons (439 icons)
 # Codepoints: EA60-EC1E with holes
 test -n "$__i_cod_loaded" && return || __i_cod_loaded=1

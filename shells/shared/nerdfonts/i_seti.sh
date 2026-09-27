@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 # Seti-UI + Custom (191 icons, 21 aliases)
 # Codepoints: E5FA-E6B8
 # Nerd Fonts Version: 3.3.0

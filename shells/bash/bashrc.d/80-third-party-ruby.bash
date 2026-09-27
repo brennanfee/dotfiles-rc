@@ -22,4 +22,3 @@ export BUNDLE_USER_HOME="${XDG_CONFIG_HOME:-$(user_dirs CONFIG)}"/bundle
 export BUNDLE_USER_CONFIG="${XDG_CONFIG_HOME:-$(user_dirs CONFIG)}"/bundle
 export BUNDLE_USER_CACHE="${XDG_CACHE_HOME:-$(user_dirs CACHE)}"/bundle
 export BUNDLE_USER_PLUGIN="${XDG_DATA_HOME:-$(user_dirs DATA)}"/bundle
-

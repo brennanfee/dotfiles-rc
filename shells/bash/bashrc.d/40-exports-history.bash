@@ -68,4 +68,3 @@ function historyclean {
 }
 
 trap historyclean EXIT
-

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 # Powerline Extra Symbols (40 icons, 3 aliases)
 # Codepoints: E0A0-E0A3 E0B0-E0BF E0C0-E0C8 E0CC-E0CF E0D0-E0D2 E0D4 E0D6-E0D7
 test -n "$__i_ple_loaded" && return || __i_ple_loaded=1

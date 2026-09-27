@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 # IEC Power Symbols (5 icons)
 # Codepoints: 23FB-23FE 2B58
 test -n "$__i_iec_loaded" && return || __i_iec_loaded=1

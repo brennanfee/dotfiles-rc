@@ -240,8 +240,7 @@ _goto_unregister_alias() {
     return 1
   fi
 
-  # shellcheck disable=SC2034
-  local readonly GOTO_DB_TMP="${XDG_CACHE_HOME:-${HOME}/.cache}/.goto_"
+  local GOTO_DB_TMP="${XDG_CACHE_HOME:-${HOME}/.cache}/.goto_"
   # Delete entry from file.
   sed "/^$1 /d" "${GOTO_DB}" > "${GOTO_DB_TMP}" && mv "${GOTO_DB_TMP}" "${GOTO_DB}"
   echo "Alias '$1' unregistered successfully."
@@ -367,7 +366,7 @@ _complete_goto_aliases() {
       compopt +o filenames 2> /dev/null
 
       if ! [[ $(uname -s || true) =~ Darwin* ]]; then
-        matches[${i}]=$(printf '%*s' "-${COLUMNS}" "${matches[${i}]}")
+        matches[i]=$(printf '%*s' "-${COLUMNS}" "${matches[${i}]}")
 
         COMPREPLY+=("$(compgen -W "${matches[${i}]}")")
       else
@@ -424,7 +423,7 @@ _complete_goto_zsh() {
   _goto_resolve_db
   while IFS= read -r line; do
     all_aliases+=("${line}")
-  done <<< "$(sed -e 's/ /:/g' ${GOTO_DB} 2> /dev/null || true)"
+  done <<< "$(sed -e 's/ /:/g' "${GOTO_DB}" 2> /dev/null || true)"
 
   local state
   local -a options=(
@@ -460,7 +459,7 @@ _complete_goto_zsh() {
   return "${ret}"
 }
 
-goto_aliases=($(alias | sed -n "s/.*\s\(.*\)='goto'/\1/p"))
+goto_aliases=("$(alias | sed -n "s/.*\s\(.*\)='goto'/\1/p")")
 goto_aliases+=("goto")
 
 for i in "${goto_aliases[@]}"; do

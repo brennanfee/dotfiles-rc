@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 # Weather Icons 1.100 (228 icons)
 # Codepoints: F000-F0EB (with holes), Nerd Fonts moved E300-E3E3
 # Nerd Fonts Version: 3.3.0

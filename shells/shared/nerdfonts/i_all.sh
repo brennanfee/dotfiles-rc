@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 # Nerd Fonts Version: 3.3.0
 # Script Version 1.3.0
 

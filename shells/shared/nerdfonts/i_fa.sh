@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 # Font Awesome (version 6.5.1, 1475 icons, 342 aliases)
 # Does not include all icons of the release
 # Codepoints: ED00-F2FF with gaps

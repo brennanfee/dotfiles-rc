@@ -200,6 +200,7 @@ EXEC 01;32 # green
 *luacheckrc 00;38;5;8
 *markdownlint.yml 00;38;5;8
 *prettierrc.yml 00;38;5;8
+*shellcheckrc 00;38;5;8
 *ansible-lint 00;38;5;8
 *yamlfmt.yml 00;38;5;8
 *yamllint.yml 00;38;5;8

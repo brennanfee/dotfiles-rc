@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
 # These icons are not included anymore since Nerd Fonts v3;
 # look into i_md.sh instead. This file is used to create
 # the "removed" cheat sheet entries.
