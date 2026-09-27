@@ -66,7 +66,7 @@ checkValidCurrency() {
   if [[ $1 != "BTC" && $1 != "ETH" &&
     $1 != "XRP" && $1 != "LTC" && $1 != "XEM" &&
     $1 != "ETC" && $1 != "DASH" && $1 != "MIOTA" &&
-    $1 != "XMR" && $1 != "STRAT" && $1 != "BCH" ]]; then # codespell:ignore
+    $1 != "XMR" && $1 != "STRAT" && $1 != "BCH" ]]; then # codespell:ignore strat
     echo "1"
   else
     echo "0"
@@ -90,8 +90,8 @@ checkTargetCurrency() {
 getBase() {
   echo -n "What is the base currency: "
   read -r base
-  base=$(echo $base | tr /a-z/ /A-Z/)
-  if [[ $(checkValidCurrency $base) == "1" ]]; then
+  base=$(echo "$base" | tr /a-z/ /A-Z/)
+  if [[ $(checkValidCurrency "$base") == "1" ]]; then
     unset base
     echo "Invalid base currency"
     getBase
@@ -102,8 +102,8 @@ getBase() {
 ## types available on the API (requires argument)
 checkBase() {
   base=$1
-  base=$(echo $base | tr /a-z/ /A-Z/)
-  if [[ $(checkValidCurrency $base) == "1" ]]; then
+  base=$(echo "$base" | tr /a-z/ /A-Z/)
+  if [[ $(checkValidCurrency "$base") == "1" ]]; then
     unset base
     echo "Invalid base currency"
     exit 1
@@ -122,7 +122,7 @@ transformBase() {
   "DASH") reqId="dash" ;;
   "MIOTA") reqId="iota" ;;
   "XMR") reqId="monero" ;;
-  "STRAT") reqId="stratis" ;; # codespell:ignore
+  "STRAT") reqId="stratis" ;; # codespell:ignore strat
   "BCH") reqId="bitcoin-cash" ;;
   esac
 }
@@ -132,8 +132,8 @@ transformBase() {
 getExchangeTo() {
   echo -n "What currency to exchange to: "
   read -r exchangeTo
-  exchangeTo=$(echo $exchangeTo | tr /a-z/ /A-Z/)
-  if [[ $(checkTargetCurrency $exchangeTo) == "1" ]]; then
+  exchangeTo=$(echo "$exchangeTo" | tr /a-z/ /A-Z/)
+  if [[ $(checkTargetCurrency "$exchangeTo") == "1" ]]; then
     echo "Invalid exchange currency"
     unset exchangeTo
     getExchangeTo
@@ -144,8 +144,8 @@ getExchangeTo() {
 ## types available on the API (requires arguments)
 checkExchangeTo() {
   exchangeTo=$1
-  exchangeTo=$(echo $exchangeTo | tr /a-z/ /A-Z/)
-  if [[ $(checkTargetCurrency $exchangeTo) == "1" ]]; then
+  exchangeTo=$(echo "$exchangeTo" | tr /a-z/ /A-Z/)
+  if [[ $(checkTargetCurrency "$exchangeTo") == "1" ]]; then
     echo "Invalid exchange currency"
     unset exchangeTo
     exit 1
@@ -188,9 +188,9 @@ convertCurrency() {
   exchangeRate=$(httpGet "https://api.coinmarketcap.com/v1/ticker/$reqId/?convert=$exchangeTo" | grep -Eo "\"price_$exchangeTo\": \"[0-9 .]*" | sed s/"\"price_$exchangeTo\": \""//g) >/dev/null
   if ! command -v bc &>/dev/null; then
     oldRate=$exchangeRate
-    exchangeRate=$(echo $exchangeRate | grep -Eo "^[0-9]*")
-    amount=$(echo $amount | grep -Eo "^[0-9]*")
-    exchangeAmount=$(($exchangeRate * $amount))
+    exchangeRate=$(echo "$exchangeRate" | grep -Eo "^[0-9]*")
+    amount=$(echo "$amount" | grep -Eo "^[0-9]*")
+    exchangeAmount=$(("$exchangeRate" * "$amount"))
     exchangeRate=$oldRate
   else
     exchangeAmount=$(echo "$exchangeRate * $amount" | bc)
@@ -339,7 +339,7 @@ fi
 getConfiguredClient || exit 1
 checkInternet || exit 1
 if [[ $fiat =~ [a-zA-Z] ]]; then
-  httpGet $fiat.rate.sx
+  httpGet "$fiat".rate.sx
 else
   httpGet rate.sx
 fi

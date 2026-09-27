@@ -165,9 +165,9 @@ indent() {
       __len=$1
     fi
   fi
-  while [ $__len -gt 0 ]; do
+  while [ "$__len" -gt 0 ]; do
     echo -n " "
-    __len=$(($__len - 1))
+    __len=$((__len - 1))
   done
 }
 i() {
@@ -188,9 +188,9 @@ hr() {
     __len=$2
     __char=$1
   fi
-  while [ $__len -gt 0 ]; do
+  while [ "$__len" -gt 0 ]; do
     echo -n "$__char"
-    __len=$(($__len - 1))
+    __len=$((__len - 1))
   done
 }
 
@@ -217,7 +217,7 @@ icon() {
   skull | bones) i='\xE2\x98\xA0' ;;
   ':-)' | ':)' | smile | face) i='\xE2\x98\xBA' ;;
   *)
-    entity $1
+    entity "$1"
     return 0
     ;;
   esac

@@ -18,7 +18,7 @@ rm -f "$TEMPFILE" "$TEMPFILE.2"
 
 # Retrieve search domains
 IFS=$'\r\n' GLOBIGNORE='*' command eval "SEARCH_DOMAIN=($($PS -Command "Get-DnsClientGlobalSetting | Select-Object -ExpandProperty SuffixSearchList"))"
-UNIQUE_SEARCH_DOMAIN=($(/usr/bin/tr ' ' '\n' <<<"${SEARCH_DOMAIN[@]}" | /usr/bin/sort -u | /usr/bin/tr '\n' ' '))
+UNIQUE_SEARCH_DOMAIN=("$(/usr/bin/tr ' ' '\n' <<<"${SEARCH_DOMAIN[@]}" | /usr/bin/sort -u | /usr/bin/tr '\n' ' ')")
 
 # Modify /etc/resolv.conf
 touch /etc/resolv.conf
@@ -30,7 +30,7 @@ for i in "${UNIQUE_NAMESERVERS[@]}"; do
 done
 
 if [ ${#UNIQUE_SEARCH_DOMAIN[@]} -ne 0 ]; then
-  echo "search ${UNIQUE_SEARCH_DOMAIN[@]}" >>/etc/resolv.conf
+  echo "search ${UNIQUE_SEARCH_DOMAIN[*]}" >>/etc/resolv.conf
 fi
 
 tr -d $'\r' </etc/resolv.conf

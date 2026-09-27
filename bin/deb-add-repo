@@ -37,6 +37,7 @@ unset sourced
 
 function initialize() {
   g_script_name=$(basename "${BASH_SOURCE[0]}")
+  # shellcheck disable=SC2034
   g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   g_short_options=""
@@ -199,9 +200,9 @@ function setup_script_vars() {
   # idempotent state, present, absent, latest
   STATE="present"
   # whether help was specifically requested to be shown
-  HELP_REQUESTED=0
+  # HELP_REQUESTED=0
 
-  SUPPORTED_STATES=("present" "absent" "latest")
+  SUPPORTED_STATES=("present" "absent" "atest")
   DEFAULT_GPG_BIN="/usr/bin/gpg"
   GPG_BIN_EXE=""
 
@@ -361,10 +362,10 @@ function process_positional_arguments() {
   while [[ $# -gt 0 ]]; do
     case "${arg_count}" in
     1)
-      KEY_FILE=${arg}
+      KEY_FILE=${args[$arg_count]}
       ;;
     2)
-      REPO_URL=$(echo "${arg}" | tr "[:upper:]" "[:lower:]")
+      REPO_URL=$(echo "${args[$arg_count]}" | tr "[:upper:]" "[:lower:]")
       ;;
     3)
       break

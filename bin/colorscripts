@@ -30,6 +30,7 @@ unset sourced
 
 function initialize() {
   g_script_name=$(basename "${BASH_SOURCE[0]}")
+  # shellcheck disable=SC2034
   g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   g_short_options=""
@@ -267,7 +268,7 @@ function _calculate_set_info() {
   fi
 
   local file_list
-  file_list=($("${ls_cmd[@]}" 2>/dev/null | xargs -I $ basename $))
+  file_list=("$("${ls_cmd[@]}" 2>/dev/null | xargs -I $ basename $)")
 
   # Strip out "hidden" files (aka dotfiles)
   local file

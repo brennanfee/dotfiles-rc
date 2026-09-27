@@ -23,13 +23,14 @@ if [[ "${sourced}" -ne 1 ]]; then
   IFS=$(printf '\n\t')
 fi
 unset sourced
-### END Bash strict mode
+ END Bash strict mode
 
 ###################################################################################################
 ### START Script template bootstrap
 
 function initialize() {
   g_script_name=$(basename "${BASH_SOURCE[0]}")
+  # shellcheck disable=SC2034
   g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   g_short_options=""

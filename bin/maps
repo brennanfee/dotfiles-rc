@@ -107,16 +107,16 @@ update() {
 getDirections() {
   response=$(httpGet "https://www.mapquestapi.com/directions/v2/route?key=$MAPQUEST_API_KEY&from=$1&to=$2&outFormat=json&ambiguities=ignore&routeType=fastest&doReverseGeocode=false&enhancedNarrative=false&avoidTimedConditions=false")
   firstDirection=$(echo "$response" | grep -Eo "origNarrative\":\"[a-z A-Z -./0-9]*" | grep -Eo "[^origNarrative\":][a-z A-Z -./0-9]*")
-  tempDirections=($(echo "$response" | grep -Eo "\"narrative\":\"[a-z A-Z -./0-9]*"))
-  distances=($(echo "$response" | grep -Eo "distance\":[0-9]*[.][0-9]*" | grep -Eo "[^distance\":][0-9]*[.][0-9]*"))
+  tempDirections=("$(echo "$response" | grep -Eo "\"narrative\":\"[a-z A-Z -./0-9]*")")
+  distances=("$(echo "$response" | grep -Eo "distance\":[0-9]*[.][0-9]*" | grep -Eo "[^distance\":][0-9]*[.][0-9]*")")
   totalDist=${distances[0]}
   count="0"
   count="-1"
   temp=${tempDirections[0]}
   for direct in "${tempDirections[@]}"; do
     if [[ $(echo "$direct" | grep -Eo "narrative") == "narrative" ]]; then
-      count=$(echo $count + 1 | bc)
-      directions[$count]=$temp
+      count=$(echo "$count" + 1 | bc)
+      directions[count]=$temp
       temp=$(echo "$direct" | grep -Eo "[^\"narrative:\"][a-z A-Z 0-9./]*" | sed s/'","iconUrl"'//g)
     else
       temp="$temp $direct"
@@ -144,11 +144,11 @@ printDirections() {
   echo "==================================================="
   count=0
   for direct in "${directions[@]}"; do
-    if [ $count -ne 0 ]; then echo -n "$(echo $count | bc)). "; fi
+    if [ "$count" -ne 0 ]; then echo -n "$(echo "$count" | bc)). "; fi
     if [[ $direct != "" ]]; then # sometimes original Narrative is blank
-      direct="$direct (${distances[$(echo $count + 1 | bc)]} mi)"
-      if [ $count -ne 0 ]; then echo "$direct"; fi
-      count=$(echo $count + 1 | bc)
+      direct="$direct (${distances[$(echo "$count" + 1 | bc)]} mi)"
+      if [ "$count" -ne 0 ]; then echo "$direct"; fi
+      count=$(echo "$count" + 1 | bc)
     fi
   done
   echo "Welcome to $unformattedToLocation"
@@ -158,9 +158,9 @@ printDirections() {
 
 getLocations() {
   echo -n "Enter your starting location: "
-  read fromLocation
+  read -r fromLocation
   echo -n "Enter your destination: "
-  read toLocation
+  read -r toLocation
   unformattedFromLocation=$fromLocation
   unformattedToLocation=$toLocation
   fromLocation=$(echo "$fromLocation" | sed s/','/"+"/g | sed s/' '/"+"/g)
@@ -170,7 +170,7 @@ getLocations() {
 checkImagemagick() {
   if [[ $(uname -s) == "Linux" ]]; then
     if ! command -v display &>/dev/null; then
-      echo "Error: you need to install imagemagick to use map features." &>2
+      echo "Error: you need to install imagemagick to use map features." >&2
       return 1
     else
       return 0
@@ -182,7 +182,7 @@ checkImagemagick() {
 
 getMapLocation() {
   echo -n "Enter the city or address you want to generate a map for: "
-  read mapLocation
+  read -r mapLocation
   echo "Generating static map for $mapLocation"
   mapLocation=$(echo "$mapLocation" | sed s/','/"+"/g | sed s/' '/"+"/g)
 }

@@ -76,8 +76,8 @@ checkValidCurrency() {
 getBase() {
   echo -n "What is the base currency: "
   read -r base
-  base=$(echo $base | tr /a-z/ /A-Z/)
-  if [[ $(checkValidCurrency $base) == "1" ]]; then
+  base=$(echo "$base" | tr /a-z/ /A-Z/)
+  if [[ $(checkValidCurrency "$base") == "1" ]]; then
     unset base
     echo "Invalid base currency"
     getBase
@@ -88,8 +88,8 @@ getBase() {
 ## types available on the API (requires argument)
 checkBase() {
   base=$1
-  base=$(echo $base | tr /a-z/ /A-Z/)
-  if [[ $(checkValidCurrency $base) == "1" ]]; then
+  base=$(echo "$base" | tr /a-z/ /A-Z/)
+  if [[ $(checkValidCurrency "$base") == "1" ]]; then
     unset base
     echo "Invalid base currency"
     exit 1
@@ -101,8 +101,8 @@ checkBase() {
 getExchangeTo() {
   echo -n "What currency to exchange to: "
   read -r exchangeTo
-  exchangeTo=$(echo $exchangeTo | tr /a-z/ /A-Z/)
-  if [[ $(checkValidCurrency $exchangeTo) == "1" ]]; then
+  exchangeTo=$(echo "$exchangeTo" | tr /a-z/ /A-Z/)
+  if [[ $(checkValidCurrency "$exchangeTo") == "1" ]]; then
     echo "Invalid exchange currency"
     unset exchangeTo
     getExchangeTo
@@ -113,8 +113,8 @@ getExchangeTo() {
 ## types available on the API (requires arguments)
 checkExchangeTo() {
   exchangeTo=$1
-  exchangeTo=$(echo $exchangeTo | tr /a-z/ /A-Z/)
-  if [[ $(checkValidCurrency $exchangeTo) == "1" ]]; then
+  exchangeTo=$(echo "$exchangeTo" | tr /a-z/ /A-Z/)
+  if [[ $(checkValidCurrency "$exchangeTo") == "1" ]]; then
     echo "Invalid exchange currency"
     unset exchangeTo
     exit 1
@@ -156,9 +156,9 @@ convertCurrency() {
   exchangeRate=$(httpGet "http://api.fixer.io/latest?base=$base&symbols=$exchangeTo" | grep -Eo "[0-9]*[.][0-9]*") >/dev/null
   if ! command -v bc &>/dev/null; then
     oldRate=$exchangeRate
-    exchangeRate=$(echo $exchangeRate | grep -Eo "^[0-9]*")
-    amount=$(echo $amount | grep -Eo "^[0-9]*")
-    exchangeAmount=$(($exchangeRate * $amount))
+    exchangeRate=$(echo "$exchangeRate" | grep -Eo "^[0-9]*")
+    amount=$(echo "$amount" | grep -Eo "^[0-9]*")
+    exchangeAmount=$((exchangeRate * amount))
     exchangeRate=$oldRate
   else
     exchangeAmount=$(echo "$exchangeRate * $amount" | bc)
@@ -313,9 +313,9 @@ elif [[ $# == "2" ]]; then
   exit 1
 elif [[ $# == "3" ]]; then
   checkInternet || exit 1 # check if we have a valid internet connection if this isn't true the rest of the script will not work so stop here
-  checkBase $1
-  checkExchangeTo $2
-  checkAmount $3
+  checkBase "$1"
+  checkExchangeTo "$2"
+  checkAmount "$3"
   convertCurrency
   exit 0
 else

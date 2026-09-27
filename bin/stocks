@@ -64,21 +64,21 @@ checkInternet() {
 getStockInformation() {
   stockInfo=$(httpGet "https://api.iextrading.com/1.0/stock/$1/quote") >/dev/null #grab the JSON response
   export PYTHONIOENCODING=utf8                                                    #necessary for python in some cases
-  echo $stockInfo | python -c "import sys, json; print json.load(sys.stdin)['companyName']" >/dev/null 2>&1 || {
+  echo "$stockInfo" | python -c "import sys, json; print json.load(sys.stdin)['companyName']" >/dev/null 2>&1 || {
     echo "Not a valid stock symbol"
     exit 1
   } #checking if we get any information back from the server if not chances are it isn't a valid stock symbol
   # The rest of the code is just extrapolating the data with python from the JSON response
-  exchangeName=$(echo $stockInfo | python -c "import sys, json; print json.load(sys.stdin)['primaryExchange']")
-  latestPrice=$(echo $stockInfo | python -c "import sys, json; print json.load(sys.stdin)['latestPrice']")
-  open=$(echo $stockInfo | python -c "import sys, json; print json.load(sys.stdin)['open']")
-  high=$(echo $stockInfo | python -c "import sys, json; print json.load(sys.stdin)['week52High']")
-  low=$(echo $stockInfo | python -c "import sys, json; print json.load(sys.stdin)['week52Low']")
-  close=$(echo $stockInfo | python -c "import sys, json; print json.load(sys.stdin)['close']")
-  priceChange=$(echo $stockInfo | python -c "import sys, json; print json.load(sys.stdin)['change']")
-  priceChangePercentage=$(echo $stockInfo | python -c "import sys, json; print json.load(sys.stdin)['changePercent']")
-  volume=$(echo $stockInfo | python -c "import sys, json; print json.load(sys.stdin)['latestVolume']")
-  lastUpdated=$(echo $stockInfo | python -c "import sys, json; print json.load(sys.stdin)['latestUpdate']")
+  exchangeName=$(echo "$stockInfo" | python -c "import sys, json; print json.load(sys.stdin)['primaryExchange']")
+  latestPrice=$(echo "$stockInfo" | python -c "import sys, json; print json.load(sys.stdin)['latestPrice']")
+  open=$(echo "$stockInfo" | python -c "import sys, json; print json.load(sys.stdin)['open']")
+  high=$(echo "$stockInfo" | python -c "import sys, json; print json.load(sys.stdin)['week52High']")
+  low=$(echo "$stockInfo" | python -c "import sys, json; print json.load(sys.stdin)['week52Low']")
+  close=$(echo "$stockInfo" | python -c "import sys, json; print json.load(sys.stdin)['close']")
+  priceChange=$(echo "$stockInfo" | python -c "import sys, json; print json.load(sys.stdin)['change']")
+  priceChangePercentage=$(echo "$stockInfo" | python -c "import sys, json; print json.load(sys.stdin)['changePercent']")
+  volume=$(echo "$stockInfo" | python -c "import sys, json; print json.load(sys.stdin)['latestVolume']")
+  lastUpdated=$(echo "$stockInfo" | python -c "import sys, json; print json.load(sys.stdin)['latestUpdate']")
   unset stockInfo # done with the JSON response not needed anymore
 }
 
@@ -86,7 +86,7 @@ getStockInformation() {
 ## prints them out to the user in a human readable format
 printStockInformation() {
   echo
-  echo $symbol stock info
+  echo "$symbol" stock info
   echo "============================================="
   echo "| Exchange Name: $exchangeName"
   echo "| Latest Price: $latestPrice"
@@ -108,7 +108,7 @@ printStockInformation() {
 getTicker() {
   input=$(echo "$@" | tr " " +)
   response=$(httpGet "http://d.yimg.com/autoc.finance.yahoo.com/autoc?query=$input&region=1&lang=en%22") >/dev/null
-  symbol=$(echo $response | python -c "import sys, json; print json.load(sys.stdin)['ResultSet']['Result'][0]['symbol']") # using python to extrapolate the stock symbol
+  symbol=$(echo "$response" | python -c "import sys, json; print json.load(sys.stdin)['ResultSet']['Result'][0]['symbol']") # using python to extrapolate the stock symbol
   unset response                                                                                                          #just unsets the entire response after using it since all I need is the stock ticker
 }
 
@@ -229,7 +229,7 @@ elif [[ $# == "0" ]]; then
 else
   checkInternet || exit 1
   getTicker "$@"              # the company name might have spaces so passing in all args allows for this
-  getStockInformation $symbol # based on the stock symbol exrapolated by the getTicker function get information on the stock
+  getStockInformation "$symbol" # based on the stock symbol exrapolated by the getTicker function get information on the stock
   printStockInformation       # print this information out to the user in a human readable format
   exit 0
 fi
