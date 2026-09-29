@@ -268,7 +268,8 @@ function _calculate_set_info() {
   fi
 
   local file_list
-  file_list=("$("${ls_cmd[@]}" 2>/dev/null | xargs -I $ basename $)")
+  # shellcheck disable=SC2207
+  file_list=($("${ls_cmd[@]}" 2>/dev/null | xargs -I $ basename $))
 
   # Strip out "hidden" files (aka dotfiles)
   local file

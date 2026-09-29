@@ -23,7 +23,7 @@ if [[ "${sourced}" -ne 1 ]]; then
   IFS=$(printf '\n\t')
 fi
 unset sourced
- END Bash strict mode
+### END Bash strict mode
 
 ###################################################################################################
 ### START Script template bootstrap

@@ -202,7 +202,7 @@ function setup_script_vars() {
   # whether help was specifically requested to be shown
   # HELP_REQUESTED=0
 
-  SUPPORTED_STATES=("present" "absent" "atest")
+  SUPPORTED_STATES=("present" "absent" "latest")
   DEFAULT_GPG_BIN="/usr/bin/gpg"
   GPG_BIN_EXE=""
 
