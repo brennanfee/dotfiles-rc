@@ -17,5 +17,18 @@ if ! ${SOURCED}; then
 fi
 # END Bash strict mode
 
-# Bash Completion
+# OS Bash Completion
 source_if "/usr/share/bash-completion/bash_completion"
+
+## Command specific completion
+if command_exists gh; then
+  eval "$(gh completion -s bash || true)"
+fi
+
+if command_exist prek; then
+  eval "$(prek util generate-shell-completion bash)"
+fi
+
+if command_exists appman; then
+  complete -W "$(cat ~//appman/list 2> /dev/null)" appman
+fi
