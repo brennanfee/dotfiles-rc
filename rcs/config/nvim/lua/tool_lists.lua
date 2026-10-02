@@ -234,6 +234,12 @@ M.debug_adapters = {
   { dap_name = "local_lua_debugger_vscode", mason_name = "local-lua-debugger-vscode" },
 }
 
+M.linters = {
+  { mason_name = "codespell" },
+  { mason_name = "gitlint" },
+  { mason_name = "vint" },
+}
+
 -- M.linters = {
 --   { mason_name = "dotenv-linter" },
 --   { mason_name = "editorconfig-checker" },
@@ -359,7 +365,7 @@ M.debug_adapters = {
 -- }
 
 -- Only mason installed
-M.misc_tools = {}
+-- M.misc_tools = {}
 
 -- M.misc_tools = {
 --   "gh",
@@ -407,6 +413,12 @@ end
 for _, dap in pairs(M.debug_adapters) do
   if utils.isNotEmpty(dap.mason_name) then
     table.insert(M.mason_to_install, dap.mason_name)
+  end
+end
+
+for _, linter in pairs(M.linters) do
+  if utils.isNotEmpty(linter.mason_name) then
+    table.insert(M.mason_to_install, linter.mason_name)
   end
 end
 

@@ -17,9 +17,19 @@ tools:
       - '%l: %m: "%r"'
       - "%l: %m"
 
+  codespell: &codespell
+    diagnostic-command: codespell ${filename}
+    diagnostic-stdin: false
+    diagnostic-formats:
+      - "%f:%l: %m"
+    diagnostic-severity: 3
+
 languages:
   csv:
     - !!merge <<: *csv_csvlint
 
   gitcommit:
     - !!merge <<: *gitcommit-gitlint
+
+  =:
+    - !!merge <<: *codespell
