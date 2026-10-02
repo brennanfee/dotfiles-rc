@@ -25,7 +25,7 @@ if command_exists gh; then
   eval "$(gh completion -s bash || true)"
 fi
 
-if command_exist prek; then
+if command_exists prek; then
   eval "$(prek util generate-shell-completion bash)"
 fi
 
