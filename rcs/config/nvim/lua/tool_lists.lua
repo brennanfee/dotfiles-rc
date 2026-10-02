@@ -94,7 +94,6 @@ M.treesitter_languages = {
   "po",
   "powershell",
   "printf",
-  "prolog",
   "properties",
   "python",
   "query",
@@ -117,7 +116,6 @@ M.treesitter_languages = {
   "tcl",
   "templ",
   "terraform",
-  "tmux",
   "todotxt",
   "toml",
   "tsv",
@@ -141,14 +139,14 @@ M.treesitter_languages = {
 M.lsp_servers = {
   { lsp_name = "ansiblels", mason_name = "ansible-language-server" },
   { lsp_name = "bashls", mason_name = "bash-language-server" },
-  { lsp_name = "biome", mason_name = "" }, -- Javascript, Typescript, JSX, Json, CSS, GraphQL
+  { lsp_name = "biome", mason_name = "" }, -- Javascript, Typescript, JSX, Json, CSS, GraphQL (installed by mise)
   { lsp_name = "clangd", mason_name = "clangd" },
   { lsp_name = "dockerls", mason_name = "docker-language-server" },
   { lsp_name = "efm", mason_name = "efm" },
   { lsp_name = "gopls", mason_name = "gopls" },
   { lsp_name = "harper_ls", mason_name = "harper-ls" },
-  { lsp_name = "jdtls", mason_name = "jdtls" }, -- Java
   { lsp_name = "jinja_lsp", mason_name = "jinja-lsp" },
+  { lsp_name = "jls", mason_name = "jls" }, -- Java
   { lsp_name = "just", mason_name = "just-lsp" },
   { lsp_name = "kotlin_language_server", mason_name = "kotlin-language-server" },
   { lsp_name = "lemminx", mason_name = "lemminx" }, -- Xml
@@ -160,17 +158,20 @@ M.lsp_servers = {
   { lsp_name = "postgres_lsp", mason_name = "postgres-language-server" },
   { lsp_name = "powershell_es", mason_name = "powershell-editor-services" },
   { lsp_name = "ruby-lsp", mason_name = "ruby-lsp" },
-  { lsp_name = "rust_analyzer", mason_name = "" },
+  { lsp_name = "ruff", mason_name = "" }, -- Python (from Astral, installed by mise)
+  { lsp_name = "rust_analyzer", mason_name = "rust-analyzer" },
   { lsp_name = "snyk", mason_name = "snyk-ls" }, -- Security focused, multiple languages
+  { lsp_name = "sqlls", mason_name = "sqlls" }, -- SQL
   { lsp_name = "superhtml", mason_name = "superhtml" }, -- Html
   { lsp_name = "svelte", mason_name = "svelte-language-server" },
   { lsp_name = "systemd_lsp", mason_name = "systemd-lsp" },
-  { lsp_name = "taplo", mason_name = "" }, -- Toml
+  { lsp_name = "taplo", mason_name = "" }, -- Toml, (installed by mise)
   { lsp_name = "terraformls", mason_name = "terraform-ls" },
   { lsp_name = "tinymist", mason_name = "tinymist" }, -- Typst
   { lsp_name = "tofu_ls", mason_name = "tofu-ls" }, -- OpenTofu (Terraform)
-  { lsp_name = "ty", mason_name = "" }, -- Python (from Astral)
+  { lsp_name = "ty", mason_name = "" }, -- Python (from Astral, installed by mise)
   { lsp_name = "typos_lsp", mason_name = "typos-lsp" },
+  { lsp_name = "vim-language-server", mason_name = "vimls" },
   { lsp_name = "vue_ls", mason_name = "vue-language-server" },
   { lsp_name = "yamlls", mason_name = "yaml-language-server" },
   { lsp_name = "zls", mason_name = "zls" }, -- Zig
@@ -214,6 +215,7 @@ M.lsp_servers = {
 --   { lsp_name = "htmx", mason_name = "htmx-lsp" },
 --   { lsp_name = "intelephense", mason_name = "intelephense" }, -- PHP
 --   { lsp_name = "java_language_server", mason_name = "java-language-server" },
+--   { lsp_name = "jdtls",                  mason_name = "jdtls" }, -- Java
 --   { lsp_name = "jsonls", mason_name = "json-lsp" },
 --   { lsp_name = "ltex", mason_name = "ltex-ls" },
 --   { lsp_name = "ltex_plus", mason_name = "ltex-ls-plus" },
@@ -226,48 +228,21 @@ M.lsp_servers = {
 
 M.debug_adapters = {
   { dap_name = "bash", mason_name = "bash-debug-adapter" },
+  { dap_name = "debugpy", mason_name = "debugpy" },
+  { dap_name = "firefox_debug_adapter", mason_name = "firefox-debug-adapter" },
+  { dap_name = "kotlin_debug_adapter", mason_name = "kotlin-debug-adapter" },
+  { dap_name = "local_lua_debugger_vscode", mason_name = "local-lua-debugger-vscode" },
 }
 
--- M.debug_adapters = {
---   "bash-debug-adapter",
---   -- "chrome-debug-adapter", -- doesn't seem to work
---   "cpptools",
---   "debugpy",
---   -- "delve", -- Go debugger -- part of go now
---   "firefox-debug-adapter",
---   "java-debug-adapter",
---   "js-debug-adapter",
---   "kotlin-debug-adapter",
---   "node-debug2-adapter",
---   "perl-debug-adapter",
---   "php-debug-adapter",
+-- M.linters = {
+--   { mason_name = "dotenv-linter" },
+--   { mason_name = "editorconfig-checker" },
+--   { mason_name = "gitlint" },
+--   { mason_name = "markdownlint-cli2" },
+--   { mason_name = "shellcheck" },
+--   { mason_name = "ty" },
+--   { mason_name = "yamllint" },
 -- }
-
--- M.mason_debug_adapters = {
---   "bash",
---   --        "coreclr", -- not supported on Linux, what a joke
---   "cppdbg",
---   --        "chrome", -- this one seems to be broken
---   "delve", -- this one is for go
---   "firefox",
---   "javadbg",
---   "js",
---   "kotlin",
---   "node2",
---   "php",
---   "python",
--- }
-
-M.linters = {
-  { mason_name = "dotenv-linter" },
-  { mason_name = "editorconfig-checker" },
-  { mason_name = "gitlint" },
-  { mason_name = "luacheck" },
-  { mason_name = "markdownlint-cli2" },
-  { mason_name = "shellcheck" },
-  { mason_name = "ty" },
-  { mason_name = "yamllint" },
-}
 
 -- M.linters = {
 --   "actionlint",
@@ -324,17 +299,17 @@ M.linters = {
 --   "yamllint",
 -- }
 
-M.formatters = {
-  { mason_name = "cbfmt" },
-  { mason_name = "nixfmt" },
-  { mason_name = "nixpkgs-fmt" },
-  { mason_name = "prettier" },
-  { mason_name = "stylua" },
-  { mason_name = "shfmt" },
-  { mason_name = "typstyle" },
-  { mason_name = "xmlformatter" },
-  { mason_name = "yamlfmt" },
-}
+-- M.formatters = {
+--   { mason_name = "cbfmt" },
+--   { mason_name = "nixfmt" },
+--   { mason_name = "nixpkgs-fmt" },
+--   { mason_name = "prettier" },
+--   { mason_name = "stylua" },
+--   { mason_name = "shfmt" },
+--   { mason_name = "typstyle" },
+--   { mason_name = "xmlformatter" },
+--   { mason_name = "yamlfmt" },
+-- }
 
 -- M.formatters = {
 --   "ast-grep",
@@ -384,12 +359,14 @@ M.formatters = {
 -- }
 
 -- Only mason installed
-M.misc_tools = {
-  "gh",
-  "glow",
-  "jq",
-  "yq",
-}
+M.misc_tools = {}
+
+-- M.misc_tools = {
+--   "gh",
+--   "glow",
+--   "jq",
+--   "yq",
+-- }
 
 -- M.all_mason_tools = {}
 
@@ -424,6 +401,12 @@ M.mason_to_install = {}
 for _, lsp in pairs(M.lsp_servers) do
   if utils.isNotEmpty(lsp.mason_name) then
     table.insert(M.mason_to_install, lsp.mason_name)
+  end
+end
+
+for _, dap in pairs(M.debug_adapters) do
+  if utils.isNotEmpty(dap.mason_name) then
+    table.insert(M.mason_to_install, dap.mason_name)
   end
 end
 

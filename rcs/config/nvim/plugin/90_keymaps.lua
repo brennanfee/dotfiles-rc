@@ -218,7 +218,6 @@ map_leader("x", "gs", "<Cmd>lua MiniGit.show_at_cursor()<CR>", "Show at selectio
 -- ### l is for "Language" and "LSP"
 map_leader("n", "la", "<Cmd>lua vim.lsp.buf.code_action()<CR>", "Actions")
 map_leader("n", "ld", "<Cmd>lua vim.diagnostic.open_float()<CR>", "Diagnostic popup")
-map_leader("n", "lf", "<Cmd>lua require('conform').format()<CR>", "Format")
 map_leader("n", "li", "<Cmd>lua vim.lsp.buf.implementation()<CR>", "Implementation")
 map_leader("n", "lh", "<Cmd>lua vim.lsp.buf.hover()<CR>", "Hover")
 map_leader("n", "ll", "<Cmd>lua vim.lsp.codelens.run()<CR>", "Lens")
@@ -227,7 +226,16 @@ map_leader("n", "lR", "<Cmd>lua vim.lsp.buf.references()<CR>", "References")
 map_leader("n", "ls", "<Cmd>lua vim.lsp.buf.definition()<CR>", "Source definition")
 map_leader("n", "lt", "<Cmd>lua vim.lsp.buf.type_definition()<CR>", "Type definition")
 
-map_leader("x", "lf", "<Cmd>lua require('conform').format()<CR>", "Format selection")
+-- LSP Formatting
+map_leader("n", "lf", function()
+  vim.lsp.buf.format({ async = true })
+end, "Format")
+map_leader("x", "lf", function()
+  vim.lsp.buf.format({ async = true })
+end, "Format selection")
+Config.new_autocmd("BufWritePre", "*", function()
+  vim.lsp.buf.format({ async = false })
+end, "Format on save")
 
 -- ### "o" is for "Other"
 map_leader("n", "or", "<Cmd>lua MiniMisc.resize_window()<CR>", "Resize to default width")

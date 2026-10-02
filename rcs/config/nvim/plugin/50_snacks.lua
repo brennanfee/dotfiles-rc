@@ -52,7 +52,10 @@ now(function()
     dashboard = { enabled = false },
     debug = { enabled = false },
     explorer = { enabled = true },
-    image = { enabled = true },
+    image = {
+      enabled = true,
+      inline = true,
+    },
     -- indent = { enabled = false },
     indent = indent_settings,
     input = { enabled = true },
@@ -60,7 +63,13 @@ now(function()
       enabled = true,
       timeout = 3000,
     },
-    picker = { enabled = true },
+    -- picker = {
+    --   enabled = true,
+    --   ui_select = true,
+    -- },
+    picker = {
+      enabled = false, -- using mini.pick instead
+    },
     quickfile = { enabled = true },
     scope = { enabled = true },
     scroll = { enabled = true },

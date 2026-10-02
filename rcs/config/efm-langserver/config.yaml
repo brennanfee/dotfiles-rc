@@ -1,0 +1,25 @@
+---
+version: 2
+log-file: /home/brennan/.local/state/efm-log.txt
+log-level: 1
+root-markers:
+  - .git/
+lint-debounce: 1s
+
+tools:
+  csv-csvlint: &csv_csvlint
+    lint-command: csvlint
+
+  gitcommit-gitlint: &gitcommit-gitlint
+    lint-command: gitlint
+    lint-stdin: true
+    lint-formats:
+      - '%l: %m: "%r"'
+      - "%l: %m"
+
+languages:
+  csv:
+    - !!merge <<: *csv_csvlint
+
+  gitcommit:
+    - !!merge <<: *gitcommit-gitlint

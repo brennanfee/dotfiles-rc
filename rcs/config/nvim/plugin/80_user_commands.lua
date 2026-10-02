@@ -2,10 +2,12 @@
 
 vim.api.nvim_create_user_command("DoPackSync", function()
   vim.pack.update(nil, { target = "lockfile" })
+  vim.cmd("TSUpdate")
 end, {})
 
 vim.api.nvim_create_user_command("DoPackUpdate", function()
   vim.pack.update(nil, { force = true })
+  vim.cmd("TSUpdate")
 end, {})
 
 vim.api.nvim_create_user_command("DoPackClean", function()

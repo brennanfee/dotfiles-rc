@@ -107,7 +107,7 @@ vim.o.showbreak = "++ "
 
 vim.o.colorcolumn = "-20,+0"
 vim.o.showmatch = true
-vim.o.shortmess = "CFOSWaco" -- Disable some built-in completion messages
+vim.o.shortmess = "CFOWaco" -- Disable some built-in completion messages
 
 vim.o.pumborder = "single" -- Use border in popup menu
 vim.o.pummaxwidth = 100 -- Make popup menu not too wide
