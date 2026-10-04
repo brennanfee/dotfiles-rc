@@ -1,0 +1,4 @@
+[formatting]
+reorder_keys = false
+reorder_arrays = false
+trailing_newline = true

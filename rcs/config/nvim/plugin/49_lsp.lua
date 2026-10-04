@@ -6,6 +6,34 @@ now_if_args(function()
     "https://github.com/creativenull/efmls-configs-nvim",
   })
 
+  -- Configure Lua_ls
+  vim.lsp.config("lua_ls", {
+    settings = {
+      Lua = {
+        runtime = {
+          version = "LuaJIT",
+          path = {
+            "?.lua",
+            "?/init.lua",
+          },
+        },
+        format = {
+          enable = false, -- Disable built-in lua_ls formatting, using stylua instead
+        },
+        diagnostics = {
+          globals = { "vim" },
+        },
+        workspace = {
+          checkThirdParty = false,
+          library = {
+            "$VIMRUNTIME",
+            { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+          },
+        },
+      },
+    },
+  })
+
   local utils = require("utils")
   local lsps = require("tool_lists").lsp_servers
   local lsps_to_enable = {}

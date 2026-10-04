@@ -210,6 +210,7 @@ EXEC 01;32 # green
 *eslintrc 00;38;5;8
 *npmrc 00;38;5;8
 *stylelintrc 00;38;5;8
+*taplo.toml 00;38;5;8
 *commitlintrc.mjs 00;38;5;8
 *pre-commit-config.yaml 00;38;5;8
 *luarc.json 00;38;5;8

@@ -161,6 +161,7 @@ M.lsp_servers = {
   { lsp_name = "ruff", mason_name = "" }, -- Python (from Astral, installed by mise)
   { lsp_name = "rust_analyzer", mason_name = "rust-analyzer" },
   { lsp_name = "snyk", mason_name = "snyk-ls" }, -- Security focused, multiple languages
+  { lsp_name = "stylua", mason_name = "" }, -- Lua (installed by mise)
   { lsp_name = "sqlls", mason_name = "sqlls" }, -- SQL
   { lsp_name = "superhtml", mason_name = "superhtml" }, -- Html
   { lsp_name = "svelte", mason_name = "svelte-language-server" },
@@ -219,6 +220,7 @@ M.lsp_servers = {
 --   { lsp_name = "jsonls", mason_name = "json-lsp" },
 --   { lsp_name = "ltex", mason_name = "ltex-ls" },
 --   { lsp_name = "ltex_plus", mason_name = "ltex-ls-plus" },
+--   { lsp_name = "lua_ls", mason_name = "lua-language-server" },
 --   { lsp_name = "pylsp", mason_name = "python-lsp-server" },
 --   { lsp_name = "rumdl", mason_name = "rumdl" }, -- Markdown
 --   { lsp_name = "sqlls", mason_name = "sqlls" },
@@ -240,168 +242,9 @@ M.linters = {
   { mason_name = "vint" },
 }
 
--- M.linters = {
---   { mason_name = "dotenv-linter" },
---   { mason_name = "editorconfig-checker" },
---   { mason_name = "gitlint" },
---   { mason_name = "markdownlint-cli2" },
---   { mason_name = "shellcheck" },
---   { mason_name = "ty" },
---   { mason_name = "yamllint" },
--- }
+M.formatters = {}
 
--- M.linters = {
---   "actionlint",
---   "alex",
---   "ansible-lint",
---   "ast-grep",
---   "bacon", -- For Rust
---   "bacon-ls", -- For Rust
---   "biome",
---   "buf",
---   "cfn-lint",
---   "checkmake",
---   "checkstyle",
---   "cmakelang",
---   "cmakelint",
---   "commitlint",
---   "cpplint",
---   "curlylint",
---   "editorconfig-checker",
---   "eslint_d",
---   "flake8",
---   "gitleaks",
---   "gitlint",
---   "hadolint", -- Dockerfile linter
---   "htmlhint",
---   "jsonlint",
---   "ktlint",
---   "luacheck",
---   "markdownlint",
---   "misspell",
---   "oxlint",
---   "phpstan",
---   "proselint",
---   "pydocstyle",
---   "pylint",
---   "rubocop",
---   "ruff",
---   "salt-lint",
---   "selene", -- For Lua
---   "semgrep",
---   -- "snyk",
---   "sqlfluff",
---   "stylelint",
---   "systemdlint",
---   "textlint",
---   "tflint",
---   "tfsec",
---   "typos",
---   "vacuum",
---   "vint",
---   "vulture",
---   "woke",
---   "write-good",
---   "yamllint",
--- }
-
--- M.formatters = {
---   { mason_name = "cbfmt" },
---   { mason_name = "nixfmt" },
---   { mason_name = "nixpkgs-fmt" },
---   { mason_name = "prettier" },
---   { mason_name = "stylua" },
---   { mason_name = "shfmt" },
---   { mason_name = "typstyle" },
---   { mason_name = "xmlformatter" },
---   { mason_name = "yamlfmt" },
--- }
-
--- M.formatters = {
---   "ast-grep",
---   "autoflake",
---   "biome",
---   "buf",
---   "cbfmt",
---   "clang-format",
---   "cmakelang",
---   "csharpier",
---   "docformatter",
---   "doctoc",
---   "fixjson",
---   "fprettify",
---   "gci",
---   -- "gofumpt", -- part of go now
---   -- "goimports", -- part of go now
---   "google-java-format",
---   "hclfmt",
---   "isort",
---   "ktfmt",
---   "ktlint",
---   "luaformatter",
---   "markdown-toc",
---   "markdownlint",
---   "mdformat",
---   "mdsf",
---   "nixpkgs-fmt",
---   "php-cs-fixer",
---   -- "pint", -- Temporarily disabled PHP
---   "prettier",
---   "prettierd",
---   "pretty-php",
---   "pyment",
---   "reformat-gherkin",
---   "rubocop",
---   "rubyfmt",
---   "ruff",
---   "rufo",
---   "rustywind", -- For Tailwind
---   "shfmt",
---   "sqlfmt",
---   "stylua",
---   "typstfmt",
---   "xmlformatter",
---   "yamlfmt",
--- }
-
--- Only mason installed
--- M.misc_tools = {}
-
--- M.misc_tools = {
---   "gh",
---   "glow",
---   "jq",
---   "yq",
--- }
-
--- M.all_mason_tools = {}
-
--- for _, lsp in pairs(M.lsp_servers) do
---   if utils.isNotEmpty(lsp.mason_name) then
---     table.insert(M.all_mason_tools, lsp.mason_name)
---   end
--- end
-
--- for _, linter in pairs(M.linters) do
---   if utils.isNotEmpty(linter.mason_name) then
---     table.insert(M.all_mason_tools, linter.mason_name)
---   end
--- end
-
--- for _, formatter in pairs(M.formatters) do
---   if utils.isNotEmpty(formatter.mason_name) then
---     table.insert(M.all_mason_tools, formatter.mason_name)
---   end
--- end
-
--- for _, adapter in pairs(M.debug_adapters) do
---   if utils.isNotEmpty(adapter.mason_name) then
---     table.insert(M.all_mason_tools, adapter.mason_name)
---   end
--- end
-
--- utils.tableAppendList(M.all_mason_tools, M.misc_tools)
-
+-- Build combined list of things Mason should install
 M.mason_to_install = {}
 
 for _, lsp in pairs(M.lsp_servers) do
@@ -419,6 +262,12 @@ end
 for _, linter in pairs(M.linters) do
   if utils.isNotEmpty(linter.mason_name) then
     table.insert(M.mason_to_install, linter.mason_name)
+  end
+end
+
+for _, formatter in pairs(M.formatters) do
+  if utils.isNotEmpty(formatter.mason_name) then
+    table.insert(M.mason_to_install, formatter.mason_name)
   end
 end
 

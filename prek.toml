@@ -3,94 +3,78 @@
 #:schema https://www.schemastore.org/prek.json
 
 [[repos]]
-repo = "https://github.com/pre-commit/pre-commit-hooks"
-rev = "v6.0.0"
+repo = "builtin"
 hooks = [
-  { id = "forbid-submodules" },
-  { id = "trailing-whitespace" },
-  { id = "end-of-file-fixer" },
-  {
-    id = "mixed-line-ending",
-    args = ["--fix=lf"]
-  },
-  { id = "check-yaml" },
-  { id = "check-json" },
-  { id = "check-toml" },
-  { id = "check-xml" },
+  { id = "check-added-large-files" },
   { id = "check-case-conflict" },
   { id = "check-executables-have-shebangs" },
   { id = "check-shebang-scripts-are-executable" },
   { id = "check-illegal-windows-names" },
+  { id = "check-json" },
+  { id = "check-json5" },
+  { id = "check-toml" },
+  { id = "check-xml" },
+  { id = "check-yaml" },
   { id = "check-merge-conflict" },
   { id = "check-symlinks" },
+  { id = "check-vcs-permalinks" },
   { id = "destroyed-symlinks" },
+  { id = "detect-private-key" },
+  { id = "end-of-file-fixer" },
   { id = "fix-byte-order-marker" },
-  { id = "detect-private-key" }
+  { id = "forbid-new-submodules" },
+  { id = "mixed-line-ending", args = [
+    "--fix=lf",
+  ] },
 ]
 
 [[repos]]
 repo = "https://github.com/alessandrojcm/commitlint-pre-commit-hook"
 rev = "v9.27.0"
 hooks = [
-  {
-    id = "commitlint",
-    stages = ["commit-msg"],
-    additional_dependencies = ["@commitlint/config-conventional"]
-  }
+  { id = "commitlint", stages = [
+    "commit-msg",
+  ], additional_dependencies = [
+    "@commitlint/config-conventional",
+  ] },
 ]
 
 [[repos]]
 repo = "https://github.com/google/yamlfmt"
 rev = "v0.21.0"
-hooks = [
-  { id = "yamlfmt" }
-]
+hooks = [{ id = "yamlfmt" }]
 
 [[repos]]
 repo = "https://github.com/adrienverge/yamllint.git"
 rev = "v1.38.0"
-hooks = [
-  { id = "yamllint" }
-]
+hooks = [{ id = "yamllint" }]
 
 [[repos]]
 repo = "https://github.com/DavidAnson/markdownlint-cli2"
 rev = "v0.23.3"
-hooks = [
-  { id = "markdownlint-cli2" }
-]
+hooks = [{ id = "markdownlint-cli2" }]
 
 [[repos]]
 repo = "https://github.com/gitleaks/gitleaks"
 rev = "v8.30.1"
-hooks = [
-  { id = "gitleaks" }
-]
+hooks = [{ id = "gitleaks" }]
 
 [[repos]]
 repo = "https://github.com/codespell-project/codespell"
 rev = "v2.4.3"
-hooks = [
-  { id = "codespell" }
-]
+hooks = [{ id = "codespell" }]
 
 [[repos]]
 repo = "https://github.com/JohnnyMorganz/StyLua"
 rev = "v2.5.2"
-hooks = [
-  { id = "stylua-github" }
-]
+hooks = [{ id = "stylua-github" }]
 
 [[repos]]
 repo = "https://github.com/scop/pre-commit-shfmt"
 rev = "v3.14.1-1"
-hooks = [
-  { id = "shfmt" }
-]
+hooks = [{ id = "shfmt" }]
 
 [[repos]]
 repo = "https://github.com/shellcheck-py/shellcheck-py"
 rev = "v0.11.0.1-1"
-hooks = [
-  { id = "shellcheck" }
-]
+hooks = [{ id = "shellcheck" }]
