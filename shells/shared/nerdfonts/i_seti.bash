@@ -7,7 +7,7 @@
 test -n "$__i_seti_loaded" && return || __i_seti_loaded=1
 i='' i_custom_folder_npm=$i
 i='' i_custom_folder_git=$i
-      i_custom_folder_git_branch=$i_custom_folder_git
+i_custom_folder_git_branch=$i_custom_folder_git
 i='' i_custom_folder_config=$i
 i='' i_custom_folder_github=$i
 i='' i_custom_folder_open=$i
@@ -15,18 +15,18 @@ i='' i_custom_folder=$i
 i='' i_seti_stylus=$i
 i='' i_seti_project=$i
 i='' i_custom_play_arrow=$i
-      i_seti_play_arrow=$i_custom_play_arrow
+i_seti_play_arrow=$i_custom_play_arrow
 i='' i_seti_sass=$i
 i='' i_seti_rails=$i
 i='' i_custom_ruby=$i
-      i_seti_ruby=$i_custom_ruby
+i_seti_ruby=$i_custom_ruby
 i='' i_seti_python=$i
 i='' i_seti_heroku=$i
 i='' i_seti_php=$i
 i='' i_seti_markdown=$i
 i='' i_seti_license=$i
 i='' i_seti_json=$i
-      i_seti_less=$i_seti_json
+i_seti_less=$i_seti_json
 i='' i_seti_javascript=$i
 i='' i_seti_image=$i
 i='' i_seti_html=$i
@@ -38,22 +38,22 @@ i='' i_seti_folder=$i
 i='' i_seti_css=$i
 i='' i_seti_config=$i
 i='' i_seti_npm=$i
-      i_seti_npm_ignored=$i_seti_npm
+i_seti_npm_ignored=$i_seti_npm
 i='' i_custom_home=$i
-      i_seti_home=$i_custom_home
+i_seti_home=$i_custom_home
 i='' i_seti_ejs=$i
 i='' i_seti_xml=$i
 i='' i_seti_bower=$i
 i='' i_seti_coffee=$i
-      i_seti_cjsx=$i_seti_coffee
+i_seti_cjsx=$i_seti_coffee
 i='' i_seti_twig=$i
 i='' i_custom_cpp=$i
 i='' i_custom_c=$i
 i='' i_seti_haskell=$i
 i='' i_seti_lua=$i
 i='' i_indent_line=$i
-      i_indentation_line=$i_indent_line
-      i_indent_dotted_guide=$i_indent_line
+i_indentation_line=$i_indent_line
+i_indent_dotted_guide=$i_indent_line
 i='' i_seti_karma=$i
 i='' i_seti_favicon=$i
 i='' i_seti_julia=$i
@@ -65,27 +65,27 @@ i='' i_custom_msdos=$i
 i='' i_custom_windows=$i
 i='' i_custom_vim=$i
 i='' i_custom_elm=$i
-      i_seti_elm=$i_custom_elm
+i_seti_elm=$i_custom_elm
 i='' i_custom_elixir=$i
-      i_seti_elixir=$i_custom_elixir
+i_seti_elixir=$i_custom_elixir
 i='' i_custom_electron=$i
 i='' i_custom_crystal=$i
-      i_seti_crystal=$i_custom_crystal
+i_seti_crystal=$i_custom_crystal
 i='' i_custom_purescript=$i
-      i_seti_purescript=$i_custom_purescript
+i_seti_purescript=$i_custom_purescript
 i='' i_seti_puppet=$i
-      i_custom_puppet=$i_seti_puppet
+i_custom_puppet=$i_seti_puppet
 i='' i_custom_emacs=$i
 i='' i_custom_orgmode=$i
 i='' i_custom_kotlin=$i
-      i_seti_kotlin=$i_custom_kotlin
+i_seti_kotlin=$i_custom_kotlin
 i='' i_seti_apple=$i
 i='' i_seti_argdown=$i
 i='' i_seti_asm=$i
 i='' i_seti_audio=$i
 i='' i_seti_babel=$i
 i='' i_custom_bazel=$i
-      i_seti_bazel=$i_custom_bazel
+i_seti_bazel=$i_custom_bazel
 i='' i_seti_bicep=$i
 i='' i_seti_bsl=$i
 i='' i_seti_cake_php=$i
@@ -93,7 +93,7 @@ i='' i_seti_cake=$i
 i='' i_seti_checkbox=$i
 i='' i_seti_checkbox_unchecked=$i
 i='' i_seti_clock=$i
-      i_seti_time_cop=$i_seti_clock
+i_seti_time_cop=$i_seti_clock
 i='' i_seti_clojure=$i
 i='' i_seti_code_climate=$i
 i='' i_seti_code_search=$i
@@ -107,7 +107,7 @@ i='' i_seti_cu=$i
 i='' i_seti_dart=$i
 i='' i_seti_db=$i
 i='' i_seti_default=$i
-      i_seti_text=$i_seti_default
+i_seti_text=$i_seti_default
 i='' i_seti_deprecation_cop=$i
 i='' i_seti_docker=$i
 i='' i_seti_d=$i
@@ -117,15 +117,15 @@ i='' i_seti_error=$i
 i='' i_seti_eslint=$i
 i='' i_seti_ethereum=$i
 i='' i_custom_firebase=$i
-      i_seti_firebase=$i_custom_firebase
+i_seti_firebase=$i_custom_firebase
 i='' i_seti_firefox=$i
 i='' i_seti_font=$i
 i='' i_seti_f_sharp=$i
 i='' i_seti_github=$i
 i='' i_seti_gitlab=$i
 i='' i_seti_git=$i
-      i_seti_git_folder=$i_seti_git
-      i_seti_git_ignore=$i_seti_git
+i_seti_git_folder=$i_seti_git
+i_seti_git_ignore=$i_seti_git
 i='' i_seti_go2=$i
 i='' i_seti_godot=$i
 i='' i_seti_gradle=$i

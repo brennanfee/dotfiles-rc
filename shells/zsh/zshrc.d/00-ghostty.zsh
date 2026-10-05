@@ -10,7 +10,7 @@ function setup_ghostty() {
 
   log "Shell is running in Ghostty."
 
-  if (( ! $+_ghostty_state )); then
+  if ((! $ + _ghostty_state)); then
     log "Ghostty shell integration not already linked in, adding."
     source_if "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
   else

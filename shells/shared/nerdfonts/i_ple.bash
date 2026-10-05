@@ -5,11 +5,11 @@
 test -n "$__i_ple_loaded" && return || __i_ple_loaded=1
 i='' i_pl_branch=$i
 i='' i_pl_line_number=$i
-      i_pl_current_line=$i_pl_line_number
+i_pl_current_line=$i_pl_line_number
 i='' i_pl_hostname=$i
-      i_pl_readonly=$i_pl_hostname
+i_pl_readonly=$i_pl_hostname
 i='' i_ple_column_number=$i
-      i_ple_current_column=$i_ple_column_number
+i_ple_current_column=$i_ple_column_number
 i='' i_pl_left_hard_divider=$i
 i='' i_pl_left_soft_divider=$i
 i='' i_pl_right_hard_divider=$i

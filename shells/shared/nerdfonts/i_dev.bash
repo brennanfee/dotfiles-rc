@@ -16,12 +16,12 @@ i='' i_dev_database=$i
 i='' i_dev_dropbox=$i
 i='' i_dev_akka=$i
 i='' i_dev_github=$i
-      i_dev_github_badge=$i
+i_dev_github_badge=$i
 i='' i_dev_algolia=$i
 i='' i_dev_wordpress=$i
 i='' i_dev_visualstudio=$i
 i='' i_dev_jekyll=$i
-      i_dev_jekyll_small=$i
+i_dev_jekyll_small=$i
 i='' i_dev_android=$i
 i='' i_dev_windows=$i
 i='' i_dev_stackoverflow=$i
@@ -42,7 +42,7 @@ i='' i_dev_npm=$i
 i='' i_dev_ghost=$i
 i='' i_dev_angularmaterial=$i
 i='' i_dev_unity=$i
-      i_dev_unity_small=$i
+i_dev_unity_small=$i
 i='' i_dev_raspberry_pi=$i
 i='' i_dev_ansible=$i
 i='' i_dev_go=$i
@@ -69,7 +69,7 @@ i='' i_dev_java=$i
 i='' i_dev_ruby=$i
 i='' i_dev_ubuntu=$i
 i='' i_dev_rails=$i
-      i_dev_ruby_on_rails=$i
+i_dev_ruby_on_rails=$i
 i='' i_dev_python=$i
 i='' i_dev_php=$i
 i='' i_dev_markdown=$i
@@ -93,13 +93,13 @@ i='' i_dev_axios=$i
 i='' i_dev_jquery=$i
 i='' i_dev_coffeescript=$i
 i='' i_dev_backbonejs=$i
-      i_dev_backbone=$i
+i_dev_backbone=$i
 i='' i_dev_angular=$i
 i='' i_dev_azure=$i
 i='' i_dev_swift=$i
 i='' i_dev_azuredevops=$i
 i='' i_dev_symfony=$i
-      i_dev_symfony_badge=$i
+i_dev_symfony_badge=$i
 i='' i_dev_less=$i
 i='' i_dev_stylus=$i
 i='' i_dev_trello=$i
@@ -126,7 +126,7 @@ i='' i_dev_postgresql=$i
 i='' i_dev_bun=$i
 i='' i_dev_requirejs=$i
 i='' i_dev_c_lang=$i
-      i_dev_c=$i
+i_dev_c=$i
 i='' i_dev_typo3=$i
 i='' i_dev_cairo=$i
 i='' i_dev_doctrine=$i
@@ -143,11 +143,11 @@ i='' i_dev_travis=$i
 i='' i_dev_dotnet=$i
 i='' i_dev_codeigniter=$i
 i='' i_dev_javascript=$i
-      i_dev_javascript_badge=$i
+i_dev_javascript_badge=$i
 i='' i_dev_yii=$i
 i='' i_dev_composer=$i
 i='' i_dev_krakenjs=$i
-      i_dev_krakenjs_badge=$i
+i_dev_krakenjs_badge=$i
 i='' i_dev_capacitor=$i
 i='' i_dev_mozilla=$i
 i='' i_dev_firebase=$i
@@ -189,9 +189,9 @@ i='' i_dev_sublime=$i
 i='' i_dev_appcelerator=$i
 i='' i_dev_crystal=$i
 i='' i_dev_amazonwebservices=$i
-      i_dev_aws=$i
+i_dev_aws=$i
 i='' i_dev_digitalocean=$i
-      i_dev_digital_ocean=$i
+i_dev_digital_ocean=$i
 i='' i_dev_dlang=$i
 i='' i_dev_docker=$i
 i='' i_dev_erlang=$i
@@ -477,7 +477,7 @@ i='' i_dev_trpc=$i
 i='' i_dev_twitter=$i
 i='' i_dev_typescript=$i
 i='' i_dev_unifiedmodelinglanguage=$i
-      i_dev_uml=$i
+i_dev_uml=$i
 i='' i_dev_unix=$i
 i='' i_dev_unrealengine=$i
 i='' i_dev_uwsgi=$i
