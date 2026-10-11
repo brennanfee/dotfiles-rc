@@ -1,0 +1,579 @@
+#!/usr/bin/env bash
+#
+# This script sets up a new Debian repo.  It is to replace the deprecated pattern of
+# using add-apt-key and instead downloads the key and sets the sources file to point
+# to the downloaded key.  Most often the only two required parameters are the path or
+# URL to the key, and the url for the deb repository.  However, many other options are
+# provided to override certain defaults.
+#
+
+### START Bash strict mode
+sourced=0
+if [[ -n "${ZSH_VERSION:-}" ]]; then
+  [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
+elif [[ -n "${BASH_VERSION:-}" ]]; then
+  (return 0 2> /dev/null) && sourced=1 || sourced=0
+else # All other shells: examine $0 for known shell binary filenames.
+  # Detects `sh` and `dash`; add additional shell filenames as needed.
+  case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
+fi
+
+if [[ "${sourced}" -ne 1 ]]; then
+  set -o errexit  # same as set -e
+  set -o nounset  # same as set -u
+  set -o errtrace # same as set -E
+  set -o pipefail
+  set -o posix
+  #set -o xtrace # same as set -x, turn on for debugging
+
+  shopt -s extdebug
+  IFS=$(printf '\n\t')
+fi
+unset sourced
+### END Bash strict mode
+
+###################################################################################################
+### START Script template bootstrap
+
+function initialize() {
+  g_script_name=$(basename "${BASH_SOURCE[0]}")
+  # shellcheck disable=SC2034
+  g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
+
+  g_short_options=""
+  g_long_options=""
+  g_positional_arguments=""
+}
+
+function cleanup_vars() {
+  unset g_script_name
+  unset g_script_dir
+
+  unset g_short_options
+  unset g_long_options
+  unset g_positional_arguments
+
+  unset g_script_author
+  unset g_script_license
+  unset g_script_version
+  unset g_script_date
+
+  cleanup_script_vars
+}
+
+function load_base_functions() {
+  local functions_script="${USER_DIRS_DOTFILES:-${HOME}/.dotfiles-rc}/shells/shared/base-functions.bash"
+
+  if [[ -f "${functions_script}" ]]; then
+    # shellcheck source=/home/brennan/.dotfiles-rc/shells/shared/base-functions.bash
+    builtin source "${functions_script}"
+  fi
+}
+
+function show_version() {
+  print_out "Application: ${g_script_name}"
+  print_out "Author: ${g_script_author} --- License: ${g_script_license}"
+  print_out "Version: ${g_script_version} --- Date: ${g_script_date}"
+  print_blank_line
+}
+
+function show_help() {
+  show_version
+  print_help
+}
+
+function set_short_options() {
+  g_short_options="$1"
+}
+
+function set_long_options() {
+  g_long_options="$1"
+}
+
+function process_arguments() {
+  local args
+  set +o errexit # temporarily turn off error on exit
+  args=$(getopt --name "${g_script_name}" --options "${g_short_options}hv" \
+    --longoptions "${g_long_options},help,version" -- "$@")
+  # Handle if getopt returned an error
+  # shellcheck disable=SC2181
+  if [[ $? -gt 0 ]]; then
+    show_help
+    exit 1
+  fi
+  set -o errexit # turn error on exit back on
+
+  eval set -- "${args}"
+
+  ## Handle the required options, help & version, bypass everything else
+  local flags=("$@")
+  local i=0
+  while [[ "${i}" -lt "${#flags[@]}" ]]; do
+    local flag=${flags[i]}
+    if [[ "${flag}" == "-h" || "${flag}" == "--help" ]]; then
+      show_help
+      exit 0
+    elif [[ "${flag}" == "-v" || "${flag}" == "--version" ]]; then
+      show_version
+      exit 0
+    elif [[ "${flag}" == "--" ]]; then
+      break
+    fi
+    i=$((i + 1))
+  done
+
+  # Split up the flags and positionals
+  local flags=() positional_arguments=()
+  local reached_positionals=0
+  while [[ $# -gt 0 ]]; do
+    if [[ "$1" == "--" ]]; then
+      reached_positionals=1
+      shift
+    else
+      if [[ "${reached_positionals}" -eq 1 ]]; then
+        positional_arguments+=("$1")
+        shift
+      else
+        flags+=("$1")
+        shift
+      fi
+    fi
+  done
+
+  process_flags "${flags[@]}"
+  g_positional_arguments=("${positional_arguments[@]}")
+}
+
+## USAGE: First parameter should be the number of expected (required) positional arguments.
+## Optionally, you can pass in a second argument to customize the error message.
+function validate_number_of_positional_arguments() {
+  local expected_arguments=$1
+  local error_msg="${2:-Invalid number of arguments, expected at least ${expected_arguments}.}"
+
+  if [[ "${#g_positional_arguments[@]}" -lt ${expected_arguments} ]]; then
+    print_error "${error_msg}"
+    show_help
+    exit 1
+  fi
+}
+
+function main_handler() {
+  initialize
+  load_base_functions
+  setup_script_vars
+  setup_options
+  process_arguments "$@"
+  main "${g_positional_arguments[@]}"
+  cleanup_vars
+}
+
+### END Script template bootstrap
+###################################################################################################
+
+## USAGE: If you want any global variables, set them up here
+function setup_script_vars() {
+  # Must be set here
+  g_script_author="Brennan Fee"
+  g_script_license="MIT License"
+  g_script_version="0.4"
+  g_script_date="2024-10-07"
+
+  # Add others here
+  KEY_FILE=""
+  REPO_URL=""
+  KEY_PATH="/etc/apt/keyrings"
+  # override for the application name the repo belongs to, defaults to the key filename
+  # without extension
+  APP_NAME=""
+  # override of the output key file name, otherwise same as input
+  OUTPUT_KEY_FILE=""
+  # override of the sources list file name, otherwise same as key file name
+  SOURCES_FILENAME=""
+  # whether to include deb-src version of the repo
+  SOURCES_INCLUDE_SRC=0
+  # override of the sources list distribution, otherwise will use systems
+  SOURCES_DISTRIBUTION="$(lsb_release -c -s)"
+  # override of the sources list components
+  SOURCES_COMPONENTS="main"
+  # override gpg exe location
+  GPG_BIN=""
+  # idempotent state, present, absent, latest
+  STATE="present"
+  # whether help was specifically requested to be shown
+  # HELP_REQUESTED=0
+
+  SUPPORTED_STATES=("present" "absent" "latest")
+  DEFAULT_GPG_BIN="/usr/bin/gpg"
+  GPG_BIN_EXE=""
+
+  KEY_FILE_FULLPATH=""
+  SOURCES_FILE_FULLPATH=""
+
+  FILES_PRESENT=0
+}
+
+## USAGE: If you add any global variables, clean them up in this method
+function cleanup_script_vars() {
+  unset KEY_FILE
+  unset REPO_URL
+  unset KEY_PATH
+  unset APP_NAME
+  unset OUTPUT_KEY_FILE
+  unset SOURCES_FILENAME
+  unset SOURCES_INCLUDE_SRC
+  unset SOURCES_DISTRIBUTION
+  unset SOURCES_COMPONENTS
+  unset GPG_BIN
+  unset STATE
+  unset HELP_REQUESTED
+  unset SUPPORTED_STATES
+  unset DEFAULT_GPG_BIN
+  unset GPG_BIN_EXE
+  unset KEY_FILE_FULLPATH
+  unset SOURCES_FILE_FULLPATH
+  unset FILES_PRESENT
+}
+
+## USAGE: If you need to add any command-line flags or options, do it here.
+## You should call one or both of the helper methods set_short_options or
+## set_long_options.  They accept a string with syntax that is the same for
+## the getopt program.  See it's help for more information.
+function setup_options() {
+  set_short_options "vhis:"
+  set_long_options "version,help,include-sources,state:,app-name:,key-path:,gpg-bin-path:,output-key-name:,sources-name:,sources-distribution:,sources-components:"
+}
+
+## Usage: If you added command-line flags or options using setup_options,
+## process them here.  The flags and their values will be passed as an array
+## directly into this method so you can process them however you wish,
+## including using 'shift' as you loop.
+function process_flags() {
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      '-i' | '--include-sources')
+        SOURCES_INCLUDE_SRC=1
+        shift
+        ;;
+      '-s' | '--state')
+        STATE=$(echo "$2" | tr "[:upper:]" "[:lower:]")
+        shift 2
+        ;;
+      '--app-name')
+        APP_NAME="$2"
+        shift 2
+        ;;
+      '--key-path')
+        KEY_PATH="$2"
+        shift 2
+        ;;
+      '--gpg-bin-path')
+        GPG_BIN="$2"
+        shift 2
+        ;;
+      '--output-key-name')
+        OUTPUT_KEY_FILE="$2"
+        shift 2
+        ;;
+      '--sources-name')
+        SOURCES_FILENAME="$2"
+        shift 2
+        ;;
+      '--sources-distribution')
+        SOURCES_DISTRIBUTION="$2"
+        shift 2
+        ;;
+      '--sources-components')
+        SOURCES_COMPONENTS="$2"
+        shift 2
+        ;;
+      '--')
+        shift
+        break
+        ;;
+      *)
+        throw_error_msg "Unknown option: $1"
+        ;;
+    esac
+  done
+}
+
+## USAGE: Construct your help screen text here.
+function print_help() {
+  print_out "  ${g_script_name} [options] <key file or url> <repo url>"
+  print_blank_line
+  print_out "This program sets up a Debian (or derivative) repository using the new method of"
+  print_out "downloading a GPG key and setting up the sources.list.d file to use the 'signed-by'"
+  print_out "setting to indicate the repo is signed by that key.  This replaces the older"
+  print_out "method of using 'apt-key' to add the keys globally.  This method is more secure."
+  print_blank_line
+  print_out "Prerequisites:  lsb_release, gnupg, and wget must all be installed or accessible."
+  print_blank_line
+  print_out "Options:"
+  print_blank_line
+  print_out "  -h or --help"
+  print_out "      Show this help screen."
+  print_blank_line
+  print_out "  -v or --version"
+  print_out "     Show the version number."
+  print_blank_line
+  print_out "  --gpg-bin-path <path>"
+  print_out "      Location where the gpg executable can be found.  By default, it looks using"
+  print_out "      the system path and if not found in the path then attempts to use "
+  print_out "      /usr/bin/gpg.  If your GPG setup is somehow different and not in your path,"
+  print_out "      you will need to provide a valid path here."
+  print_blank_line
+  print_out "  --app-name <string>"
+  print_out "      The application name the repo is intended for.  Will default to the filename"
+  print_out "      of the key file without extension."
+  print_blank_line
+  print_out "  --key-path <path>"
+  print_out "      Location where the key file will be placed. Default is "
+  print_out "      /usr/local/share/keyrings."
+  print_blank_line
+  print_out "  --output-key-name <filename>"
+  print_out "      Key filename to use, otherwise will default to the downloaded file name."
+  print_out "      This should end in '.gpg', if it doesn't .gpg will be added automatically."
+  print_blank_line
+  print_out "  --sources-name <filename>"
+  print_out "      Name of the APT sources list file, otherwise will default to the downloaded"
+  print_out "      file name of the key."
+  print_blank_line
+  print_out "  -i or --include-sources"
+  print_out "      Toggle to include deb-src in the sources file. Default is to not include it."
+  print_blank_line
+  print_out "  --sources-distribution <string>"
+  print_out "      Override for the distribution name to use, will default to the current"
+  print_out "      systems distribution version codename."
+  print_blank_line
+  print_out "  --sources-components <string>"
+  print_out "      The components of packages to include, defaults to just 'main'.  This is a"
+  print_out "      space separated list so you will likely need to wrap this in quotes."
+  print_blank_line
+  print_out "  --state <present/absent/latest>"
+  print_out "      To support idempotent execution.  The default is 'present' and will do nothing"
+  print_out "      if the key and sources file already exist.  'Absent' will remove them or do"
+  print_out "      nothing.  Latest will still pull the key down and re-install it even if the"
+  print_out "      files are present, ensuring you have the latest signing key for the repo."
+  print_blank_line
+}
+
+function process_positional_arguments() {
+  local arg_count=1
+  while [[ $# -gt 0 ]]; do
+    case "${arg_count}" in
+      1)
+        KEY_FILE=${args[$arg_count]}
+        ;;
+      2)
+        REPO_URL=$(echo "${args[$arg_count]}" | tr "[:upper:]" "[:lower:]")
+        ;;
+      3)
+        break
+        ;;
+      *)
+        throw_error_msg "Internal Argument Error"
+        ;;
+    esac
+    arg_count=$((arg_count + 1))
+  done
+}
+
+function verify_state() {
+  get_exit_code contains_element "${STATE}" "${SUPPORTED_STATES[@]}"
+  if [[ ! "${EXIT_CODE}" == "0" ]]; then
+    throw_error_msg "Invalid 'State' argument value. Use one of 'present', 'absent', or 'latest'."
+  fi
+}
+
+function set_gpg_exe() {
+  if [[ "${GPG_BIN}" == "" || ! -x "${GPG_BIN}" ]]; then
+    if command -v "gpg" &> /dev/null; then
+      GPG_BIN_EXE=$(command -v gpg)
+    elif [[ -x "${DEFAULT_GPG_BIN}" ]]; then
+      GPG_BIN_EXE="${DEFAULT_GPG_BIN}"
+    else
+      local msg="Unable to locate GPG executable.  Make sure GnuGPG is installed and either"
+      msg="${msg} on your path or you pass in the location with --gpg-bin."
+      throw_error_msg "${msg}"
+    fi
+  else
+    GPG_BIN_EXE="${GPG_BIN}"
+  fi
+}
+
+function ensure_key_path() {
+  mkdir -p "${KEY_PATH}"
+  chmod "0755" "${KEY_PATH}"
+}
+
+function verify_parameters() {
+  verify_state
+  set_gpg_exe
+  ensure_key_path
+
+  if [[ "${KEY_FILE:-}" == "" ]]; then
+    throw_error_msg "A key file must be provided."
+  fi
+
+  if [[ "${REPO_URL:-}" == "" ]]; then
+    throw_error_msg "A repo URL must be provided."
+  fi
+}
+
+function determine_file_names() {
+  local key_name
+  key_name="$(basename "${KEY_FILE}")"
+  if [[ "${key_name}" == *.key ]]; then
+    key_name="${key_name:1:-4}"
+  fi
+
+  if [[ ${OUTPUT_KEY_FILE:-} != "" ]]; then
+    key_name="${OUTPUT_KEY_FILE}"
+  elif [[ ${APP_NAME} != "" ]]; then
+    key_name="${APP_NAME}"
+  fi
+
+  if [[ "${key_name}" == *.gpg ]]; then
+    key_name="${key_name:1:-4}"
+  fi
+
+  APP_NAME="${key_name}"
+  KEY_FILE_FULLPATH="${KEY_PATH}/${key_name}.gpg"
+
+  if [[ "${SOURCES_FILENAME:-}" != "" ]]; then
+    local src_file="${SOURCES_FILENAME}"
+    if [[ "${src_file}" != *.list ]]; then
+      src_file="${src_file}.list"
+    fi
+
+    SOURCES_FILE_FULLPATH="/etc/apt/sources.list.d/${src_file}"
+  else
+    SOURCES_FILE_FULLPATH="/etc/apt/sources.list.d/${key_name}.list"
+  fi
+}
+
+check_files_present() {
+  determine_file_names
+
+  if [[ -f "${SOURCES_FILE_FULLPATH}" || -f "${KEY_FILE_FULLPATH}" ]]; then
+    FILES_PRESENT=1
+  else
+    FILES_PRESENT=0
+  fi
+}
+
+remove_files() {
+  if [[ -f "${SOURCES_FILE_FULLPATH}" ]]; then
+    rm "${SOURCES_FILE_FULLPATH}"
+  fi
+
+  if [[ -f "${KEY_FILE_FULLPATH}" ]]; then
+    rm "${KEY_FILE_FULLPATH}"
+  fi
+}
+
+setup_key() {
+  local tmp_file
+  local file_type
+  local tmp_keyring
+  tmp_file=$(mktemp)
+
+  if [[ "${KEY_FILE}" == http://* || "${KEY_FILE}" == https://* ]]; then
+    wget -q -O "${tmp_file}" "${KEY_FILE}"
+  else
+    cp "${KEY_FILE}" "${tmp_file}"
+  fi
+
+  # Check the file type
+  file_type=$(file -b "${tmp_file}")
+
+  # Handle the different GPG key types
+  if [[ "${file_type}" == "PGP public key block Public-Key (old)" ]]; then
+    "${GPG_BIN_EXE}" --batch --yes --dearmor --keyring=gnupg-ring "${tmp_file}"
+    cp "${tmp_file}.gpg" "${KEY_FILE_FULLPATH}"
+  elif [[ "${file_type}" == "PGP public key block Secret-Key" ]]; then
+    tmp_keyring=$(mktemp)
+
+    "${GPG_BIN_EXE}" --batch --yes --no-default-keyring --keyring=gnupg-ring:"\"${tmp_keyring}\"" \
+      --quiet --import "${tmp_file}"
+
+    "${GPG_BIN_EXE}" --batch --yes --no-default-keyring --keyring=gnupg-ring:"\"${tmp_keyring}\"" \
+      --export --output "${KEY_FILE_FULLPATH}"
+
+    if [[ -f "${tmp_keyring}" ]]; then
+      rm "${tmp_keyring}"
+    fi
+  elif [[ "${file_type}" == "PGP/GPG key public ring (v4)" ]]; then
+    cp "${tmp_file}" "${KEY_FILE_FULLPATH}"
+  else
+    throw_error_msg "Invalid key file type."
+  fi
+
+  if [[ -f "${tmp_file}" ]]; then
+    rm "${tmp_file}"
+  fi
+  chmod "0644" "${KEY_FILE_FULLPATH}"
+}
+
+setup_sources_file() {
+  local arch
+  local repo_line
+
+  repo_line="[arch=${arch} signed-by=${KEY_FILE_FULLPATH}] ${REPO_URL} ${SOURCES_DISTRIBUTION}"
+  repo_line="${repo_line} ${SOURCES_COMPONENTS}"
+
+  if [[ -f "${SOURCES_FILE_FULLPATH}" ]]; then
+    rm "${SOURCES_FILE_FULLPATH}"
+  fi
+
+  {
+    echo "# Sources for: ${APP_NAME}"
+    echo "# vim: set ft=debsources :"
+    echo ""
+    echo "deb ${repo_line}"
+  } > "${SOURCES_FILE_FULLPATH}"
+
+  if [[ "${SOURCES_INCLUDE_SRC}" == "1" ]]; then
+    echo "deb-src ${repo_line}" >> "${SOURCES_FILE_FULLPATH}"
+  fi
+
+  chmod "0644" "${SOURCES_FILE_FULLPATH}"
+}
+
+download_and_setup() {
+  setup_key
+  setup_sources_file
+}
+
+## Your main implementation goes here.  All of the positional arguments have
+## been passed as an array to this function.
+function main() {
+  check_root_with_error ""
+  process_positional_arguments "$@"
+
+  verify_parameters
+
+  check_files_present
+
+  case "${STATE}" in
+    'present')
+      if [[ "${FILES_PRESENT}" == "0" ]]; then
+        download_and_setup
+      fi
+      ;;
+    'absent')
+      if [[ "${FILES_PRESENT}" == "1" ]]; then
+        remove_files
+      fi
+      ;;
+    'latest')
+      download_and_setup
+      ;;
+    *)
+      throw_error_msg "Invalid Argument Error: Invalid State"
+      ;;
+  esac
+}
+
+## This must be the last line
+main_handler "$@"

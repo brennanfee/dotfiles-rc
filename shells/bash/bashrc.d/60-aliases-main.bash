@@ -19,6 +19,7 @@ fi
 
 # Turn on colors
 alias ls='ls $LS_OPTIONS --classify=always'
+alias lsa="ls -ohA"
 alias lss='ls -1 --classify=never'
 alias dir='ls -CA  --classify=always'
 alias vdir='ls -lA --classify=always'
@@ -111,8 +112,4 @@ fi
 
 if command_exists ansible-community; then
   alias ansible="ansible-community"
-fi
-
-if command_exists colorscripts; then
-  alias colortest="colorscripts tests"
 fi

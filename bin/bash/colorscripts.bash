@@ -1,0 +1,412 @@
+#!/usr/bin/env bash
+
+### START Bash strict mode
+sourced=0
+if [[ -n "${ZSH_VERSION:-}" ]]; then
+  [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
+elif [[ -n "${BASH_VERSION:-}" ]]; then
+  (return 0 2> /dev/null) && sourced=1 || sourced=0
+else # All other shells: examine $0 for known shell binary filenames.
+  # Detects `sh` and `dash`; add additional shell filenames as needed.
+  case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
+fi
+
+if [[ "${sourced}" -ne 1 ]]; then
+  set -o errexit  # same as set -e
+  set -o nounset  # same as set -u
+  set -o errtrace # same as set -E
+  set -o pipefail
+  set -o posix
+  #set -o xtrace # same as set -x, turn on for debugging
+
+  shopt -s extdebug
+  IFS=$(printf '\n\t')
+fi
+unset sourced
+### END Bash strict mode
+
+###################################################################################################
+### START Script template bootstrap
+
+function initialize() {
+  g_script_name=$(basename "${BASH_SOURCE[0]}")
+  # shellcheck disable=SC2034
+  g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
+
+  g_short_options=""
+  g_long_options=""
+  g_positional_arguments=""
+}
+
+function cleanup_vars() {
+  unset g_script_name
+  unset g_script_dir
+
+  unset g_short_options
+  unset g_long_options
+  unset g_positional_arguments
+
+  unset g_script_author
+  unset g_script_license
+  unset g_script_version
+  unset g_script_date
+
+  cleanup_script_vars
+}
+
+function load_base_functions() {
+  local functions_script="${USER_DIRS_DOTFILES:-${HOME}/.dotfiles-rc}/shells/shared/base-functions.bash"
+
+  if [[ -f "${functions_script}" ]]; then
+    # shellcheck source=/home/brennan/.dotfiles-rc/shells/shared/base-functions.bash
+    builtin source "${functions_script}"
+  fi
+}
+
+function show_version() {
+  print_out "Application: ${g_script_name}"
+  print_out "Author: ${g_script_author} --- License: ${g_script_license}"
+  print_out "Version: ${g_script_version} --- Date: ${g_script_date}"
+  print_blank_line
+}
+
+function show_help() {
+  show_version
+  print_help
+}
+
+function set_short_options() {
+  g_short_options="$1"
+}
+
+function set_long_options() {
+  g_long_options="$1"
+}
+
+function process_arguments() {
+  local args
+  set +o errexit # temporarily turn off error on exit
+  args=$(getopt --name "${g_script_name}" --options "${g_short_options}hv" \
+    --longoptions "${g_long_options},help,version" -- "$@")
+  # Handle if getopt returned an error
+  # shellcheck disable=SC2181
+  if [[ $? -gt 0 ]]; then
+    show_help
+    exit 1
+  fi
+  set -o errexit # turn error on exit back on
+
+  eval set -- "${args}"
+
+  ## Handle the required options, help & version, bypass everything else
+  local flags=("$@")
+  local i=0
+  while [[ "${i}" -lt "${#flags[@]}" ]]; do
+    local flag=${flags[i]}
+    if [[ "${flag}" == "-h" || "${flag}" == "--help" ]]; then
+      show_help
+      exit 0
+    elif [[ "${flag}" == "-v" || "${flag}" == "--version" ]]; then
+      show_version
+      exit 0
+    elif [[ "${flag}" == "--" ]]; then
+      break
+    fi
+    i=$((i + 1))
+  done
+
+  # Split up the flags and positionals
+  local flags=() positional_arguments=()
+  local reached_positionals=0
+  while [[ $# -gt 0 ]]; do
+    if [[ "$1" == "--" ]]; then
+      reached_positionals=1
+      shift
+    else
+      if [[ "${reached_positionals}" -eq 1 ]]; then
+        positional_arguments+=("$1")
+        shift
+      else
+        flags+=("$1")
+        shift
+      fi
+    fi
+  done
+
+  process_flags "${flags[@]}"
+  g_positional_arguments=("${positional_arguments[@]}")
+}
+
+## USAGE: First parameter should be the number of expected (required) positional arguments.
+## Optionally, you can pass in a second argument to customize the error message.
+function validate_number_of_positional_arguments() {
+  local expected_arguments=$1
+  local error_msg="${2:-Invalid number of arguments, expected at least ${expected_arguments}.}"
+
+  if [[ "${#g_positional_arguments[@]}" -lt ${expected_arguments} ]]; then
+    print_error "${error_msg}"
+    show_help
+    exit 1
+  fi
+}
+
+function main_handler() {
+  initialize
+  load_base_functions
+  setup_script_vars
+  setup_options
+  process_arguments "$@"
+  main "${g_positional_arguments[@]}"
+  cleanup_vars
+}
+
+### END Script template bootstrap
+###################################################################################################
+
+## USAGE: If you want any global variables, set them up here
+function setup_script_vars() {
+  # Must be set here
+  g_script_author="Brennan Fee"
+  g_script_license="MIT License"
+  g_script_version="0.2"
+  g_script_date="2025-06-23"
+
+  # Add others here
+  g_clear_before_display=0
+
+  g_script_path="${XDG_DATA_HOME:-$(user_dirs DATA)}/colorscripts"
+
+  # Override with environment variable
+  if [[ -n "${DIR_COLORSCRIPTS:-}" ]]; then
+    g_script_path="${DIR_COLORSCRIPTS}"
+  fi
+
+  g_script_list=()
+  g_script_count=0
+}
+
+## USAGE: If you add any global variables, clean them up in this method
+function cleanup_script_vars() {
+  unset g_clear_before_display
+  unset g_script_path
+  unset g_script_list
+  unset g_script_count
+}
+
+## USAGE: If you need to add any command-line flags or options, do it here.
+## You should call one or both of the helper methods set_short_options or
+## set_long_options.  They accept a string with syntax that is the same for
+## the getopt program.  See it's help for more information.
+function setup_options() {
+  set_short_options "cs:"
+  set_long_options "clear,scriptsdir:"
+}
+
+## Usage: If you added command-line flags or options using setup_options,
+## process them here.  The flags and their values will be passed as an array
+## directly into this method so you can process them however you wish,
+## including using 'shift' as you loop.
+function process_flags() {
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      '-c')
+        g_clear_before_display=1
+        shift
+        ;;
+      '-s')
+        g_script_path="$2"
+        shift 2
+        ;;
+      '--')
+        shift
+        break
+        ;;
+      *)
+        throw_error_msg "Unknown option: $1"
+        ;;
+    esac
+  done
+}
+
+## USAGE: Construct your help screen text here.
+function print_help() {
+  print_out "  ${g_script_name} [options] <set name> <set action OR script name OR script index>"
+  print_blank_line
+  print_out "This program displays a colorscript in the terminal. Colorscripts can be decorate, used to test terminal"
+  print_out "color theme and\or terminal capabilities."
+  print_blank_line
+  print_out "Options:"
+  print_blank_line
+  print_out "  -h or --help"
+  print_out "      Show this help screen."
+  print_blank_line
+  print_out "  -v or --version"
+  print_out "     Show the version number."
+  print_blank_line
+  print_out "  -s or --scriptsdir <path>"
+  print_out "     Override the location where the colorscripts are stored."
+  print_blank_line
+  print_out "  -c or --clear"
+  print_out "     Whether to clear the screen before running, default is not to clear as it effects buffer history."
+  print_blank_line
+  print_out "This program takes two arguments. The first is always a 'set name', which corresponds to a named set"
+  print_out "of colorscript files. The second is either an action to perform on the scripts, a name of a script file,"
+  print_out "or a number that will represents a script by numeric index among the files."
+  print_blank_line
+  print_out "The actions that can be passed are: list, random, all."
+}
+
+function _calculate_set_info() {
+  local script_set="$1"
+  local script_set_path="${g_script_path}/${script_set}"
+
+  local ls_cmd=()
+  if command -v find &> /dev/null; then
+    ls_cmd+=("$(command -v find)" "${script_set_path}" "-maxdepth" "1" "-type" "f")
+  else
+    ls_cmd+=("$(command -v ls)" "${script_set_path}")
+  fi
+
+  local file_list
+  # shellcheck disable=SC2207
+  file_list=($("${ls_cmd[@]}" 2> /dev/null | xargs -I $ basename $))
+
+  # Strip out "hidden" files (aka dotfiles)
+  local file
+  g_script_list=()
+  for file in "${file_list[@]}"; do
+    if [[ ! "${file}" =~ \..* ]]; then
+      g_script_list+=("${file}")
+    fi
+  done
+
+  g_script_count=${#g_script_list[@]}
+}
+
+function _if_has_color_script() {
+  local script_set="$1"
+  local script_file="$2"
+  local script_file_path="${g_script_path}/${script_set}/${script_file}"
+
+  [[ -f "${script_file_path}" ]] && echo "Has this color script."
+}
+
+function _clear_if_requested() {
+  if [[ "${g_clear_before_display}" -eq 1 ]]; then
+    clear
+  fi
+}
+
+function _show_by_index() {
+  local script_set="$1"
+  local script_index="$2"
+
+  if [[ "${script_index}" -gt 0 && "${script_index}" -le "${g_script_count}" ]]; then
+    script_index=$((script_index - 1))
+    local script_file="${g_script_list[${script_index}]}"
+
+    _clear_if_requested
+    "${g_script_path}/${script_set}/${script_file}" || true
+  else
+    local msg=""
+    if [[ "${script_index}" -eq 0 ]]; then
+      msg="Input error.  Zero is an invalid index, the files should be referenced starting with 1."
+    else
+      msg="Input error.  Don't have a script numbered '${script_index}'. "
+      msg+="Max value available is '${g_script_count}'."
+    fi
+    throw_error_msg "${msg}"
+  fi
+}
+
+function _show_by_name() {
+  local script_set="$1"
+  local script_file="$2"
+
+  if [[ -n "$(_if_has_color_script "${script_set}" "${script_file}")" ]]; then
+    _clear_if_requested
+    "${g_script_path}/${script_set}/${script_file}" || true
+  else
+    local msg="Input error.  No script with name '${script_file}' exists in the '${script_set}' set."
+    throw_error_msg "${msg}"
+  fi
+}
+
+function _list() {
+  local script_set="$1"
+
+  _clear_if_requested
+
+  print_blank_line
+  print_out "There are ${g_script_count} color scripts in the '${script_set}' set:"
+  print_blank_line
+  print_out "$(echo "${g_script_list[*]}" | cut -d' ' -f 1 | nl)"
+}
+
+function _random() {
+  local script_set="$1"
+  local random_index=$((1 + RANDOM % (g_script_count - 1)))
+
+  local script_file="${g_script_list[${random_index}]}"
+
+  _clear_if_requested
+  "${g_script_path}/${script_set}/${script_file}" || true
+}
+
+function _show_all() {
+  local script_set="$1"
+  local script_set_path="${g_script_path}/${script_set}"
+
+  for s in "${script_set_path}"/*; do
+    print_out "----------"
+    print_out "Script: $(echo "$s" | awk -F '/' '{print $NF}')"
+    print_out "----------"
+    "${s}" || true
+    print_blank_line
+  done
+}
+
+## Your main implementation goes here.  All of the positional arguments have been passed as an array
+## to this function.
+function main() {
+  local script_set
+  local action
+  script_set="${1:-default}"
+  action="${2:-random}"
+
+  # Validate that the script_set path exists
+  if [[ ! -d "${g_script_path}/${script_set}" ]]; then
+    throw_error_msg "Script set provided does not exist.  Script set: ${script_set}"
+  fi
+
+  ## calculate values
+  _calculate_set_info "${script_set}"
+
+  if [[ "${g_script_count}" == "0" ]]; then
+    local msg="No files were found in the script set location, at least 1 file must exist.  Script set: ${script_set}"
+    throw_error_msg "${msg}"
+  fi
+
+  ## Process action
+  if [[ "${action}" =~ ^[0-9]+$ ]]; then
+    _show_by_index "${script_set}" "${action}"
+  else
+    case "${action}" in
+      'list')
+        _list "${script_set}"
+        ;;
+      'random')
+        _random "${script_set}"
+        ;;
+      'all')
+        _show_all "${script_set}"
+        ;;
+      *)
+        _show_by_name "${script_set}" "${action}"
+        ;;
+    esac
+  fi
+}
+
+## This must be the last line
+main_handler "$@"

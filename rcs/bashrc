@@ -191,7 +191,7 @@ function mount_moose {
       log_early "Moosefs server is reachable, checking if we need to mount the shares."
       if ! mountpoint -q "${HOME}/mounts/files"; then
         log_early "Mounting shares"
-        "${dotfiles}/bin/moose-mount-shares"
+        "${dotfiles}/bin/bash/moose-mount-shares.bash"
       fi
     else
       log_early "moosefs server seems to be unreachable, skipping mount check."
@@ -202,9 +202,12 @@ function mount_moose {
 }
 
 function run_colorscripts {
-  if command_exists colorscripts; then
+  local dotfiles="${USER_DIRS_DOTFILES}"
+
+  local the_script="${dotfiles}/bin/bash/colorscripts.bash"
+  if [[ -x "${the_script}" ]]; then
     log_early "Running colorscripts"
-    colorscripts banners random
+    "${the_script}" banners random
   fi
 }
 
