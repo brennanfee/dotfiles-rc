@@ -5,7 +5,7 @@ sourced=0
 if [[ -n "${ZSH_VERSION:-}" ]]; then
   [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
 elif [[ -n "${BASH_VERSION:-}" ]]; then
-  (return 0 2>/dev/null) && sourced=1 || sourced=0
+  (return 0 2> /dev/null) && sourced=1 || sourced=0
 else # All other shells: examine $0 for known shell binary filenames.
   # Detects `sh` and `dash`; add additional shell filenames as needed.
   case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
@@ -30,6 +30,7 @@ unset sourced
 
 function initialize() {
   g_script_name=$(basename "${BASH_SOURCE[0]}")
+  # shellcheck disable=SC2034
   g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   g_short_options=""
@@ -171,10 +172,10 @@ function setup_script_vars() {
   g_script_date="2025-06-10"
 
   # Add others here
-  g_distro="$(lsb_release -is 2>/dev/null | tr "[:upper:]" "[:lower:]")"
-  g_distro_codename="$(lsb_release -cs 2>/dev/null)"
+  g_distro="$(lsb_release -is 2> /dev/null | tr "[:upper:]" "[:lower:]")"
+  g_distro_codename="$(lsb_release -cs 2> /dev/null)"
 
-  g_force="false"
+  # g_force="false"
   g_include_dev_tools="false"
   g_desktop_environment="none"
 }
@@ -205,25 +206,25 @@ function setup_options() {
 function process_flags() {
   while [[ $# -gt 0 ]]; do
     case "$1" in
-    '-d' | '--include-dev')
-      g_include_dev_tools="true"
-      shift
-      ;;
-    '-f' | '--force')
-      g_force="true"
-      shift
-      ;;
-    '-e' | '--desktop-environment')
-      g_desktop_environment=$(echo "$2" | tr "[:upper:]" "[:lower:]")
-      shift 2
-      ;;
-    '--')
-      shift
-      break
-      ;;
-    *)
-      throw_error_msg "Unknown option: $1"
-      ;;
+      '-d' | '--include-dev')
+        g_include_dev_tools="true"
+        shift
+        ;;
+      # '-f' | '--force')
+      #   g_force="true"
+      #   shift
+      #   ;;
+      '-e' | '--desktop-environment')
+        g_desktop_environment=$(echo "$2" | tr "[:upper:]" "[:lower:]")
+        shift 2
+        ;;
+      '--')
+        shift
+        break
+        ;;
+      *)
+        throw_error_msg "Unknown option: $1"
+        ;;
     esac
   done
 }
@@ -248,7 +249,7 @@ function print_help() {
   print_blank_line
   print_out "  -e or --desktop-environment"
   print_out "     The desktop environment being installed to. This might produce differences in the packages"
-  print_out "     beign installed.  Valid values are 'none', 'kde', 'gnome', 'mate', and 'tiling'."
+  print_out "     being installed.  Valid values are 'none', 'kde', 'gnome', 'mate', and 'tiling'."
   print_blank_line
   print_out "  -f or --force"
   print_out "     Removes all current repos, keys, and re-installs all the repos."
@@ -256,7 +257,7 @@ function print_help() {
 }
 
 function is_a_desktop() {
-  if [[ "${g_desktop_environment}" == 'none' && "${g_desktop_environment}" == 'server' ]]; then
+  if [[ "${g_desktop_environment}" == 'none' || "${g_desktop_environment}" == 'server' ]]; then
     return 1
   else
     return 0
@@ -288,7 +289,7 @@ function install_debian_backports_repo() {
 
   if [[ ! -f "${listFile}" ]]; then
     print_out "  Installing debian backports repo"
-    echo "deb ${repoStatement}" | sudo tee "${listFile}" >/dev/null
+    echo "deb ${repoStatement}" | sudo tee "${listFile}" > /dev/null
   fi
 }
 
@@ -309,8 +310,8 @@ function install_if_needed() {
       sudo curl -fsSLo "${keyFile}" "${keyUrl}"
     fi
     # list file
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=${keyFile}] ${repoStatement}" |
-      sudo tee "${listFile}" >/dev/null
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=${keyFile}] ${repoStatement}" \
+      | sudo tee "${listFile}" > /dev/null
   fi
 }
 
@@ -397,25 +398,25 @@ function install_common_tools() {
 
   # For specific desktops
   case "${g_desktop_environment}" in
-  "none" | "server")
-    DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install insync-headless
-    ;;
-  "kde")
-    DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install insync-dolphin
-    ;;
-  "gnome")
-    DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install insync-nautilus
-    ;;
-  "mate")
-    DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install insync-caja
-    ;;
-  "tiling")
-    ## Don't know which gui file manager I would use, do nothing for now
-    true
-    ;;
-  *)
-    print_warning "Unknown desktop environment requested."
-    ;;
+    "none" | "server")
+      DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install insync-headless
+      ;;
+    "kde")
+      DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install insync-dolphin
+      ;;
+    "gnome")
+      DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install insync-nautilus
+      ;;
+    "mate")
+      DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install insync-caja
+      ;;
+    "tiling")
+      ## Don't know which gui file manager I would use, do nothing for now
+      true
+      ;;
+    *)
+      print_warning "Unknown desktop environment requested."
+      ;;
   esac
 }
 

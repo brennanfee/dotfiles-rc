@@ -5,7 +5,7 @@ sourced=0
 if [[ -n "${ZSH_VERSION:-}" ]]; then
   [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
 elif [[ -n "${BASH_VERSION:-}" ]]; then
-  (return 0 2>/dev/null) && sourced=1 || sourced=0
+  (return 0 2> /dev/null) && sourced=1 || sourced=0
 else # All other shells: examine $0 for known shell binary filenames.
   # Detects `sh` and `dash`; add additional shell filenames as needed.
   case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
@@ -30,6 +30,7 @@ unset sourced
 
 function initialize() {
   g_script_name=$(basename "${BASH_SOURCE[0]}")
+  # shellcheck disable=SC2034
   g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   g_short_options=""
@@ -197,21 +198,21 @@ function setup_options() {
 function process_flags() {
   while [[ $# -gt 0 ]]; do
     case "$1" in
-    '-u' | '--unlink')
-      g_unlink=1
-      shift
-      ;;
-    '-s' | '--set')
-      g_link_set=$(echo "$2" | tr "[:upper:]" "[:lower:]")
-      shift 2
-      ;;
-    '--')
-      shift
-      break
-      ;;
-    *)
-      throw_error_msg "Unknown option: $1"
-      ;;
+      '-u' | '--unlink')
+        g_unlink=1
+        shift
+        ;;
+      '-s' | '--set')
+        g_link_set=$(echo "$2" | tr "[:upper:]" "[:lower:]")
+        shift 2
+        ;;
+      '--')
+        shift
+        break
+        ;;
+      *)
+        throw_error_msg "Unknown option: $1"
+        ;;
     esac
   done
 }
@@ -220,7 +221,7 @@ function process_flags() {
 function print_help() {
   print_out "  ${g_script_name} [options]"
   print_blank_line
-  print_out "This script sets up synlinks to the UUtils Rust implementations of the GNU Core utils."
+  print_out "This script sets up symlinks to the UUtils Rust implementations of the GNU Core utils."
   print_out "It supports the util sets of Coreutils, Diffutils, and Findutils.  It can also reverse"
   print_out "the process by unlinking them. This tool does not install the tools, it only creates"
   print_out "links to them (usually to act as overrides for the GNU tools.)"
@@ -448,45 +449,45 @@ function unlink_findutils {
 
 function create_links {
   case "${g_link_set}" in
-  'all')
-    link_coreutils
-    link_diffutils
-    link_findutils
-    ;;
-  'coreutils')
-    link_coreutils
-    ;;
-  'diffutils')
-    link_diffutils
-    ;;
-  'findutils')
-    link_findutils
-    ;;
-  *)
-    throw_error_msg "Unknown set option: ${g_link_set}"
-    ;;
+    'all')
+      link_coreutils
+      link_diffutils
+      link_findutils
+      ;;
+    'coreutils')
+      link_coreutils
+      ;;
+    'diffutils')
+      link_diffutils
+      ;;
+    'findutils')
+      link_findutils
+      ;;
+    *)
+      throw_error_msg "Unknown set option: ${g_link_set}"
+      ;;
   esac
 }
 
 function perform_unlink {
   case "${g_link_set}" in
-  'all')
-    unlink_coreutils
-    unlink_diffutils
-    unlink_findutils
-    ;;
-  'coreutils')
-    unlink_coreutils
-    ;;
-  'diffutils')
-    unlink_diffutils
-    ;;
-  'findutils')
-    unlink_findutils
-    ;;
-  *)
-    throw_error_msg "Unknown set option: ${g_link_set}"
-    ;;
+    'all')
+      unlink_coreutils
+      unlink_diffutils
+      unlink_findutils
+      ;;
+    'coreutils')
+      unlink_coreutils
+      ;;
+    'diffutils')
+      unlink_diffutils
+      ;;
+    'findutils')
+      unlink_findutils
+      ;;
+    *)
+      throw_error_msg "Unknown set option: ${g_link_set}"
+      ;;
   esac
 }
 

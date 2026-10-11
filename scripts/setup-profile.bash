@@ -5,7 +5,7 @@ sourced=0
 if [[ -n "${ZSH_VERSION:-}" ]]; then
   [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
 elif [[ -n "${BASH_VERSION:-}" ]]; then
-  (return 0 2>/dev/null) && sourced=1 || sourced=0
+  (return 0 2> /dev/null) && sourced=1 || sourced=0
 else # All other shells: examine $0 for known shell binary filenames.
   # Detects `sh` and `dash`; add additional shell filenames as needed.
   case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
@@ -30,6 +30,7 @@ unset sourced
 
 function initialize() {
   g_script_name=$(basename "${BASH_SOURCE[0]}")
+  # shellcheck disable=SC2034
   g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   g_short_options=""
@@ -167,18 +168,17 @@ function setup_script_vars() {
   # Must be set here
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
-  g_script_version="0.1"
-  g_script_date="2025-11-08"
+  g_script_version="0.4"
+  g_script_date="2025-06-24"
 
   # Add others here
-  g_distro="$(lsb_release -is 2>/dev/null | tr "[:upper:]" "[:lower:]")"
-  g_distro_codename="$(lsb_release -cs 2>/dev/null)"
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
 function cleanup_script_vars() {
-  unset g_distro
-  unset g_distro_codename
+  # unset abc
+
+  true
 }
 
 ## USAGE: If you need to add any command-line flags or options, do it here.
@@ -186,6 +186,9 @@ function cleanup_script_vars() {
 ## set_long_options.  They accept a string with syntax that is the same for
 ## the getopt program.  See it's help for more information.
 function setup_options() {
+  # set_short_options "abc:"
+  # set_long_options "beta,charlie:"
+
   true
 }
 
@@ -194,6 +197,26 @@ function setup_options() {
 ## directly into this method so you can process them however you wish,
 ## including using 'shift' as you loop.
 function process_flags() {
+  # while [[ $# -gt 0 ]]; do
+  #   case "$1" in
+  #   '-a')
+  #     alpha=1 # or "yes"
+  #     shift
+  #     ;;
+  #   '-c' | '--charlie')
+  #     charlie="$2"
+  #     shift 2
+  #     ;;
+  #   '--')
+  #     shift
+  #     break
+  #     ;;
+  #   *)
+  #     throw_error_msg "Unknown option: $1"
+  #     ;;
+  #   esac
+  # done
+
   true
 }
 
@@ -201,7 +224,8 @@ function process_flags() {
 function print_help() {
   print_out "  ${g_script_name} [options]"
   print_blank_line
-  print_out "This program sets up Oracle Virtuabox on this machine."
+  print_out "Utility to set up my home directory with my preferred profile and"
+  print_out "mount directories."
   print_blank_line
   print_out "Options:"
   print_blank_line
@@ -213,51 +237,27 @@ function print_help() {
   print_blank_line
 }
 
-function install_if_needed() {
-  local product="${1}"
-  local listFile="${2}"
-  local keyFile="${3}"
-  local keyUrl="${4}"
-  local repoStatement="${5}"
-  local dearmorKey="${6:-false}"
-
-  if [[ ! -f "${listFile}" ]]; then
-    print_out "  Installing ${product} repo"
-    # key file
-    if [[ "${dearmorKey}" == "true" ]]; then
-      curl -fsSL "${keyUrl}" | sudo gpg --dearmor --yes --output "${keyFile}"
-    else
-      sudo curl -fsSLo "${keyFile}" "${keyUrl}"
-    fi
-    # list file
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=${keyFile}] ${repoStatement}" |
-      sudo tee "${listFile}" >/dev/null
-  fi
-}
-
-function install_virtualbox_repo() {
-  local listFile="/etc/apt/sources.list.d/virtualbox.list"
-  local keyFile="/etc/apt/keyrings/oracle-virtualbox-2016.gpg"
-  local keyUrl="https://www.virtualbox.org/download/oracle_vbox_2016.asc"
-  local repoStatement="https://download.virtualbox.org/virtualbox/${g_distro} ${g_distro_codename} contrib"
-
-  # sudo apt-key remove 5CDFA2F683C52980AECF
-  # sudo apt-key remove D9C954422A4B98AB5139
-
-  echo "virtualbox virtualbox/module-compilation-allowed boolean true" | sudo debconf-set-selections
-  echo "virtualbox virtualbox/delete-old-modules boolean true" | sudo debconf-set-selections
-
-  install_if_needed "Virtualbox" "${listFile}" "${keyFile}" "${keyUrl}" "${repoStatement}" true
-}
-
 ## Your main implementation goes here.  All of the positional arguments have
 ## been passed as an array to this function.
 function main() {
-  install_virtualbox_repo
+  # Create the mount directories
+  mkdir -p "${HOME}/mounts/backups" "${HOME}/mounts/files" "${HOME}/mounts/other"
 
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q update
+  # Create the profile directories
+  mkdir -p "${HOME}/profile/cloud" "${HOME}/profile/documents" "${HOME}/profile/downloads" "${HOME}/profile/installs" "${HOME}/profile/music" "${HOME}/profile/pictures" "${HOME}/profile/source/github" "${HOME}/profile/videos" "${HOME}/profile/vms" "${HOME}/profile/processing" "${HOME}/profile/work"
 
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install virtualbox-7.2
+  # Symlink the downloads folder
+  if [[ ! -L "${HOME}/Downloads" || ! -d "${HOME}/Downloads" ]]; then
+    rm -rf "${HOME}/Downloads"
+    ln -s "${HOME}/profile/downloads" "${HOME}/Downloads"
+  fi
+
+  # Remove the other default xdg folders in the $HOME
+  rm -rf "${HOME}/Documents"
+  rm -rf "${HOME}/Music"
+  rm -rf "${HOME}/Pictures"
+  rm -rf "${HOME}/Templates"
+  rm -rf "${HOME}/Videos"
 }
 
 ## This must be the last line

@@ -168,15 +168,17 @@ function setup_script_vars() {
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
   g_script_version="0.4"
-  g_script_date="2025-06-10"
+  g_script_date="2025-10-06"
 
   # Add others here
   g_include_dev_tools="false"
+  g_desktop_environment="none"
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
 function cleanup_script_vars() {
   unset g_include_dev_tools
+  unset g_desktop_environment
 }
 
 ## USAGE: If you need to add any command-line flags or options, do it here.
@@ -184,8 +186,8 @@ function cleanup_script_vars() {
 ## set_long_options.  They accept a string with syntax that is the same for
 ## the getopt program.  See it's help for more information.
 function setup_options() {
-  set_short_options "d"
-  set_long_options "include-dev"
+  set_short_options "de:"
+  set_long_options "include-dev,desktop-environment:"
 }
 
 ## Usage: If you added command-line flags or options using setup_options,
@@ -195,17 +197,21 @@ function setup_options() {
 function process_flags() {
   while [[ $# -gt 0 ]]; do
     case "$1" in
-    '-d' | '--include-dev')
-      g_include_dev_tools="true"
-      shift
-      ;;
-    '--')
-      shift
-      break
-      ;;
-    *)
-      throw_error_msg "Unknown option: $1"
-      ;;
+      '-d' | '--include-dev')
+        g_include_dev_tools="true"
+        shift
+        ;;
+      '-e' | '--desktop-environment')
+        g_desktop_environment=$(echo "$2" | tr "[:upper:]" "[:lower:]")
+        shift 2
+        ;;
+      '--')
+        shift
+        break
+        ;;
+      *)
+        throw_error_msg "Unknown option: $1"
+        ;;
     esac
   done
 }
@@ -214,7 +220,8 @@ function process_flags() {
 function print_help() {
   print_out "  ${g_script_name} [options]"
   print_blank_line
-  print_out "This program sets up Tmux and installs my desired plug-ins and tools."
+  print_out "This script runs all the tools scripts in their proper order. This is"
+  print_out "mostly useful when setting up a new machine."
   print_blank_line
   print_out "Options:"
   print_blank_line
@@ -224,22 +231,65 @@ function print_help() {
   print_out "  -v or --version"
   print_out "     Show the version number."
   print_blank_line
+  print_out "  -d or --include-dev"
+  print_out "     Also install the tools for a development environment."
+  print_blank_line
+  print_out "  -e or --desktop-environment"
+  print_out "     The desktop environment.  Defaults to 'none'.  Available options are 'none', "
+  print_out "     'server' (the same as 'none'), 'KDE', 'Gnome', 'Mate', and 'Tiling'."
+  print_blank_line
 }
 
 ## Your main implementation goes here.  All of the positional arguments have
 ## been passed as an array to this function.
 function main() {
-  local tmux_plugin_manager_path
-  tmux_plugin_manager_path="$(tmux start-server\; show-environment -g TMUX_PLUGIN_MANAGER_PATH | cut -f2 -d=)"
+  local scriptBase
+  local miseExe
+  scriptBase="${g_script_dir}"
+  miseExe="${USER_DIRS_LOCALBIN:-$(user_dirs LOCALBIN)}/mise"
 
-  # Download the tmux plugin manager if it isn't already there
-  if [[ ! -d "${tmux_plugin_manager_path}/tpm" ]]; then
-    git clone https://github.com/tmux-plugins/tpm "${tmux_plugin_manager_path}/tpm"
+  print_info "${g_script_name} Options"
+  print_info "    include dev: ${g_include_dev_tools}"
+  print_info "    desktop environment: ${g_desktop_environment}"
+  print_blank_line
+
+  local options=""
+  if [[ "${g_include_dev_tools}" == "true" ]]; then
+    options="--include-dev"
   fi
 
-  if [[ -f "${tmux_plugin_manager_path}/tpm/bin/install_plugins" ]]; then
-    "${tmux_plugin_manager_path}/tpm/bin/install_plugins"
+  # Call the other tool install scripts, order does matter here.
+  print_status "Running 'tools-repos'"
+  "${scriptBase}/tools-repos.bash" "${options}" "--desktop-environment=${g_desktop_environment}"
+  print_status "Running 'apts'"
+  "${scriptBase}/tools-apts.bash" "${options}"
+
+  ## We only want to call the desktop apts file if we are actually on a desktop
+  if [[ "${g_desktop_environment}" == "kde" || "${g_desktop_environment}" == "gnome" ||
+    "${g_desktop_environment}" == "mate" || "${g_desktop_environment}" == "tiling" ]]; then
+
+    print_status "Running 'desktop-apts'"
+    "${scriptBase}/tools-desktop-apts.bash" "${options}" "--desktop-environment=${g_desktop_environment}"
   fi
+
+  print_status "Running 'tools-mise'"
+  "${scriptBase}/tools-mise.bash" "${options}"
+
+  print_status "Activating Mise"
+  eval "$("${miseExe}" activate bash)"
+  eval "$("${miseExe}" hook-env -s bash)"
+
+  print_status "Running 'tools-tmux'"
+  "${scriptBase}/tools-tmux.bash" "${options}"
+  print_status "Running 'tools-vim'"
+  "${scriptBase}/tools-vim.bash" "${options}"
+
+  print_status "Running 'tools-appman'"
+  "${scriptBase}/tools-appman.bash" "${options}" "--desktop-environment=${g_desktop_environment}"
+  print_status "Running 'tools-flatpak'"
+  "${scriptBase}/tools-flatpak.bash" "${options}" "--desktop-environment=${g_desktop_environment}"
+  print_status "Running 'tools-uv'"
+  "${scriptBase}/tools-uv.bash" "${options}"
 }
 
 ## This must be the last line

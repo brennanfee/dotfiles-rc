@@ -5,7 +5,7 @@ sourced=0
 if [[ -n "${ZSH_VERSION:-}" ]]; then
   [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
 elif [[ -n "${BASH_VERSION:-}" ]]; then
-  (return 0 2>/dev/null) && sourced=1 || sourced=0
+  (return 0 2> /dev/null) && sourced=1 || sourced=0
 else # All other shells: examine $0 for known shell binary filenames.
   # Detects `sh` and `dash`; add additional shell filenames as needed.
   case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
@@ -30,6 +30,7 @@ unset sourced
 
 function initialize() {
   g_script_name=$(basename "${BASH_SOURCE[0]}")
+  # shellcheck disable=SC2034
   g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   g_short_options=""
@@ -167,16 +168,18 @@ function setup_script_vars() {
   # Must be set here
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
-  g_script_version="0.6"
-  g_script_date="2025-06-10"
+  g_script_version="0.1"
+  g_script_date="2025-11-08"
 
   # Add others here
-  g_include_dev_tools="false"
+  g_distro="$(lsb_release -is 2> /dev/null | tr "[:upper:]" "[:lower:]")"
+  g_distro_codename="$(lsb_release -cs 2> /dev/null)"
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
 function cleanup_script_vars() {
-  unset g_include_dev_tools
+  unset g_distro
+  unset g_distro_codename
 }
 
 ## USAGE: If you need to add any command-line flags or options, do it here.
@@ -184,8 +187,7 @@ function cleanup_script_vars() {
 ## set_long_options.  They accept a string with syntax that is the same for
 ## the getopt program.  See it's help for more information.
 function setup_options() {
-  set_short_options "d"
-  set_long_options "include-dev"
+  true
 }
 
 ## Usage: If you added command-line flags or options using setup_options,
@@ -193,29 +195,14 @@ function setup_options() {
 ## directly into this method so you can process them however you wish,
 ## including using 'shift' as you loop.
 function process_flags() {
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-    '-d')
-      g_include_dev_tools="true"
-      shift
-      ;;
-    '--')
-      shift
-      break
-      ;;
-    *)
-      throw_error_msg "Unknown option: $1"
-      ;;
-    esac
-  done
+  true
 }
 
 ## USAGE: Construct your help screen text here.
 function print_help() {
   print_out "  ${g_script_name} [options]"
   print_blank_line
-  print_out "This program installs my commonly needed APT packages.  Most are "
-  print_out "needed for asdf plugins or terminal usage."
+  print_out "This program sets up Oracle Virtuabox on this machine."
   print_blank_line
   print_out "Options:"
   print_blank_line
@@ -225,71 +212,53 @@ function print_help() {
   print_out "  -v or --version"
   print_out "     Show the version number."
   print_blank_line
-  print_out "  -d or --include-dev"
-  print_out "     Also install the tools for a development environment."
-  print_blank_line
 }
 
-function install_common_tools() {
-  # Some of my preferred command-line tools
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install dtrx inxi \
-    tmux git atool rcm wget curl gnupg gnutls-bin ffmpeg mediainfo rename locate \
-    build-essential dkms clang zsync luarocks gawk handbrake-cli iperf3 playerctl \
-    urlview libnotify-bin yq acpi ansifilter python3-pynvim
+function install_if_needed() {
+  local product="${1}"
+  local listFile="${2}"
+  local keyFile="${3}"
+  local keyUrl="${4}"
+  local repoStatement="${5}"
+  local dearmorKey="${6:-false}"
 
-  # Initialize gpg
-  mkdir -p "${HOME}/.local/share/gnupg"
-  gpg --refresh-keys
-
-  # Text To Speech Support
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install \
-    festival festvox-us-slt-hts festvox-us1 festvox-us2 festvox-us3 speech-dispatcher-festival
-
-  # For python builds (for mise & uv)
-  # Reference: https://github.com/pyenv/pyenv/wiki#suggested-build-environment
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install build-essential \
-    libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev curl git \
-    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev \
-    liblzma-dev
-
-  # For ruby builds (for mise)
-  # Reference: https://github.com/rbenv/ruby-build/wiki#suggested-build-environment
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install autoconf patch \
-    build-essential rustc libssl-dev libyaml-dev libreadline-dev zlib1g-dev libgmp-dev \
-    libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev uuid-dev
-
-  # For PHP builds (for mise)
-  # Reference: https://github.com/version-fox/vfox-php/blob/main/.github/workflows/test-linux.yaml
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install autoconf bison \
-    gettext libgd-dev libcurl4-openssl-dev libedit-dev libicu-dev libjpeg-dev \
-    libmariadb-dev libmariadb-dev-compat libmariadb-dev libonig-dev libpng-dev \
-    libpq-dev libreadline-dev libsqlite3-dev libssl-dev libxml2-dev libxslt-dev \
-    libzip-dev openssl pkg-config re2c zlib1g-dev
-
-  # Cargo (rust) builds
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install libgraphite2-dev
-
-  # Other (explore trimming these)
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install llvm libmpfr-dev \
-    dns-root-data libhidapi-libusb0 libxcb-xinerama0 make
-
-}
-
-function install_dev_tools() {
-  if [[ ! "${g_include_dev_tools}" == "true" ]]; then
-    return
+  if [[ ! -f "${listFile}" ]]; then
+    print_out "  Installing ${product} repo"
+    # key file
+    if [[ "${dearmorKey}" == "true" ]]; then
+      curl -fsSL "${keyUrl}" | sudo gpg --dearmor --yes --output "${keyFile}"
+    else
+      sudo curl -fsSLo "${keyFile}" "${keyUrl}"
+    fi
+    # list file
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=${keyFile}] ${repoStatement}" \
+      | sudo tee "${listFile}" > /dev/null
   fi
+}
+
+function install_virtualbox_repo() {
+  local listFile="/etc/apt/sources.list.d/virtualbox.list"
+  local keyFile="/etc/apt/keyrings/oracle-virtualbox-2016.gpg"
+  local keyUrl="https://www.virtualbox.org/download/oracle_vbox_2016.asc"
+  local repoStatement="https://download.virtualbox.org/virtualbox/${g_distro} ${g_distro_codename} contrib"
+
+  # sudo apt-key remove 5CDFA2F683C52980AECF
+  # sudo apt-key remove D9C954422A4B98AB5139
+
+  echo "virtualbox virtualbox/module-compilation-allowed boolean true" | sudo debconf-set-selections
+  echo "virtualbox virtualbox/delete-old-modules boolean true" | sudo debconf-set-selections
+
+  install_if_needed "Virtualbox" "${listFile}" "${keyFile}" "${keyUrl}" "${repoStatement}" true
 }
 
 ## Your main implementation goes here.  All of the positional arguments have
 ## been passed as an array to this function.
 function main() {
+  install_virtualbox_repo
+
   DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q update
 
-  install_common_tools
-  install_dev_tools
-
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q autoremove
+  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install virtualbox-7.2
 }
 
 ## This must be the last line

@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
+#
+# Page to look for apps to install: https://flathub.org
+#
 
 ### START Bash strict mode
 sourced=0
 if [[ -n "${ZSH_VERSION:-}" ]]; then
   [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
 elif [[ -n "${BASH_VERSION:-}" ]]; then
-  (return 0 2>/dev/null) && sourced=1 || sourced=0
+  (return 0 2> /dev/null) && sourced=1 || sourced=0
 else # All other shells: examine $0 for known shell binary filenames.
   # Detects `sh` and `dash`; add additional shell filenames as needed.
   case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
@@ -30,6 +33,7 @@ unset sourced
 
 function initialize() {
   g_script_name=$(basename "${BASH_SOURCE[0]}")
+  # shellcheck disable=SC2034
   g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   g_short_options=""
@@ -167,7 +171,7 @@ function setup_script_vars() {
   # Must be set here
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
-  g_script_version="0.4"
+  g_script_version="0.8"
   g_script_date="2025-10-06"
 
   # Add others here
@@ -197,21 +201,21 @@ function setup_options() {
 function process_flags() {
   while [[ $# -gt 0 ]]; do
     case "$1" in
-    '-d' | '--include-dev')
-      g_include_dev_tools="true"
-      shift
-      ;;
-    '-e' | '--desktop-environment')
-      g_desktop_environment=$(echo "$2" | tr "[:upper:]" "[:lower:]")
-      shift 2
-      ;;
-    '--')
-      shift
-      break
-      ;;
-    *)
-      throw_error_msg "Unknown option: $1"
-      ;;
+      '-d' | '--include-dev')
+        g_include_dev_tools="true"
+        shift
+        ;;
+      '-e' | '--desktop-environment')
+        g_desktop_environment=$(echo "$2" | tr "[:upper:]" "[:lower:]")
+        shift 2
+        ;;
+      '--')
+        shift
+        break
+        ;;
+      *)
+        throw_error_msg "Unknown option: $1"
+        ;;
     esac
   done
 }
@@ -220,8 +224,7 @@ function process_flags() {
 function print_help() {
   print_out "  ${g_script_name} [options]"
   print_blank_line
-  print_out "This script runs all the tools scripts in their proper order. This is"
-  print_out "mostly useful when setting up a new machine."
+  print_out "This program sets up Flatpak and installs my desired applications/tools."
   print_blank_line
   print_out "Options:"
   print_blank_line
@@ -235,61 +238,125 @@ function print_help() {
   print_out "     Also install the tools for a development environment."
   print_blank_line
   print_out "  -e or --desktop-environment"
-  print_out "     The desktop environment.  Defaults to 'none'.  Available options are 'none', "
-  print_out "     'server' (the same as 'none'), 'KDE', 'Gnome', 'Mate', and 'Tiling'."
+  print_out "     The desktop Flatpak should integrate with (default is none)."
+  print_out "     The supported values are 'none', 'KDE', 'Gnome', 'Mate', and 'Tiling'."
   print_blank_line
+}
+
+function install_prerequisites() {
+  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q update
+  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install \
+    flatpak flatpak-xdg-utils
+
+  case "${g_desktop_environment}" in
+    "none" | "server")
+      true ## noop
+      ;;
+    "kde")
+      DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install \
+        xdg-desktop-portal xdg-desktop-portal-kde plasma-discover-backend-flatpak \
+        qt5-xdgdesktopportal-platformtheme qt6-xdgdesktopportal-platformtheme \
+        xdg-desktop-portal-wlr
+      ;;
+    "gnome")
+      DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install \
+        xdg-desktop-portal xdg-desktop-portal-gnome gnome-software-plugin-flatpak \
+        xdg-desktop-portal-wlr
+      ;;
+    "mate" | "tiling")
+      DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install \
+        xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-wlr
+      ;;
+    *)
+      print_warning "Unknown desktop environment requested."
+      ;;
+  esac
+
+  # Setup flathub repo
+  flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+  # Setup theme access
+  sudo flatpak override --system --filesystem=xdg-config/gtk-2.0:ro
+  sudo flatpak override --system --filesystem=xdg-config/gtk-3.0:ro
+  sudo flatpak override --system --filesystem=xdg-config/gtk-4.0:ro
+  sudo flatpak override --system --filesystem=home/gtkrc-2.0:ro
+  sudo flatpak override --system --filesystem=home/gtkrc:ro
+}
+
+function install_if_needed() {
+  if [[ $(flatpak list --columns=application | grep -i -c "${1}") -eq 0 ]]; then
+    flatpak install -y --noninteractive flathub "${1}"
+  fi
+}
+
+function install_common_tools() {
+  # Theme support
+  install_if_needed org.gtk.Gtk3theme.Breeze
+  install_if_needed org.kde.WaylandDecoration.QAdwaitaDecorations
+  install_if_needed org.kde.WaylandDecoration.QGnomePlatform-decoration
+  install_if_needed org.kde.PlatformTheme.QGnomePlatform
+
+  # Apps
+  install_if_needed com.bambulab.BambuStudio
+  install_if_needed com.bitwarden.desktop
+  install_if_needed com.brave.Browser
+  install_if_needed com.github.tchx84.Flatseal
+  install_if_needed com.github.tenderowl.frog
+  install_if_needed com.jgraph.drawio.desktop
+  install_if_needed com.plexamp.Plexamp
+  install_if_needed com.rafaelmardojai.Blanket
+  install_if_needed com.sweethome3d.Sweethome3d
+  install_if_needed fr.handbrake.ghb
+  install_if_needed io.github.Qalculate.qalculate-qt
+  install_if_needed md.obsidian.Obsidian
+  install_if_needed org.bleachbit.BleachBit
+  install_if_needed org.gnome.baobab
+  install_if_needed org.kde.okular
+  install_if_needed org.libreoffice.LibreOffice
+  install_if_needed org.localsend.localsend_app
+  install_if_needed org.musicbrainz.Picard
+  install_if_needed org.nomacs.ImageLounge
+  install_if_needed org.signal.Signal
+  install_if_needed org.speedcrunch.SpeedCrunch
+  install_if_needed org.videolan.VLC
+  install_if_needed org.wezfurlong.wezterm
+  install_if_needed tv.plex.PlexDesktop
+  install_if_needed tv.plex.PlexHTPC
+
+  # Apps with required extra perms
+  install_if_needed org.mozilla.firefox
+  flatpak override --user --filesystem=home org.mozilla.firefox
+
+  install_if_needed com.google.Chrome
+  flatpak override --user --filesystem=home com.google.Chrome
+}
+
+function install_desktop_tools() {
+  if [ "${g_desktop_environment}" == "none" ]; then
+    return
+  fi
+}
+
+function install_dev_tools() {
+  if [[ ! "${g_include_dev_tools}" == "true" ]]; then
+    return
+  fi
+
+  install_if_needed org.raspberrypi.rpi-imager
 }
 
 ## Your main implementation goes here.  All of the positional arguments have
 ## been passed as an array to this function.
 function main() {
-  local scriptBase
-  local miseExe
-  scriptBase="${g_script_dir}"
-  miseExe="${USER_DIRS_LOCALBIN:-$(user_dirs LOCALBIN)}/mise"
+  install_prerequisites
 
-  print_info "${g_script_name} Options"
-  print_info "    include dev: ${g_include_dev_tools}"
-  print_info "    desktop environment: ${g_desktop_environment}"
-  print_blank_line
+  install_common_tools
+  install_desktop_tools
+  install_dev_tools
 
-  local options=""
-  if [[ "${g_include_dev_tools}" == "true" ]]; then
-    options="--include-dev"
-  fi
-
-  # Call the other tool install scripts, order does matter here.
-  print_status "Running 'tools-repos'"
-  "${scriptBase}/tools-repos" "${options}" "--desktop-environment=${g_desktop_environment}"
-  print_status "Running 'apts'"
-  "${scriptBase}/tools-apts" "${options}"
-
-  ## We only want to call the desktop apts file if we are actually on a desktop
-  if [[ "${g_desktop_environment}" == "kde" || "${g_desktop_environment}" == "gnome" ||
-    "${g_desktop_environment}" == "mate" || "${g_desktop_environment}" == "tiling" ]]; then
-
-    print_status "Running 'desktop-apts'"
-    "${scriptBase}/tools-desktop-apts" "${options}" "--desktop-environment=${g_desktop_environment}"
-  fi
-
-  print_status "Running 'tools-mise'"
-  "${scriptBase}/tools-mise" "${options}"
-
-  print_status "Activating Mise"
-  eval "$("${miseExe}" activate bash)"
-  eval "$("${miseExe}" hook-env -s bash)"
-
-  print_status "Running 'tools-tmux'"
-  "${scriptBase}/tools-tmux" "${options}"
-  print_status "Running 'tools-vim'"
-  "${scriptBase}/tools-vim" "${options}"
-
-  print_status "Running 'tools-appman'"
-  "${scriptBase}/tools-appman" "${options}" "--desktop-environment=${g_desktop_environment}"
-  print_status "Running 'tools-flatpak'"
-  "${scriptBase}/tools-flatpak" "${options}" "--desktop-environment=${g_desktop_environment}"
-  print_status "Running 'tools-uv'"
-  "${scriptBase}/tools-uv" "${options}"
+  # Upgrade all installed
+  flatpak upgrade -y --system
+  flatpak upgrade -y --user
 }
 
 ## This must be the last line

@@ -30,6 +30,7 @@ unset sourced
 
 function initialize() {
   g_script_name=$(basename "${BASH_SOURCE[0]}")
+  # shellcheck disable=SC2034
   g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   g_short_options=""
@@ -167,16 +168,18 @@ function setup_script_vars() {
   # Must be set here
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
-  g_script_version="0.4"
-  g_script_date="2025-06-10"
+  g_script_version="0.3"
+  g_script_date="2025-10-04"
 
   # Add others here
-  g_include_dev_tools="false"
+  # g_include_dev_tools="false"
+  g_mise_bin="${USER_DIRS_LOCALBIN:-$(user_dirs LOCALBIN)}/mise"
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
 function cleanup_script_vars() {
   unset g_include_dev_tools
+  unset g_mise_bin
 }
 
 ## USAGE: If you need to add any command-line flags or options, do it here.
@@ -193,30 +196,30 @@ function setup_options() {
 ## directly into this method so you can process them however you wish,
 ## including using 'shift' as you loop.
 function process_flags() {
-
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-    '-d')
-      g_include_dev_tools="true"
-      shift
-      ;;
-    '--')
-      shift
-      break
-      ;;
-    *)
-      throw_error_msg "Unknown option: $1"
-      ;;
-    esac
-  done
+  # while [[ $# -gt 0 ]]; do
+  #   case "$1" in
+  #     '-d' | '--include-dev')
+  #       g_include_dev_tools="true"
+  #       shift
+  #       ;;
+  #     '--')
+  #       shift
+  #       break
+  #       ;;
+  #     *)
+  #       throw_error_msg "Unknown option: $1"
+  #       ;;
+  #   esac
+  # done
+  return
 }
 
 ## USAGE: Construct your help screen text here.
 function print_help() {
   print_out "  ${g_script_name} [options]"
   print_blank_line
-  print_out "This program sets up the 'uv' python tool and installs my desired"
-  print_out "applications and tools."
+  print_out "This program sets up Mise version manager (https://mise.jdx.dev/)"
+  print_out "and installs my desired applications/tools."
   print_blank_line
   print_out "Options:"
   print_blank_line
@@ -226,54 +229,41 @@ function print_help() {
   print_out "  -v or --version"
   print_out "     Show the version number."
   print_blank_line
-  print_out "  -d or --include-dev"
-  print_out "     Also install the tools for a development environment."
-  print_blank_line
 }
 
-function housekeeping() {
-  # INSTALLER_NO_MODIFY_PATH=1 uv self update
+function check_prerequisites() {
+  if [[ ! -x "${g_mise_bin}" ]]; then
+    curl https://mise.run | MISE_INSTALL_PATH="${g_mise_bin}" MISE_QUIET=1 bash
 
-  uv cache prune
-}
+    # Trust the config file
+    "${g_mise_bin}" -y trust "${USER_DIRS_DOTFILES:-$(user_dirs DOTFILES)}/rcs/config/mise/config.toml"
 
-function install_common_tools() {
-  uv tool install ansible --with cryptography --with paramiko --with dnspython
+    ## Run the installs
+    "${g_mise_bin}" -y install
 
-  uv tool install invoke # may remove in favor of Mise tasks
-  uv tool install pre-commit
-  uv tool install identify
-
-  uv tool install yt-dlp[default,curl-cffi]
-  #uv tool install streamdeck-ui
-}
-
-function install_dev_tools() {
-  if [[ ! "${g_include_dev_tools}" == "true" ]]; then
-    return
+    msg="The 'mise' utility was installed.  You will need to close and re-open the terminal."
+    print_warning "${msg}"
   fi
-
-  uv tool install molecule --with molecule-plugins \
-    --with "molecule-plugins[vagrant]" --with python-vagrant --with dnspython
-
-  uv tool install checkov
-  uv tool install bandit
 }
 
 ## Your main implementation goes here.  All of the positional arguments have
 ## been passed as an array to this function.
 function main() {
-  if ! command_exists uv; then
-    return 0
-  fi
+  check_prerequisites
 
-  housekeeping
+  # Trust the config file
+  "${g_mise_bin}" -y trust "${USER_DIRS_DOTFILES:-$(user_dirs DOTFILES)}/rcs/config/mise/config.toml"
+  "${g_mise_bin}" -y trust "${XDG_CONFIG_HOME:-$(user_dirs CONFIG)}/mise/config.toml"
 
-  install_common_tools
-  install_dev_tools
+  # Update mise itself
+  "${g_mise_bin}" -y self-update
 
-  # Update everything
-  uv tool upgrade --all
+  # Install and upgrade tools
+  "${g_mise_bin}" -y install
+  # "${g_mise_bin}" -y upgrade --bump --verbose
+  "${g_mise_bin}" -y upgrade
+  "${g_mise_bin}" -y reshim
+  "${g_mise_bin}" -y prune
 }
 
 ## This must be the last line

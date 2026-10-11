@@ -30,6 +30,7 @@ unset sourced
 
 function initialize() {
   g_script_name=$(basename "${BASH_SOURCE[0]}")
+  # shellcheck disable=SC2034
   g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   g_short_options=""
@@ -168,16 +169,15 @@ function setup_script_vars() {
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
   g_script_version="0.4"
-  g_script_date="2025-06-24"
+  g_script_date="2025-06-10"
 
   # Add others here
+  # g_include_dev_tools="false"
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
 function cleanup_script_vars() {
-  # unset abc
-
-  true
+  unset g_include_dev_tools
 }
 
 ## USAGE: If you need to add any command-line flags or options, do it here.
@@ -185,10 +185,8 @@ function cleanup_script_vars() {
 ## set_long_options.  They accept a string with syntax that is the same for
 ## the getopt program.  See it's help for more information.
 function setup_options() {
-  # set_short_options "abc:"
-  # set_long_options "beta,charlie:"
-
-  true
+  set_short_options "d"
+  set_long_options "include-dev"
 }
 
 ## Usage: If you added command-line flags or options using setup_options,
@@ -198,33 +196,27 @@ function setup_options() {
 function process_flags() {
   # while [[ $# -gt 0 ]]; do
   #   case "$1" in
-  #   '-a')
-  #     alpha=1 # or "yes"
-  #     shift
-  #     ;;
-  #   '-c' | '--charlie')
-  #     charlie="$2"
-  #     shift 2
-  #     ;;
-  #   '--')
-  #     shift
-  #     break
-  #     ;;
-  #   *)
-  #     throw_error_msg "Unknown option: $1"
-  #     ;;
+  #     '-d' | '--include-dev')
+  #       g_include_dev_tools="true"
+  #       shift
+  #       ;;
+  #     '--')
+  #       shift
+  #       break
+  #       ;;
+  #     *)
+  #       throw_error_msg "Unknown option: $1"
+  #       ;;
   #   esac
   # done
-
-  true
+  return
 }
 
 ## USAGE: Construct your help screen text here.
 function print_help() {
   print_out "  ${g_script_name} [options]"
   print_blank_line
-  print_out "Utility to set up my home directory with my preferred profile and"
-  print_out "mount directories."
+  print_out "This program sets up Tmux and installs my desired plug-ins and tools."
   print_blank_line
   print_out "Options:"
   print_blank_line
@@ -239,24 +231,17 @@ function print_help() {
 ## Your main implementation goes here.  All of the positional arguments have
 ## been passed as an array to this function.
 function main() {
-  # Create the mount directories
-  mkdir -p "${HOME}/mounts/backups" "${HOME}/mounts/files" "${HOME}/mounts/other"
+  local tmux_plugin_manager_path
+  tmux_plugin_manager_path="$(tmux start-server\; show-environment -g TMUX_PLUGIN_MANAGER_PATH | cut -f2 -d=)"
 
-  # Create the profile directories
-  mkdir -p "${HOME}/profile/cloud" "${HOME}/profile/documents" "${HOME}/profile/downloads" "${HOME}/profile/installs" "${HOME}/profile/music" "${HOME}/profile/pictures" "${HOME}/profile/source/github" "${HOME}/profile/videos" "${HOME}/profile/vms" "${HOME}/profile/processing" "${HOME}/profile/work"
-
-  # Symlink the downloads folder
-  if [[ ! -L "${HOME}/Downloads" || ! -d "${HOME}/Downloads" ]]; then
-    rm -rf "${HOME}/Downloads"
-    ln -s "${HOME}/profile/downloads" "${HOME}/Downloads"
+  # Download the tmux plugin manager if it isn't already there
+  if [[ ! -d "${tmux_plugin_manager_path}/tpm" ]]; then
+    git clone https://github.com/tmux-plugins/tpm "${tmux_plugin_manager_path}/tpm"
   fi
 
-  # Remove the other default xdg folders in the $HOME
-  rm -rf "${HOME}/Documents"
-  rm -rf "${HOME}/Music"
-  rm -rf "${HOME}/Pictures"
-  rm -rf "${HOME}/Templates"
-  rm -rf "${HOME}/Videos"
+  if [[ -f "${tmux_plugin_manager_path}/tpm/bin/install_plugins" ]]; then
+    "${tmux_plugin_manager_path}/tpm/bin/install_plugins"
+  fi
 }
 
 ## This must be the last line

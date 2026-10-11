@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+#
+# AppMan (and am) are tools for installing, updating, and managing AppImages
+# Page to look for apps to install: https://portable-linux-apps.github.io/apps.html
+#
 
 ### START Bash strict mode
 sourced=0
@@ -30,6 +34,7 @@ unset sourced
 
 function initialize() {
   g_script_name=$(basename "${BASH_SOURCE[0]}")
+  # shellcheck disable=SC2034
   g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   g_short_options=""
@@ -167,18 +172,18 @@ function setup_script_vars() {
   # Must be set here
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
-  g_script_version="0.4"
+  g_script_version="0.7"
   g_script_date="2025-06-10"
 
   # Add others here
   g_include_dev_tools="false"
-  g_desktop_environment="none"
+  g_bin_dir="${USER_DIRS_LOCALBIN:-$(user_dirs LOCALBIN)}"
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
 function cleanup_script_vars() {
   unset g_include_dev_tools
-  unset g_desktop_environment
+  unset g_bin_dir
 }
 
 ## USAGE: If you need to add any command-line flags or options, do it here.
@@ -186,8 +191,8 @@ function cleanup_script_vars() {
 ## set_long_options.  They accept a string with syntax that is the same for
 ## the getopt program.  See it's help for more information.
 function setup_options() {
-  set_short_options "de:"
-  set_long_options "include-dev,desktop-environment:"
+  set_short_options "d"
+  set_long_options "include-dev"
 }
 
 ## Usage: If you added command-line flags or options using setup_options,
@@ -195,24 +200,19 @@ function setup_options() {
 ## directly into this method so you can process them however you wish,
 ## including using 'shift' as you loop.
 function process_flags() {
-
   while [[ $# -gt 0 ]]; do
     case "$1" in
-    '-d')
-      g_include_dev_tools="true"
-      shift
-      ;;
-    '-e' | '--desktop-environment')
-      g_desktop_environment=$(echo "$2" | tr "[:upper:]" "[:lower:]")
-      shift 2
-      ;;
-    '--')
-      shift
-      break
-      ;;
-    *)
-      throw_error_msg "Unknown option: $1"
-      ;;
+      '-d' | '--include-dev')
+        g_include_dev_tools="true"
+        shift
+        ;;
+      '--')
+        shift
+        break
+        ;;
+      *)
+        throw_error_msg "Unknown option: $1"
+        ;;
     esac
   done
 }
@@ -221,8 +221,8 @@ function process_flags() {
 function print_help() {
   print_out "  ${g_script_name} [options]"
   print_blank_line
-  print_out "This program installs my commonly needed APT packages.  Most are "
-  print_out "needed for asdf plugins or terminal usage."
+  print_out "This program sets up AppMan and installs my desired applications/tools."
+  print_out "AppMan is a tool for managing Linux AppImages."
   print_blank_line
   print_out "Options:"
   print_blank_line
@@ -235,53 +235,38 @@ function print_help() {
   print_out "  -d or --include-dev"
   print_out "     Also install the tools for a development environment."
   print_blank_line
-  print_out "  -e or --desktop-environment"
-  print_out "     The desktop environment being installed to. This might produce differences in the packages"
-  print_out "     beign installed.  Valid values are 'none', 'kde', 'gnome', 'mate', and 'tiling'."
-  print_blank_line
+}
+
+# Page to look for apps to install: https://portable-linux-apps.github.io/apps.html
+function check_prerequisites() {
+  if ! command -v zsync &> /dev/null; then
+    DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q update
+    DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install zsync
+  fi
+
+  # Check for appman itself, if needed install it
+  if ! command -v appman &> /dev/null; then
+    mkdir -p "${g_bin_dir}"
+    wget -q -O "${g_bin_dir}/appman" https://raw.githubusercontent.com/ivan-hc/AppMan/main/appman
+    chmod +x "${g_bin_dir}/appman"
+  fi
+}
+
+function install_if_needed() {
+  if [[ ! -x "${g_bin_dir}/${1}" ]]; then
+    appman -i "${1}"
+  fi
 }
 
 function install_common_tools() {
-  # Fonts
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install fonts-recommended \
-    fonts-dejavu fonts-liberation2 fonts-croscore fonts-firacode fonts-hack \
-    fonts-jetbrains-mono vfit ttf-mscorefonts-installer fonts-gnutypewriter \
-    fonts-mathjax fonts-mathjax-extras fonts-national-park fonts-noto fonts-opensymbol \
-    fonts-roboto fonts-stix fonts-terminus fonts-terminus-otb fonts-ubuntu \
-    fonts-ubuntu-console fonts-ubuntu-title
-
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install kwalletcli \
-    papirus-icon-theme gitk git-gui meld vim-gtk3 gnome-icon-theme \
-    conky-all xclip xsel mediainfo-gui qml-module-qtquick-layouts \
-    qml-module-qtquick-controls2 libqt6svg6 wl-clipboard
+  # install_if_needed espanso # Temporarily on hold
+  # install_if_needed ghostty # Temporarily on hold
+  install_if_needed orcaslicer
+  install_if_needed openaudible
 }
 
-function install_common_dev_tools() {
+function install_dev_tools() {
   if [[ ! "${g_include_dev_tools}" == "true" ]]; then
-    return
-  fi
-}
-
-function install_kde_tools() {
-  if [[ "${g_desktop_environment}" == "kde" ]]; then
-    DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install kwalletcli
-  fi
-}
-
-function install_gnome_tools() {
-  if [[ "${g_desktop_environment}" == "gnome" ]]; then
-    return
-  fi
-}
-
-function install_mate_tools() {
-  if [[ "${g_desktop_environment}" == "mate" ]]; then
-    return
-  fi
-}
-
-function install_tiling_tools() {
-  if [[ "${g_desktop_environment}" == "tiling" ]]; then
     return
   fi
 }
@@ -289,17 +274,16 @@ function install_tiling_tools() {
 ## Your main implementation goes here.  All of the positional arguments have
 ## been passed as an array to this function.
 function main() {
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q update
+  check_prerequisites
+
+  # Update appman itself first
+  appman -s
 
   install_common_tools
-  install_common_dev_tools
+  install_dev_tools
 
-  install_kde_tools
-  install_gnome_tools
-  install_mate_tools
-  install_tiling_tools
-
-  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q autoremove
+  # Update all of them
+  appman -U
 }
 
 ## This must be the last line

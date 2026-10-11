@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
-#
-# AppMan (and am) are tools for installing, updating, and managing AppImages
-# Page to look for apps to install: https://portable-linux-apps.github.io/apps.html
-#
 
 ### START Bash strict mode
 sourced=0
 if [[ -n "${ZSH_VERSION:-}" ]]; then
   [[ ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] && sourced=1 || sourced=0
 elif [[ -n "${BASH_VERSION:-}" ]]; then
-  (return 0 2>/dev/null) && sourced=1 || sourced=0
+  (return 0 2> /dev/null) && sourced=1 || sourced=0
 else # All other shells: examine $0 for known shell binary filenames.
   # Detects `sh` and `dash`; add additional shell filenames as needed.
   case ${0##*/} in sh | -sh | dash | -dash) sourced=1 ;; *) sourced=0 ;; esac
@@ -34,6 +30,7 @@ unset sourced
 
 function initialize() {
   g_script_name=$(basename "${BASH_SOURCE[0]}")
+  # shellcheck disable=SC2034
   g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   g_short_options=""
@@ -171,18 +168,16 @@ function setup_script_vars() {
   # Must be set here
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
-  g_script_version="0.7"
+  g_script_version="0.6"
   g_script_date="2025-06-10"
 
   # Add others here
   g_include_dev_tools="false"
-  g_bin_dir="${USER_DIRS_LOCALBIN:-$(user_dirs LOCALBIN)}"
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
 function cleanup_script_vars() {
   unset g_include_dev_tools
-  unset g_bin_dir
 }
 
 ## USAGE: If you need to add any command-line flags or options, do it here.
@@ -201,17 +196,17 @@ function setup_options() {
 function process_flags() {
   while [[ $# -gt 0 ]]; do
     case "$1" in
-    '-d' | '--include-dev')
-      g_include_dev_tools="true"
-      shift
-      ;;
-    '--')
-      shift
-      break
-      ;;
-    *)
-      throw_error_msg "Unknown option: $1"
-      ;;
+      '-d')
+        g_include_dev_tools="true"
+        shift
+        ;;
+      '--')
+        shift
+        break
+        ;;
+      *)
+        throw_error_msg "Unknown option: $1"
+        ;;
     esac
   done
 }
@@ -220,8 +215,8 @@ function process_flags() {
 function print_help() {
   print_out "  ${g_script_name} [options]"
   print_blank_line
-  print_out "This program sets up AppMan and installs my desired applications/tools."
-  print_out "AppMan is a tool for managing Linux AppImages."
+  print_out "This program installs my commonly needed APT packages.  Most are "
+  print_out "needed for asdf plugins or terminal usage."
   print_blank_line
   print_out "Options:"
   print_blank_line
@@ -236,32 +231,49 @@ function print_help() {
   print_blank_line
 }
 
-# Page to look for apps to install: https://portable-linux-apps.github.io/apps.html
-function check_prerequisites() {
-  if ! command -v zsync &>/dev/null; then
-    DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q update
-    DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install zsync
-  fi
-
-  # Check for appman itself, if needed install it
-  if ! command -v appman &>/dev/null; then
-    mkdir -p "${g_bin_dir}"
-    wget -q -O "${g_bin_dir}/appman" https://raw.githubusercontent.com/ivan-hc/AppMan/main/appman
-    chmod +x "${g_bin_dir}/appman"
-  fi
-}
-
-function install_if_needed() {
-  if [[ ! -x "${g_bin_dir}/${1}" ]]; then
-    appman -i "${1}"
-  fi
-}
-
 function install_common_tools() {
-  # install_if_needed espanso # Temporarily on hold
-  # install_if_needed ghostty # Temporarily on hold
-  install_if_needed orcaslicer
-  install_if_needed openaudible
+  # Some of my preferred command-line tools
+  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install dtrx inxi \
+    tmux git atool rcm wget curl gnupg gnutls-bin ffmpeg mediainfo rename locate \
+    build-essential dkms clang zsync luarocks gawk handbrake-cli iperf3 playerctl \
+    urlview libnotify-bin yq acpi ansifilter python3-pynvim
+
+  # Initialize gpg
+  mkdir -p "${HOME}/.local/share/gnupg"
+  gpg --refresh-keys
+
+  # Text To Speech Support
+  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install \
+    festival festvox-us-slt-hts festvox-us1 festvox-us2 festvox-us3 speech-dispatcher-festival
+
+  # For python builds (for mise & uv)
+  # Reference: https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install build-essential \
+    libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev curl git \
+    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev \
+    liblzma-dev
+
+  # For ruby builds (for mise)
+  # Reference: https://github.com/rbenv/ruby-build/wiki#suggested-build-environment
+  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install autoconf patch \
+    build-essential rustc libssl-dev libyaml-dev libreadline-dev zlib1g-dev libgmp-dev \
+    libncurses5-dev libffi-dev libgdbm6 libgdbm-dev libdb-dev uuid-dev
+
+  # For PHP builds (for mise)
+  # Reference: https://github.com/version-fox/vfox-php/blob/main/.github/workflows/test-linux.yaml
+  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install autoconf bison \
+    gettext libgd-dev libcurl4-openssl-dev libedit-dev libicu-dev libjpeg-dev \
+    libmariadb-dev libmariadb-dev-compat libmariadb-dev libonig-dev libpng-dev \
+    libpq-dev libreadline-dev libsqlite3-dev libssl-dev libxml2-dev libxslt-dev \
+    libzip-dev openssl pkg-config re2c zlib1g-dev
+
+  # Cargo (rust) builds
+  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install libgraphite2-dev
+
+  # Other (explore trimming these)
+  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install llvm libmpfr-dev \
+    dns-root-data libhidapi-libusb0 libxcb-xinerama0 make
+
 }
 
 function install_dev_tools() {
@@ -273,16 +285,12 @@ function install_dev_tools() {
 ## Your main implementation goes here.  All of the positional arguments have
 ## been passed as an array to this function.
 function main() {
-  check_prerequisites
-
-  # Update appman itself first
-  appman -s
+  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q update
 
   install_common_tools
   install_dev_tools
 
-  # Update all of them
-  appman -U
+  DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q autoremove
 }
 
 ## This must be the last line
