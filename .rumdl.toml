@@ -1,0 +1,18 @@
+[global]
+flavor = "gfm"
+line-length = 120
+
+[MD003]
+style = "atx"
+
+[MD004]
+style = "dash"
+
+[MD013]
+tables = false
+
+[MD049]
+style = "asterisk"
+
+[MD050]
+style = "asterisk"

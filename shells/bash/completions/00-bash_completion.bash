@@ -32,3 +32,8 @@ fi
 if command_exists appman; then
   complete -W "$(cat ~//appman/list 2> /dev/null)" appman
 fi
+
+if command_exists rumdl; then
+  # shellcheck disable=SC1090
+  source <(rumdl completions bash)
+fi

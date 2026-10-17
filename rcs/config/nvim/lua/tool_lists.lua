@@ -151,7 +151,6 @@ M.lsp_servers = {
   { lsp_name = "kotlin_language_server", mason_name = "kotlin-language-server" },
   { lsp_name = "lemminx", mason_name = "lemminx" }, -- Xml
   { lsp_name = "lua_ls", mason_name = "lua-language-server" },
-  { lsp_name = "marksman", mason_name = "marksman" }, -- Markdown
   { lsp_name = "neocmake", mason_name = "neocmakelsp" }, -- CMake
   { lsp_name = "nginx_language_server", mason_name = "nginx-language-server" },
   { lsp_name = "nil_ls", mason_name = "nil" }, -- Nix
@@ -159,6 +158,7 @@ M.lsp_servers = {
   { lsp_name = "powershell_es", mason_name = "powershell-editor-services" },
   { lsp_name = "ruby-lsp", mason_name = "ruby-lsp" },
   { lsp_name = "ruff", mason_name = "" }, -- Python (from Astral, installed by mise)
+  { lsp_name = "rumdl", mason_name = "" }, -- Markdown (installed by mise)
   { lsp_name = "rust_analyzer", mason_name = "rust-analyzer" },
   { lsp_name = "snyk", mason_name = "snyk-ls" }, -- Security focused, multiple languages
   { lsp_name = "stylua", mason_name = "" }, -- Lua (installed by mise)
@@ -221,6 +221,7 @@ M.lsp_servers = {
 --   { lsp_name = "ltex", mason_name = "ltex-ls" },
 --   { lsp_name = "ltex_plus", mason_name = "ltex-ls-plus" },
 --   { lsp_name = "lua_ls", mason_name = "lua-language-server" },
+--   { lsp_name = "marksman", mason_name = "marksman" }, -- Markdown
 --   { lsp_name = "pylsp", mason_name = "python-lsp-server" },
 --   { lsp_name = "rumdl", mason_name = "rumdl" }, -- Markdown
 --   { lsp_name = "sqlls", mason_name = "sqlls" },
