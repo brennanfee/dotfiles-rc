@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2034,SC2154
 
 # ANSI color scheme script by pfh
 # Source: http://crunchbang.org/forums/viewtopic.php?pid=139126#p139126
@@ -8,7 +9,7 @@
 f=3 b=4
 for j in f b; do
   for i in {0..7}; do
-    printf -v $j$i %b "\e[${!j}${i}m"
+    printf -v $j"$i" %b "\e[${!j}${i}m"
   done
 done
 bld=$'\e[1m'

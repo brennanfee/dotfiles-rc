@@ -173,7 +173,7 @@ M.lsp_servers = {
   { lsp_name = "ty", mason_name = "" }, -- Python (from Astral, installed by mise)
   { lsp_name = "typos_lsp", mason_name = "typos-lsp" },
   { lsp_name = "vim-language-server", mason_name = "vimls" },
-  { lsp_name = "vue_ls", mason_name = "vue-language-server" },
+  -- { lsp_name = "vue_ls", mason_name = "vue-language-server" },
   { lsp_name = "yamlls", mason_name = "yaml-language-server" },
   { lsp_name = "zls", mason_name = "zls" }, -- Zig
 }

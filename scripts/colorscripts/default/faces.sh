@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=SC2034
 
 # ANSI Color -- use these variables to easily have different color
 #    and format output. Make sure to output the reset sequence after
@@ -46,11 +47,11 @@ initializeANSI
 
 cat << EOF
 
- ${white}╔══════════════════════════════════════════════════════════════════╗
- ${white}║ ${redf}  ▄█ █▄${reset}    ${greenf}  ▄█ █▄${reset}    ${yellowf}  ▄█ █▄${reset}    ${bluef}  ▄█ █▄${reset}    ${purplef}  ▄█ █▄${reset}    ${cyanf}  ▄█ █▄${reset}   ${white}║
- ${white}║ ${boldon}${redf}▄█◄► ◄►█▄${reset}  ${boldon}${greenf}▄█◄► ◄►█▄${reset}  ${boldon}${yellowf}▄█◄► ◄►█▄${reset}  ${boldon}${bluef}▄█◄► ◄►█▄${reset}  ${boldon}${purplef}▄█◄► ◄►█▄${reset}  ${boldon}${cyanf}▄█◄► ◄►█▄${reset} ${white}║
- ${white}║ ${boldon}${redf}▀█    █▀${reset}  ${boldon}${greenf}▀█    █▀${reset}  ${boldon}${yellowf}▀█    █▀${reset}  ${boldon}${bluef}▀█    █▀${reset}  ${boldon}${purplef}▀█    █▀${reset}  ${boldon}${cyanf}▀█    █▀${reset} ${white}║
- ${white}║ ${redf}  ▀█ █▀${reset}    ${greenf}  ▀█ █▀${reset}    ${yellowf}  ▀█ █▀${reset}    ${bluef}  ▀█ █▀${reset}    ${purplef}  ▀█ █▀${reset}    ${cyanf}  ▀█ █▀${reset}   ${white}║
- ${white}╚══════════════════════════════════════════════════════════════════╝
+ ${whitef}╔══════════════════════════════════════════════════════════════════╗
+ ${whitef}║ ${redf}  ▄█ █▄${reset}    ${greenf}  ▄█ █▄${reset}    ${yellowf}  ▄█ █▄${reset}    ${bluef}  ▄█ █▄${reset}    ${purplef}  ▄█ █▄${reset}    ${cyanf}  ▄█ █▄${reset}   ${whitef}║
+ ${whitef}║ ${boldon}${redf}▄█◄► ◄►█▄${reset}  ${boldon}${greenf}▄█◄► ◄►█▄${reset}  ${boldon}${yellowf}▄█◄► ◄►█▄${reset}  ${boldon}${bluef}▄█◄► ◄►█▄${reset}  ${boldon}${purplef}▄█◄► ◄►█▄${reset}  ${boldon}${cyanf}▄█◄► ◄►█▄${reset} ${whitef}║
+ ${whitef}║ ${boldon}${redf}▀█    █▀${reset}  ${boldon}${greenf}▀█    █▀${reset}  ${boldon}${yellowf}▀█    █▀${reset}  ${boldon}${bluef}▀█    █▀${reset}  ${boldon}${purplef}▀█    █▀${reset}  ${boldon}${cyanf}▀█    █▀${reset} ${whitef}║
+ ${whitef}║ ${redf}  ▀█ █▀${reset}    ${greenf}  ▀█ █▀${reset}    ${yellowf}  ▀█ █▀${reset}    ${bluef}  ▀█ █▀${reset}    ${purplef}  ▀█ █▀${reset}    ${cyanf}  ▀█ █▀${reset}   ${whitef}║
+ ${whitef}╚══════════════════════════════════════════════════════════════════╝
 
 EOF

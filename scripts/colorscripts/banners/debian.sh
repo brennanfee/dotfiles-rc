@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=SC2034
 # Based on ufetch-debian
 # https://gitlab.com/jschx/ufetch/-/blob/master/ufetch-debian
 

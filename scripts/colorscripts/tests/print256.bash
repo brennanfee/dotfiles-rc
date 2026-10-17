@@ -11,7 +11,8 @@ printable_colours=256
 # Return a colour that contrasts with the given colour
 # Bash only does integer division, so keep it integral
 function contrast_colour {
-  local r g b luminance
+  # local r g b luminance
+  local g
   colour="$1"
 
   if ((colour < 16)); then # Initial 16 ANSI colours

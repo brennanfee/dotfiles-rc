@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=SC2034
 
 # ANSI Color -- use these variables to easily have different color
 #    and format output. Make sure to output the reset sequence after
@@ -57,5 +58,6 @@ cat << EOF
  ${redf}███  ███  ███  ${greenf}███  ███  ███  ${yellowf}███  ███  ███  ${bluef}███  ███  ███  ${purplef}███  ███  ███  ${cyanf}███  ███  ███
  ${redf}█████████████  ${greenf}█████████████  ${yellowf}█████████████  ${bluef}█████████████  ${purplef}█████████████  ${cyanf}█████████████
  ${redf} ▀██▄   ▄██▀   ${greenf} ▀██▄   ▄██▀   ${yellowf} ▀██▄   ▄██▀   ${bluef} ▀██▄   ▄██▀   ${purplef} ▀██▄   ▄██▀   ${cyanf} ▀██▄   ▄██▀
+
 ${reset}
 EOF

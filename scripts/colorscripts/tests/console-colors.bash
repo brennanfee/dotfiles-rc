@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2154
 
 ### START Bash strict mode
 sourced=0
@@ -30,6 +31,7 @@ unset sourced
 
 function initialize() {
   g_script_name=$(basename "${BASH_SOURCE[0]}")
+  # shellcheck disable=SC2034
   g_script_dir="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
   g_short_options=""

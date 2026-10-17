@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=SC2034
 
 # Author: gutterslob
 # Source: http://crunchbang.org/forums/viewtopic.php?pid=130590#p130590

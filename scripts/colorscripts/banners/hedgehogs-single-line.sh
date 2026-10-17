@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=SC2034
 # ANSI color scheme script by github.com/joshdk https://github.com/joshdk/hedgehogs
 red=$(printf '\e[31m')
 grn=$(printf '\e[32m')
