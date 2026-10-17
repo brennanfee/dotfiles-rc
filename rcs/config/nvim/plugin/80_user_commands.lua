@@ -1,5 +1,7 @@
 -- These are custom user commands that can be called from command mode
 
+-- Also have a custom command for Mason -> MasonDoUpdate
+
 vim.api.nvim_create_user_command("DoPackSync", function()
   vim.pack.update(nil, { target = "lockfile" })
   vim.cmd("TSUpdate")
