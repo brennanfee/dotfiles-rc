@@ -254,6 +254,8 @@ function print_help() {
   print_out "or a number that will represents a script by numeric index among the files."
   print_blank_line
   print_out "The actions that can be passed are: list, random, all."
+  print_blank_line
+  print_out "Defined scripts dir: ${g_script_path}"
 }
 
 function _calculate_set_info() {
@@ -275,7 +277,7 @@ function _calculate_set_info() {
   local file
   g_script_list=()
   for file in "${file_list[@]}"; do
-    if [[ ! "${file}" =~ \..* ]]; then
+    if [[ ! "${file}" =~ ^\. ]]; then
       g_script_list+=("${file}")
     fi
   done

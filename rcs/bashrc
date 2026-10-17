@@ -204,7 +204,7 @@ function mount_moose {
 function run_colorscripts {
   local dotfiles="${USER_DIRS_DOTFILES}"
 
-  local the_script="${dotfiles}/bin/bash/colorscripts.bash"
+  local the_script="${dotfiles}/bin/colorscripts.bash"
   if [[ -x "${the_script}" ]]; then
     log_early "Running colorscripts"
     "${the_script}" banners random
