@@ -32,7 +32,7 @@ for file in "${dotfiles}"/bin/**/*.{sh,bash}; do
   fi
 done
 
-# Need to do python separate as we only want the direct files under in the python folder (sub-folders would be modules)
+# Need to do python separate as we only want the direct files in the python folder (sub-folders would be modules)
 for file in "${dotfiles}"/bin/python/*.py; do
   if [[ -f "${file}" ]]; then
     the_alias="$(basename "${file%.*}")"
@@ -44,13 +44,13 @@ done
 
 # Special aliases to a few of the scripts
 
-if [[ -x "${dotfiles}/bin/bash/tmux-current-session.bash" ]]; then
-  the_file="$(realpath "${dotfiles}/bin/bash/tmux-current-session.bash")"
+the_file="$(realpath "${dotfiles}/bin/tmux-current-session.bash")"
+if [[ -x "${the_file}" ]]; then
   alias tcs="${the_file}"
 fi
 
-if [[ -x "${dotfiles}/bin/bash/tmux-window-switch.bash" ]]; then
-  the_file="$(realpath "${dotfiles}/bin/bash/tmux-window-switch.bash")"
+the_file="$(realpath "${dotfiles}/bin/tmux-window-switch.bash")"
+if [[ -x "${the_file}" ]]; then
   alias tws="${the_file}"
   alias twt="${the_file} t"
   alias twf="${the_file} f"
@@ -68,13 +68,13 @@ if [[ -x "${dotfiles}/bin/bash/tmux-window-switch.bash" ]]; then
   alias tw9="${the_file} 9"
 fi
 
-if [[ -x "${dotfiles}/bin/bash/do-update.bash" ]]; then
-  the_file="$(realpath "${dotfiles}/bin/bash/do-update.bash")"
+the_file="$(realpath "${dotfiles}/bin/do-update.bash")"
+if [[ -x "${the_file}" ]]; then
   alias doup="${the_file}"
 fi
 
-if [[ -x "${dotfiles}/bin/bash/yt-dlp-helper.bash" ]]; then
-  the_file="$(realpath "${dotfiles}/bin/bash/yt-dlp-helper.bash")"
+the_file="$(realpath "${dotfiles}/bin/yt-dlp-helper.bash")"
+if [[ -x "${the_file}" ]]; then
   alias yt="${the_file} yt"
   alias yth="${the_file} yth"
   alias ytl="${the_file} ytl"
@@ -87,26 +87,29 @@ if [[ -x "${dotfiles}/bin/bash/yt-dlp-helper.bash" ]]; then
   alias ytplh="${the_file} ytplh"
 fi
 
-if [[ -x "${dotfiles}/bin/bash/ssh-tools.bash" ]]; then
-  the_file="$(realpath "${dotfiles}/bin/bash/ssh-tools.bash")"
+the_file="$(realpath "${dotfiles}/bin/ssh-tools.bash")"
+if [[ -x "${the_file}" ]]; then
   alias ssh-list="${the_file} list"
 fi
 
-if [[ -x "${dotfiles}/bin/bash/wolf.bash" ]]; then
-  the_file="$(realpath "${dotfiles}/bin/bash/wolf.bash")"
+the_file="$(realpath "${dotfiles}/bin/wolf.bash")"
+if [[ -x "${the_file}" ]]; then
   alias wolf="${the_file} imperial"
   alias wolfi="${the_file} imperial"
   alias wolfm="${the_file} metric"
 fi
 
-if [[ -x "${dotfiles}/bin/bash/cheat.bash" ]]; then
-  the_file="$(realpath "${dotfiles}/bin/bash/cheat.bash")"
+the_file="$(realpath "${dotfiles}/bin/cheat.bash")"
+if [[ -x "${the_file}" ]]; then
   alias cheat="${the_file} cheat"
   alias tldr="${the_file} tldr"
   alias chsht="${the_file} chsh"
 fi
 
-if [[ -x "${dotfiles}/bin/bash/colorscripts.bash" ]]; then
-  the_file="$(realpath "${dotfiles}/bin/bash/colorscripts.bash")"
+the_file="$(realpath "${dotfiles}/bin/colorscripts.bash")"
+if [[ -x "${the_file}" ]]; then
   alias colortest="${the_file} tests"
 fi
+
+unset the_file
+unset the_alias
