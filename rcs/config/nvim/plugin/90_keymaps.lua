@@ -233,8 +233,8 @@ end, "Format")
 map_leader("x", "lf", function()
   vim.lsp.buf.format({ async = true })
 end, "Format selection")
-Config.new_autocmd("BufWritePre", "*", function()
-  vim.lsp.buf.format({ async = false })
+Config.new_autocmd("BufWritePre", "*", function(args)
+  vim.lsp.buf.format({ async = false, bufnr = args.buf })
 end, "Format on save")
 
 -- ### "o" is for "Other"
