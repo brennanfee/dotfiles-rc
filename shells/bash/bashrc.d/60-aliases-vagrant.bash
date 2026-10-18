@@ -38,16 +38,17 @@ function vagrant_provision() {
   vagrant_cmd provision --provision-with "${provisioner}"
 }
 
-alias v='vagrant_cmd'
-alias vp='vagrant_provision'
-alias vc='vagrant_cmd ssh'
-alias vssh='vagrant_cmd ssh'
-alias vu='vagrant_cmd up'
-alias vh='vagrant_cmd halt'
-alias vd='vagrant_cmd destroy'
-alias vss='vagrant_cmd snapshot save'
-alias vsr='vagrant_cmd snapshot restore'
-alias vsd='vagrant_cmd snapshot destroy'
+alias vg='vagrant_cmd'
+alias vgp='vagrant_provision'
+alias vgc='vagrant_cmd ssh'
+alias vgs='vagrant_cmd ssh'
+alias vgssh='vagrant_cmd ssh'
+alias vgu='vagrant_cmd up'
+alias vgh='vagrant_cmd halt'
+alias vgd='vagrant_cmd destroy'
+alias vgsns='vagrant_cmd snapshot save'
+alias vgsnr='vagrant_cmd snapshot restore'
+alias vgsnd='vagrant_cmd snapshot destroy'
 
 ### For Packer
 
