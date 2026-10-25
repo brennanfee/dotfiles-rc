@@ -2091,6 +2091,11 @@ version = "2.1144.0"
 backend = "npm:aws-cdk"
 specifiers = ["latest"]
 
+[[tools."npm:markdown-toc"]]
+version = "1.2.0"
+backend = "npm:markdown-toc"
+specifiers = ["latest"]
+
 [[tools."npm:typescript"]]
 version = "7.0.2"
 backend = "npm:typescript"
@@ -2280,6 +2285,56 @@ url = "https://releases.hashicorp.com/packer/1.16.1/packer_1.16.1_windows_amd64.
 [tools.packer."platforms.windows-x64-baseline"]
 checksum = "sha256:48e9b25ecf807959a1dcb9aa9b074e6fcd08c7b7ed89803538647c5873dbc95b"
 url = "https://releases.hashicorp.com/packer/1.16.1/packer_1.16.1_windows_amd64.zip"
+
+[[tools.pre-commit]]
+version = "4.7.0"
+backend = "aqua:pre-commit/pre-commit"
+specifiers = ["latest"]
+
+[tools.pre-commit."platforms.linux-arm64"]
+checksum = "sha256:393488513aed286d7a5a978a1fe79b2f5a8802927242a2d241ff10c1a8e8c885"
+url = "https://github.com/pre-commit/pre-commit/releases/download/v4.7.0/pre-commit-4.7.0.pyz"
+url_api = "https://api.github.com/repos/pre-commit/pre-commit/releases/assets/637459099"
+
+[tools.pre-commit."platforms.linux-arm64-musl"]
+checksum = "sha256:393488513aed286d7a5a978a1fe79b2f5a8802927242a2d241ff10c1a8e8c885"
+url = "https://github.com/pre-commit/pre-commit/releases/download/v4.7.0/pre-commit-4.7.0.pyz"
+url_api = "https://api.github.com/repos/pre-commit/pre-commit/releases/assets/637459099"
+
+[tools.pre-commit."platforms.linux-x64"]
+checksum = "sha256:393488513aed286d7a5a978a1fe79b2f5a8802927242a2d241ff10c1a8e8c885"
+url = "https://github.com/pre-commit/pre-commit/releases/download/v4.7.0/pre-commit-4.7.0.pyz"
+url_api = "https://api.github.com/repos/pre-commit/pre-commit/releases/assets/637459099"
+
+[tools.pre-commit."platforms.linux-x64-baseline"]
+checksum = "sha256:393488513aed286d7a5a978a1fe79b2f5a8802927242a2d241ff10c1a8e8c885"
+url = "https://github.com/pre-commit/pre-commit/releases/download/v4.7.0/pre-commit-4.7.0.pyz"
+url_api = "https://api.github.com/repos/pre-commit/pre-commit/releases/assets/637459099"
+
+[tools.pre-commit."platforms.linux-x64-musl"]
+checksum = "sha256:393488513aed286d7a5a978a1fe79b2f5a8802927242a2d241ff10c1a8e8c885"
+url = "https://github.com/pre-commit/pre-commit/releases/download/v4.7.0/pre-commit-4.7.0.pyz"
+url_api = "https://api.github.com/repos/pre-commit/pre-commit/releases/assets/637459099"
+
+[tools.pre-commit."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:393488513aed286d7a5a978a1fe79b2f5a8802927242a2d241ff10c1a8e8c885"
+url = "https://github.com/pre-commit/pre-commit/releases/download/v4.7.0/pre-commit-4.7.0.pyz"
+url_api = "https://api.github.com/repos/pre-commit/pre-commit/releases/assets/637459099"
+
+[tools.pre-commit."platforms.macos-arm64"]
+checksum = "sha256:393488513aed286d7a5a978a1fe79b2f5a8802927242a2d241ff10c1a8e8c885"
+url = "https://github.com/pre-commit/pre-commit/releases/download/v4.7.0/pre-commit-4.7.0.pyz"
+url_api = "https://api.github.com/repos/pre-commit/pre-commit/releases/assets/637459099"
+
+[tools.pre-commit."platforms.macos-x64"]
+checksum = "sha256:393488513aed286d7a5a978a1fe79b2f5a8802927242a2d241ff10c1a8e8c885"
+url = "https://github.com/pre-commit/pre-commit/releases/download/v4.7.0/pre-commit-4.7.0.pyz"
+url_api = "https://api.github.com/repos/pre-commit/pre-commit/releases/assets/637459099"
+
+[tools.pre-commit."platforms.macos-x64-baseline"]
+checksum = "sha256:393488513aed286d7a5a978a1fe79b2f5a8802927242a2d241ff10c1a8e8c885"
+url = "https://github.com/pre-commit/pre-commit/releases/download/v4.7.0/pre-commit-4.7.0.pyz"
+url_api = "https://api.github.com/repos/pre-commit/pre-commit/releases/assets/637459099"
 
 [[tools.prek]]
 version = "0.5.4"

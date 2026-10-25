@@ -227,15 +227,28 @@ map_leader("n", "ls", "<Cmd>lua vim.lsp.buf.definition()<CR>", "Source definitio
 map_leader("n", "lt", "<Cmd>lua vim.lsp.buf.type_definition()<CR>", "Type definition")
 
 -- LSP Formatting
-map_leader("n", "lf", function()
-  vim.lsp.buf.format({ async = true })
-end, "Format")
-map_leader("x", "lf", function()
-  vim.lsp.buf.format({ async = true })
-end, "Format selection")
-Config.new_autocmd("BufWritePre", "*", function(args)
-  vim.lsp.buf.format({ async = false, bufnr = args.buf })
-end, "Format on save")
+local conformInstalled, _ = pcall(require, "conform")
+if conformInstalled then
+  map_leader("n", "lf", function()
+    require("conform").format({ timeout_ms = 500, lsp_format = "fallback" })
+  end, "Format")
+  map_leader("x", "lf", function(args)
+    require("conform").format({ bufnr = args.buf, timeout_ms = 500, lsp_format = "fallback" })
+  end, "Format selection")
+  -- 'Format on save' is taken care of by the plugin
+else
+  -- Use standard LSP
+  map_leader("n", "lf", function()
+    vim.lsp.buf.format({ async = true })
+  end, "Format")
+  map_leader("x", "lf", function()
+    vim.lsp.buf.format({ async = true })
+  end, "Format selection")
+  -- For standard LSP we do need to set up our own 'format on save'
+  Config.new_autocmd("BufWritePre", "*", function(args)
+    vim.lsp.buf.format({ async = false, bufnr = args.buf })
+  end, "Format on save")
+end
 
 -- ### "o" is for "Other"
 map_leader("n", "or", "<Cmd>lua MiniMisc.resize_window()<CR>", "Resize to default width")
@@ -269,9 +282,11 @@ end
 -- ### "v" is for "Visits"
 local make_pick_core = function(cwd, desc)
   return function()
-    local sort_latest = MiniVisits.gen_sort.default({ recency_weight = 1 })
+    -- local sort_latest = MiniVisits.gen_sort.default({ recency_weight = 1 })
+    local sort_latest = require("mini.visits").gen_sort.default({ recency_weight = 1 })
     local local_opts = { cwd = cwd, filter = "core", sort = sort_latest }
-    MiniExtra.pickers.visit_paths(local_opts, { source = { name = desc } })
+    -- MiniExtra.pickers.visit_paths(local_opts, { source = { name = desc } })
+    require("mini.extra").pickers.visit_paths(local_opts, { source = { name = desc } })
   end
 end
 

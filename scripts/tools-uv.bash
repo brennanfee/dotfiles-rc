@@ -244,6 +244,8 @@ function install_common_tools() {
   uv tool install invoke # may remove in favor of Mise tasks
   uv tool install pre-commit
   uv tool install identify
+  uv tool install github-backup
+  uv tool install flowmark-rs
 
   uv tool install 'yt-dlp[default,curl-cffi]'
   #uv tool install streamdeck-ui

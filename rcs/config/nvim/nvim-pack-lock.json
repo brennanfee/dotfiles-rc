@@ -13,6 +13,10 @@
       "rev": "edefef779ab08ce1a4a404713e3012b0d202bd35",
       "src": "https://github.com/catppuccin/nvim"
     },
+    "conform.nvim": {
+      "rev": "016802de402556da54c36bd7359b441266b01cdd",
+      "src": "https://github.com/stevearc/conform.nvim.git"
+    },
     "copy-file-path.nvim": {
       "rev": "591ccc47d6386f12502c7797b26e0c01f13c0a79",
       "src": "https://github.com/h3pei/copy-file-path.nvim"
@@ -80,6 +84,10 @@
     "nvim-colorizer.lua": {
       "rev": "72a05f62c52241bc7441c820eb53946f92b2e6a4",
       "src": "https://github.com/catgoose/nvim-colorizer.lua"
+    },
+    "nvim-lint": {
+      "rev": "f6230a5c06ba59e6059c14637f1dbe29a7978b9b",
+      "src": "https://codeberg.org/mfussenegger/nvim-lint.git"
     },
     "nvim-lspconfig": {
       "rev": "45a3a444b710511c39abca3b60bb6e23a21e3de5",

@@ -3,7 +3,6 @@ local now_if_args = Config.now_if_args
 now_if_args(function()
   vim.pack.add({
     "https://github.com/neovim/nvim-lspconfig",
-    "https://github.com/creativenull/efmls-configs-nvim",
   })
 
   -- Configure Lua_ls

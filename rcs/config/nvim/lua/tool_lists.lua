@@ -97,8 +97,6 @@ M.treesitter_languages = {
   "properties",
   "python",
   "query",
-  "r",
-  "readline",
   "regex",
   "requirements",
   "robots_txt",
@@ -139,10 +137,8 @@ M.treesitter_languages = {
 M.lsp_servers = {
   { lsp_name = "ansiblels", mason_name = "ansible-language-server" },
   { lsp_name = "bashls", mason_name = "bash-language-server" },
-  { lsp_name = "biome", mason_name = "" }, -- Javascript, Typescript, JSX, Json, CSS, GraphQL (installed by mise)
   { lsp_name = "clangd", mason_name = "clangd" },
   { lsp_name = "dockerls", mason_name = "docker-language-server" },
-  { lsp_name = "efm", mason_name = "efm" },
   { lsp_name = "gopls", mason_name = "gopls" },
   { lsp_name = "harper_ls", mason_name = "harper-ls" },
   { lsp_name = "jinja_lsp", mason_name = "jinja-lsp" },
@@ -151,14 +147,16 @@ M.lsp_servers = {
   { lsp_name = "kotlin_language_server", mason_name = "kotlin-language-server" },
   { lsp_name = "lemminx", mason_name = "lemminx" }, -- Xml
   { lsp_name = "lua_ls", mason_name = "lua-language-server" },
+  { lsp_name = "markdown_oxide", mason_name = "markdown_oxide" }, -- Markdown
   { lsp_name = "neocmake", mason_name = "neocmakelsp" }, -- CMake
   { lsp_name = "nginx_language_server", mason_name = "nginx-language-server" },
   { lsp_name = "nil_ls", mason_name = "nil" }, -- Nix
+  { lsp_name = "oxfmt", mason_name = "" }, -- Web languages (Installed by mise as part of Vite+)
+  { lsp_name = "oxlint", mason_name = "" }, -- Web languages (Installed by mise as part of Vite+)
   { lsp_name = "postgres_lsp", mason_name = "postgres-language-server" },
   { lsp_name = "powershell_es", mason_name = "powershell-editor-services" },
   { lsp_name = "ruby-lsp", mason_name = "ruby-lsp" },
   { lsp_name = "ruff", mason_name = "" }, -- Python (from Astral, installed by mise)
-  { lsp_name = "rumdl", mason_name = "" }, -- Markdown (installed by mise)
   { lsp_name = "rust_analyzer", mason_name = "rust-analyzer" },
   { lsp_name = "snyk", mason_name = "snyk-ls" }, -- Security focused, multiple languages
   { lsp_name = "stylua", mason_name = "" }, -- Lua (installed by mise)
@@ -166,7 +164,6 @@ M.lsp_servers = {
   { lsp_name = "superhtml", mason_name = "superhtml" }, -- Html
   { lsp_name = "svelte", mason_name = "svelte-language-server" },
   { lsp_name = "systemd_lsp", mason_name = "systemd-lsp" },
-  { lsp_name = "taplo", mason_name = "" }, -- Toml, (installed by mise)
   { lsp_name = "terraformls", mason_name = "terraform-ls" },
   { lsp_name = "tinymist", mason_name = "tinymist" }, -- Typst
   { lsp_name = "tofu_ls", mason_name = "tofu-ls" }, -- OpenTofu (Terraform)
@@ -206,27 +203,30 @@ M.lsp_servers = {
 -- }
 
 -- M.lsp_servers_alternates = {
---   { lsp_name = "basedpyright", mason_name = "basedpyright" },
---   { lsp_name = "cmake", mason_name = "cmake-language-server" },
---   { lsp_name = "cssls", mason_name = "css-lsp" },
---   { lsp_name = "css_variables", mason_name = "css-variables-language-server" },
---   { lsp_name = "cssmodules_ls", mason_name = "cssmodules-language-server" },
---   { lsp_name = "djlsp", mason_name = "django-template-lsp" },
---   { lsp_name = "html", mason_name = "html-lsp" },
---   { lsp_name = "htmx", mason_name = "htmx-lsp" },
---   { lsp_name = "intelephense", mason_name = "intelephense" }, -- PHP
---   { lsp_name = "java_language_server", mason_name = "java-language-server" },
---   { lsp_name = "jdtls",                  mason_name = "jdtls" }, -- Java
---   { lsp_name = "jsonls", mason_name = "json-lsp" },
---   { lsp_name = "ltex", mason_name = "ltex-ls" },
---   { lsp_name = "ltex_plus", mason_name = "ltex-ls-plus" },
---   { lsp_name = "lua_ls", mason_name = "lua-language-server" },
---   { lsp_name = "marksman", mason_name = "marksman" }, -- Markdown
---   { lsp_name = "pylsp", mason_name = "python-lsp-server" },
---   { lsp_name = "rumdl", mason_name = "rumdl" }, -- Markdown
---   { lsp_name = "sqlls", mason_name = "sqlls" },
---   { lsp_name = "tailwindcss", mason_name = "tailwindcss-language-server" },
---   { lsp_name = "ts_ls", mason_name = "typescript-language-server" },
+-- { lsp_name = "basedpyright", mason_name = "basedpyright" },
+-- { lsp_name = "biome", mason_name = "" }, -- Javascript, Typescript, JSX, Json, CSS, GraphQL (installed by mise)
+-- { lsp_name = "cmake", mason_name = "cmake-language-server" },
+-- { lsp_name = "cssls", mason_name = "css-lsp" },
+-- { lsp_name = "css_variables", mason_name = "css-variables-language-server" },
+-- { lsp_name = "cssmodules_ls", mason_name = "cssmodules-language-server" },
+-- { lsp_name = "djlsp", mason_name = "django-template-lsp" },
+-- { lsp_name = "efm", mason_name = "efm" },
+-- { lsp_name = "html", mason_name = "html-lsp" },
+-- { lsp_name = "htmx", mason_name = "htmx-lsp" },
+-- { lsp_name = "intelephense", mason_name = "intelephense" }, -- PHP
+-- { lsp_name = "java_language_server", mason_name = "java-language-server" },
+-- { lsp_name = "jdtls",                  mason_name = "jdtls" }, -- Java
+-- { lsp_name = "jsonls", mason_name = "json-lsp" },
+-- { lsp_name = "ltex", mason_name = "ltex-ls" },
+-- { lsp_name = "ltex_plus", mason_name = "ltex-ls-plus" },
+-- { lsp_name = "lua_ls", mason_name = "lua-language-server" },
+-- { lsp_name = "marksman", mason_name = "marksman" }, -- Markdown
+-- { lsp_name = "pylsp", mason_name = "python-lsp-server" },
+-- { lsp_name = "rumdl", mason_name = "rumdl" }, -- Markdown
+-- { lsp_name = "sqlls", mason_name = "sqlls" },
+-- { lsp_name = "tailwindcss", mason_name = "tailwindcss-language-server" },
+-- { lsp_name = "taplo", mason_name = "" }, -- Toml, (installed by mise)
+-- { lsp_name = "ts_ls", mason_name = "typescript-language-server" },
 -- }
 
 M.debug_adapters = {

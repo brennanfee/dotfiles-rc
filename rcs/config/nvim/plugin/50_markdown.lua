@@ -1,9 +1,10 @@
 -- local now_if_args = Config.now_if_args
-
+--
 -- now_if_args(function()
 --   vim.pack.add {
 --     "https://github.com/iamcco/markdown-preview.nvim",
 --   }
+-- }
 --
 --   Config.on_packchanged("markdown-preview.nvim", { "update", "install" }, function()
 --     vim.cmd("mkdp#util#install")
