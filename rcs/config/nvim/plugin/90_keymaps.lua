@@ -131,11 +131,15 @@ local new_scratch_buffer = function()
 end
 
 map_leader("n", "ba", "<Cmd>b#<CR>", "Alternate")
+map_leader("n", "bs", new_scratch_buffer, "Scratch")
 map_leader("n", "bd", "<Cmd>lua MiniBufremove.delete()<CR>", "Delete")
 map_leader("n", "bD", "<Cmd>lua MiniBufremove.delete(0, true)<CR>", "Delete!")
-map_leader("n", "bs", new_scratch_buffer, "Scratch")
 map_leader("n", "bw", "<Cmd>lua MiniBufremove.wipeout()<CR>", "Wipeout")
 map_leader("n", "bW", "<Cmd>lua MiniBufremove.wipeout(0, true)<CR>", "Wipeout!")
+map_leader("n", "bx", "<Cmd>lua MiniBufremove.wipeout()<CR>", "Wipeout")
+map_leader("n", "bX", "<Cmd>lua MiniBufremove.wipeout(0, true)<CR>", "Wipeout!")
+map_leader("n", "bu", "<Cmd>lua MiniBufremove.unshow()<CR>", "Unshow") -- codespell:ignore bu
+map_leader("n", "bU", "<Cmd>lua MiniBufremove.unshow(0)<CR>", "Unshow") -- codespell:ignore bu
 
 -- Add to mimic the rest of the buffer commands
 map_leader("n", "bn", "<Cmd>bnext<CR>", "Next")
@@ -167,7 +171,7 @@ map_leader("n", "ep", edit_plugin_file("40_plugins.lua"), "Plugins config")
 map_leader("n", "eq", explore_quickfix, "Quickfix list")
 map_leader("n", "eQ", explore_locations, "Location list")
 
--- ### f is for "Fuzzy Find"
+-- ### f is for "Fuzzy Find" and "File"
 
 -- All these use 'mini.pick'. See `:h MiniPick-overview` for an overview.
 local pick_added_hunks_buf = "<Cmd>Pick git_hunks path='%' scope='staged'<CR>"
@@ -191,6 +195,7 @@ map_leader("n", "fl", "<Cmd>Pick buf_lines scope='all'<CR>", "Lines (all)")
 map_leader("n", "fL", "<Cmd>Pick buf_lines scope='current'<CR>", "Lines (buf)")
 map_leader("n", "fm", "<Cmd>Pick git_hunks<CR>", "Modified hunks (all)")
 map_leader("n", "fM", "<Cmd>Pick git_hunks path='%'<CR>", "Modified hunks (buf)")
+map_leader("n", "fo", "<Cmd>Outline<CR>", "Toggle Outline") -- codespell:ignore fo
 map_leader("n", "fr", "<Cmd>Pick resume<CR>", "Resume")
 map_leader("n", "fR", "<Cmd>Pick lsp scope='references'<CR>", "References (LSP)")
 map_leader("n", "fs", pick_workspace_symbols_live, "Symbols workspace (live)")
@@ -250,7 +255,11 @@ else
   end, "Format on save")
 end
 
+-- ### m is for "Markdown"
+map_leader("n", "mo", "<Cmd>Outline<CR>", "Toggle Outline")
+
 -- ### "o" is for "Other"
+map_leader("n", "oo", "<Cmd>Outline<CR>", "Toggle Outline")
 map_leader("n", "or", "<Cmd>lua MiniMisc.resize_window()<CR>", "Resize to default width")
 map_leader("n", "ot", "<Cmd>lua MiniTrailspace.trim()<CR>", "Trim trailspace") -- codespell:ignore ot
 map_leader("n", "oz", "<Cmd>lua MiniMisc.zoom()<CR>", "Zoom toggle")
