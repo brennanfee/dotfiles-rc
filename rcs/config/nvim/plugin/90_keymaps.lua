@@ -141,6 +141,12 @@ map_leader("n", "bX", "<Cmd>lua MiniBufremove.wipeout(0, true)<CR>", "Wipeout!")
 map_leader("n", "bu", "<Cmd>lua MiniBufremove.unshow()<CR>", "Unshow") -- codespell:ignore bu
 map_leader("n", "bU", "<Cmd>lua MiniBufremove.unshow(0)<CR>", "Unshow") -- codespell:ignore bu
 
+local buffer_reload = function()
+  vim.cmd("edit!")
+  print("Buffer reloaded")
+end
+map_leader("n", "br", buffer_reload, "[R]eload current buffer")
+
 -- Add to mimic the rest of the buffer commands
 map_leader("n", "bn", "<Cmd>bnext<CR>", "Next")
 map_leader("n", "bp", "<Cmd>bprevious<CR>", "Previous")
@@ -311,6 +317,24 @@ local hopInstalled, _ = pcall(require, "hop")
 if hopInstalled then
   map_leader("n", "h", "", "+Hop")
 end
+
+---
+-- Toggle executable permission on the current file.
+local toggle_executable = function()
+  local file
+  vim.fn.expand("%")
+  local perms = vim.fn.getfperm(file)
+  local is_executable = string.match(perms, "x", -1) ~= nil
+  local escaped_file = vim.fn.shellescape(file)
+  if is_executable then
+    vim.cmd("silent !chmod -x " .. escaped_file)
+    vim.notify("Removed executable permission", vim.log.levels.INFO)
+  else
+    vim.cmd("silent !chmod +x " .. escaped_file)
+    vim.notify("Added executable permission", vim.log.levels.INFO)
+  end
+end
+map_leader("n", "fx", toggle_executable, "Toggle executable permission")
 
 -- Ideas
 -- =, format entire document
