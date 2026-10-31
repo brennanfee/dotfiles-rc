@@ -302,7 +302,7 @@ function updateMise() {
     mise -y cache prune
 
     # Re-create any mise-related symlinks
-    "${dotfiles}/scripts/link-coreutils"
+    "${dotfiles}/scripts/link-coreutils.bash"
   fi
 }
 
