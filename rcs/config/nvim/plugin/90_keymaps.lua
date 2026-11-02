@@ -261,6 +261,13 @@ else
   end, "Format on save")
 end
 
+local lintInstalled, _ = pcall(require, "lint")
+if lintInstalled then
+  map_leader("n", "lc", function()
+    require("lint").try_lint()
+  end, "Check document")
+end
+
 -- ### m is for "Markdown"
 map_leader("n", "mo", "<Cmd>Outline<CR>", "Toggle Outline")
 

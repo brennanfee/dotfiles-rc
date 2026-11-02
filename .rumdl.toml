@@ -1,6 +1,6 @@
 [global]
 flavor = "gfm"
-line-length = 120
+editorconfig = true
 
 [MD003]
 style = "atx"

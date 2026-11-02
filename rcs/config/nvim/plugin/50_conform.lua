@@ -11,7 +11,6 @@ now_if_args(function()
 
   require("conform").setup({
     formatters_by_ft = {
-      -- markdown = { "flowmark" },
       markdown = { "rumdl" },
     },
     format_on_save = {
@@ -19,13 +18,6 @@ now_if_args(function()
       lsp_format = "fallback",
     },
     notify_no_formatters = true,
-    -- formatters = {
-    --   flowmark = {
-    --     command = "flowmark-rs",
-    --     args = { "-" },
-    --     stdin = true,
-    --   },
-    -- },
   })
 
   vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
@@ -55,14 +47,12 @@ now_if_args(function()
 
   require("lint").linters_by_ft = {
     csv = { "csvlint" },
-    gitcommit = { "gitlint" },
-    -- markdown = { "markdownlint-cli2" },
     markdown = { "rumdl" },
     ["*"] = { "codespell" },
   }
+  -- gitcommit = { "gitlint" },
 
-  local try_lint = function()
+  Config.new_autocmd({ "BufReadPost", "BufWritePost", "InsertLeave" }, nil, function()
     require("lint").try_lint()
-  end
-  Config.new_autocmd({ "BufReadPost", "BufWritePost", "InsertLeave" }, nil, try_lint, "Linting")
+  end, "Linting")
 end)
