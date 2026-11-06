@@ -88,5 +88,5 @@ set show-mode-in-prompt on
 set vi-ins-mode-string "󰗧 "
 set vi-cmd-mode-string " "
 
-$include ~/.inputrc.os
-$include ~/.inputrc.local
+$include ~/.config/readline/inputrc.os
+$include ~/.config/readline/inputrc.local
