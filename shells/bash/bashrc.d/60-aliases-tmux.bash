@@ -29,7 +29,7 @@ function tmux_last_window() {
   tmux select-window -t "${window}"
 }
 
-if command_exist tmux; then
+if command_exists tmux; then
   ## Session Management
   alias tmls="tmux list-sessions"
   alias tmko="tmux kill-session -a"
