@@ -178,7 +178,7 @@ function mount_moose {
       log_early "Moosefs server is reachable, checking if we need to mount the shares."
       if ! mountpoint -q "${HOME}/mounts/files"; then
         log_early "Mounting shares"
-        "${dotfiles}/bin/bash/moose-mount-shares.bash"
+        "${dotfiles}/bin/moose-mount-shares.bash"
       fi
     else
       log_early "moosefs server seems to be unreachable, skipping mount check."

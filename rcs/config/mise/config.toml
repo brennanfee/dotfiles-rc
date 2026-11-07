@@ -5,7 +5,6 @@ node.compile = false
 node.gpg_verify = true
 npm.bun = true
 pipx.uvx = true
-python.default_packages_file = "~/.config/mise/default-python-packages"
 python.uv_venv_auto = true
 experimental = true
 disable_backends = ["asdf", "ubi"]
@@ -63,7 +62,7 @@ opentofu = "latest"
 packer = "latest"
 # php = "latest"
 prek = "latest"
-python = "latest"
+python = { version = "latest", postinstall = "python3 -m pip install --user pynvim mutagen" }
 ripgrep = "latest"
 ruby = "latest"
 ruff = "latest"

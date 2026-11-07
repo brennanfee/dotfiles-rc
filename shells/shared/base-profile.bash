@@ -205,7 +205,6 @@ function export_mise_settings {
     export MISE_RUSTUP_HOME="${XDG_STATE_HOME}/rustup"
     export MISE_CARGO_HOME="${XDG_DATA_HOME}/cargo"
 
-    export MISE_NODE_DEFAULT_PACKAGES_FILE="${XDG_CONFIG_HOME}/mise/default-node-packages"
     export MISE_NODE_COREPACK="true"
   fi
 
