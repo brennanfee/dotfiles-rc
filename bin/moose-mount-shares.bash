@@ -252,7 +252,7 @@ function main() {
   fi
 
   dotfiles="${USER_DIRS_DOTFILES:-$(user_dirs DOTFILES)}"
-  script="${dotfiles}/bin/bash/moose-mount.bash"
+  script="${dotfiles}/bin/moose-mount.bash"
   if [[ -x "${script}" ]]; then
     "${script}" "files" "${option}"
     "${script}" "other" "${option}"
