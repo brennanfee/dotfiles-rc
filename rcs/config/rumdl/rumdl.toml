@@ -1,0 +1,20 @@
+[global]
+cache-dir = "~/.cache/rumdl"
+editorconfig = true
+respect-gitignore = true
+flavor = "gfm"
+
+[MD003]
+style = "atx"
+
+[MD004]
+style = "dash"
+
+[MD013]
+tables = false
+
+[MD049]
+style = "asterisk"
+
+[MD050]
+style = "asterisk"
