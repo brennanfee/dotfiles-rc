@@ -259,9 +259,6 @@ function install_if_needed() {
 }
 
 function install_common_tools() {
-  # install_if_needed espanso # Temporarily on hold
-  # install_if_needed ghostty # Temporarily on hold
-  install_if_needed orcaslicer
   install_if_needed openaudible
 }
 
@@ -269,6 +266,18 @@ function install_dev_tools() {
   if [[ ! "${g_include_dev_tools}" == "true" ]]; then
     return
   fi
+}
+
+function remove_if_installed() {
+  if [[ -x "${g_bin_dir}/${1}" ]]; then
+    appman -R "${1}"
+  fi
+}
+
+function remove_outdated() {
+  remove_if_installed espanso
+  remove_if_installed ghostty
+  remove_if_installed orcaslicer
 }
 
 ## Your main implementation goes here.  All of the positional arguments have
@@ -284,6 +293,9 @@ function main() {
 
   # Update all of them
   appman -U
+
+  # Clean up
+  remove_outdated
 }
 
 ## This must be the last line

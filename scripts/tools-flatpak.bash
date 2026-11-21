@@ -171,12 +171,12 @@ function setup_script_vars() {
   # Must be set here
   g_script_author="Brennan Fee"
   g_script_license="MIT License"
-  g_script_version="0.8"
-  g_script_date="2025-10-06"
+  g_script_version="0.9"
+  g_script_date="2026-11-14"
 
   # Add others here
   g_include_dev_tools="false"
-  g_desktop_environment="none"
+  g_desktop_environment="unknown"
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
@@ -248,6 +248,10 @@ function install_prerequisites() {
   DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q install \
     flatpak flatpak-xdg-utils
 
+  if [[ "${g_desktop_environment}" == "unknown" ]]; then
+    g_desktop_environment=$(echo "$XDG_SESSION_DESKTOP" | tr "[:upper:]" "[:lower:]")
+  fi
+
   case "${g_desktop_environment}" in
     "none" | "server")
       true ## noop
@@ -274,6 +278,11 @@ function install_prerequisites() {
 
   # Setup flathub repo
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  flatpak remote-add --if-not-exists --user flathub https://flathub.org/repo/flathub.flatpakrepo
+
+  # Setup the ArtCraft OCI Flatpak Repo
+  flatpak remote-add --user --if-not-exists artcraft-oci https://getartcraft.com/artcraft-oci.flatpakrepo
+  flatpak remote-add --user --if-not-exists solidcraft https://docs.solidcraft.io/flatpak/solidcraft.flatpakrepo
 
   # Setup theme access
   sudo flatpak override --system --filesystem=xdg-config/gtk-2.0:ro
@@ -281,58 +290,95 @@ function install_prerequisites() {
   sudo flatpak override --system --filesystem=xdg-config/gtk-4.0:ro
   sudo flatpak override --system --filesystem=home/gtkrc-2.0:ro
   sudo flatpak override --system --filesystem=home/gtkrc:ro
+  flatpak override --user --filesystem=xdg-config/gtk-2.0:ro
+  flatpak override --user --filesystem=xdg-config/gtk-3.0:ro
+  flatpak override --user --filesystem=xdg-config/gtk-4.0:ro
+  flatpak override --user --filesystem=home/gtkrc-2.0:ro
+  flatpak override --user --filesystem=home/gtkrc:ro
 }
 
-function install_if_needed() {
+function install_if_needed_system() {
   if [[ $(flatpak list --columns=application | grep -i -c "${1}") -eq 0 ]]; then
-    flatpak install -y --noninteractive flathub "${1}"
+    flatpak install -y --noninteractive "${2:-flathub}" "${1}"
+  fi
+}
+
+function install_if_needed_user() {
+  if [[ $(flatpak list --columns=application | grep -i -c "${1}") -eq 0 ]]; then
+    flatpak install -y --noninteractive --user "${2:-flathub}" "${1}"
   fi
 }
 
 function install_common_tools() {
   # Theme support
-  install_if_needed org.gtk.Gtk3theme.Breeze
-  install_if_needed org.kde.WaylandDecoration.QAdwaitaDecorations
-  install_if_needed org.kde.WaylandDecoration.QGnomePlatform-decoration
-  install_if_needed org.kde.PlatformTheme.QGnomePlatform
+  install_if_needed_system org.gtk.Gtk3theme.Breeze
+  install_if_needed_system org.kde.WaylandDecoration.QAdwaitaDecorations
+  install_if_needed_system org.kde.WaylandDecoration.QGnomePlatform-decoration
+  install_if_needed_system org.kde.PlatformTheme.QGnomePlatform
+  install_if_needed_user org.gtk.Gtk3theme.Breeze
+  install_if_needed_user org.kde.WaylandDecoration.QAdwaitaDecorations
+  install_if_needed_user org.kde.WaylandDecoration.QGnomePlatform-decoration
+  install_if_needed_user org.kde.PlatformTheme.QGnomePlatform
 
   # Apps
-  install_if_needed com.bambulab.BambuStudio
-  install_if_needed com.bitwarden.desktop
-  install_if_needed com.brave.Browser
-  install_if_needed com.github.tchx84.Flatseal
-  install_if_needed com.github.tenderowl.frog
-  install_if_needed com.jgraph.drawio.desktop
-  install_if_needed com.plexamp.Plexamp
-  install_if_needed com.rafaelmardojai.Blanket
-  install_if_needed com.sweethome3d.Sweethome3d
-  install_if_needed fr.handbrake.ghb
-  install_if_needed io.github.Qalculate.qalculate-qt
-  install_if_needed md.obsidian.Obsidian
-  install_if_needed org.bleachbit.BleachBit
-  install_if_needed org.gnome.baobab
-  install_if_needed org.kde.okular
-  install_if_needed org.libreoffice.LibreOffice
-  install_if_needed org.localsend.localsend_app
-  install_if_needed org.musicbrainz.Picard
-  install_if_needed org.nomacs.ImageLounge
-  install_if_needed org.signal.Signal
-  install_if_needed org.speedcrunch.SpeedCrunch
-  install_if_needed org.videolan.VLC
-  install_if_needed org.wezfurlong.wezterm
-  install_if_needed tv.plex.PlexDesktop
-  install_if_needed tv.plex.PlexHTPC
+  install_if_needed_system com.github.tchx84.Flatseal
+  install_if_needed_system org.bleachbit.BleachBit
+
+  install_if_needed_user com.bambulab.BambuStudio
+  install_if_needed_user com.orcaslicer.OrcaSlicer
+  install_if_needed_user com.bitwarden.desktop
+  install_if_needed_user com.brave.Browser
+  install_if_needed_user com.github.tenderowl.frog
+  install_if_needed_user com.jgraph.drawio.desktop
+  install_if_needed_user com.plexamp.Plexamp
+  install_if_needed_user com.rafaelmardojai.Blanket
+  install_if_needed_user com.sweethome3d.Sweethome3d
+  install_if_needed_user fr.handbrake.ghb
+  install_if_needed_user md.obsidian.Obsidian
+  install_if_needed_user org.gnome.baobab
+  install_if_needed_user org.localsend.localsend_app
+  install_if_needed_user org.musicbrainz.Picard
+  install_if_needed_user org.nomacs.ImageLounge
+  install_if_needed_user org.signal.Signal
+  install_if_needed_user org.speedcrunch.SpeedCrunch
+  install_if_needed_user org.videolan.VLC
+  install_if_needed_user org.wezfurlong.wezterm
+  install_if_needed_user tv.plex.PlexDesktop
+  install_if_needed_user tv.plex.PlexHTPC
+
+  # Artcraft Apps
+  install_if_needed_user ai.storyteller.artcraft-launcher artcraft-oci
+  install_if_needed_user ai.storyteller.anicraft artcraft-oci
+  install_if_needed_user ai.storyteller.cadcraft artcraft-oci
+  install_if_needed_user ai.storyteller.craft-anything artcraft-oci
+  install_if_needed_user ai.storyteller.deckcraft artcraft-oci
+  install_if_needed_user ai.storyteller.designcraft artcraft-oci
+  install_if_needed_user ai.storyteller.effectcraft artcraft-oci
+  install_if_needed_user ai.storyteller.figcraft artcraft-oci
+  install_if_needed_user ai.storyteller.filmcraft artcraft-oci
+  install_if_needed_user ai.storyteller.gridcraft artcraft-oci
+  install_if_needed_user ai.storyteller.lightcraft artcraft-oci
+  install_if_needed_user ai.storyteller.materialcraft artcraft-oci
+  install_if_needed_user ai.storyteller.pdfcraft artcraft-oci
+  install_if_needed_user ai.storyteller.photocraft artcraft-oci
+  install_if_needed_user ai.storyteller.soundcraft artcraft-oci
+  install_if_needed_user ai.storyteller.texturecraft artcraft-oci
+  install_if_needed_user ai.storyteller.vectorcraft artcraft-oci
+  install_if_needed_user ai.storyteller.wordcraft artcraft-oci
+
+  install_if_needed_user io.tangencylabs.solidcraft solidcraft
 
   # Apps with required extra perms
-  install_if_needed org.mozilla.firefox
+  install_if_needed_user org.mozilla.firefox
   flatpak override --user --filesystem=home org.mozilla.firefox
 
-  install_if_needed com.google.Chrome
+  install_if_needed_user com.google.Chrome
   flatpak override --user --filesystem=home com.google.Chrome
 }
 
 function install_desktop_tools() {
-  if [ "${g_desktop_environment}" == "none" ]; then
+  if [[ "${g_desktop_environment}" == "unknown" || "${g_desktop_environment}" == "none" ||
+    "${g_desktop_environment}" == "server" ]]; then
     return
   fi
 }
@@ -342,7 +388,20 @@ function install_dev_tools() {
     return
   fi
 
-  install_if_needed org.raspberrypi.rpi-imager
+  install_if_needed_user org.raspberrypi.rpi-imager
+}
+
+function remove_if_needed() {
+  if [[ $(flatpak list --columns=application | grep -i -c "${1}") -ne 0 ]]; then
+    flatpak uninstall -y --noninteractive "${1}"
+  fi
+}
+
+function remove_outdated() {
+  remove_if_needed org.gnu.emacs
+  remove_if_needed org.kde.okular
+  remove_if_needed org.libreoffice.LibreOffice
+  remove_if_needed io.github.Qalculate.qalculate-qt
 }
 
 ## Your main implementation goes here.  All of the positional arguments have
@@ -357,6 +416,8 @@ function main() {
   # Upgrade all installed
   flatpak upgrade -y --system
   flatpak upgrade -y --user
+
+  remove_outdated
 }
 
 ## This must be the last line

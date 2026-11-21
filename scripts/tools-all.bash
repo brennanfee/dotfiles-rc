@@ -172,7 +172,7 @@ function setup_script_vars() {
 
   # Add others here
   g_include_dev_tools="false"
-  g_desktop_environment="none"
+  g_desktop_environment="unknown"
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
@@ -248,6 +248,10 @@ function main() {
   scriptBase="${g_script_dir}"
   miseExe="${USER_DIRS_LOCALBIN:-$(user_dirs LOCALBIN)}/mise"
 
+  if [[ "${g_desktop_environment}" == "unknown" ]]; then
+    g_desktop_environment=$(echo "$XDG_SESSION_DESKTOP" | tr "[:upper:]" "[:lower:]")
+  fi
+
   print_info "${g_script_name} Options"
   print_info "    include dev: ${g_include_dev_tools}"
   print_info "    desktop environment: ${g_desktop_environment}"
@@ -265,8 +269,9 @@ function main() {
   "${scriptBase}/tools-apts.bash" "${options}"
 
   ## We only want to call the desktop apts file if we are actually on a desktop
-  if [[ "${g_desktop_environment}" == "kde" || "${g_desktop_environment}" == "gnome" ||
-    "${g_desktop_environment}" == "mate" || "${g_desktop_environment}" == "tiling" ]]; then
+  ## TODO: Update desktop-apts script to exit gracefully if not on a desktop
+  if [[ ! "${g_desktop_environment}" == "none" && ! "${g_desktop_environment}" == "server" &&
+    ! "${g_desktop_environment}" == "unknown" && ! "${g_desktop_environment}" == "" ]]; then
 
     print_status "Running 'desktop-apts'"
     "${scriptBase}/tools-desktop-apts.bash" "${options}" "--desktop-environment=${g_desktop_environment}"

@@ -173,7 +173,7 @@ function setup_script_vars() {
 
   # Add others here
   g_include_dev_tools="false"
-  g_desktop_environment="none"
+  g_desktop_environment="unknown"
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
@@ -290,6 +290,10 @@ function install_tiling_tools() {
 ## Your main implementation goes here.  All of the positional arguments have
 ## been passed as an array to this function.
 function main() {
+  if [[ "${g_desktop_environment}" == "unknown" ]]; then
+    g_desktop_environment=$(echo "$XDG_SESSION_DESKTOP" | tr "[:upper:]" "[:lower:]")
+  fi
+
   DEBIAN_FRONTEND=noninteractive sudo apt-get -y -q update
 
   install_common_tools

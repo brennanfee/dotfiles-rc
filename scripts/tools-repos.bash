@@ -177,7 +177,7 @@ function setup_script_vars() {
 
   # g_force="false"
   g_include_dev_tools="false"
-  g_desktop_environment="none"
+  g_desktop_environment="unknown"
 }
 
 ## USAGE: If you add any global variables, clean them up in this method
@@ -274,6 +274,10 @@ function prepare() {
   # Initialize gpg
   mkdir -p "${HOME}/.local/share/gnupg"
   gpg --refresh-keys
+
+  if [[ "${g_desktop_environment}" == "unknown" ]]; then
+    g_desktop_environment=$(echo "$XDG_SESSION_DESKTOP" | tr "[:upper:]" "[:lower:]")
+  fi
 }
 
 function clean_if_forced() {
