@@ -34,7 +34,6 @@ uv = "latest"
 # Packages
 aws-cli = "latest"
 bat = "latest"
-bitwarden = "latest"
 bottom = "latest"
 bun = "latest"
 cmake = "latest"
